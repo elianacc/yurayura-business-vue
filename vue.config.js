@@ -64,7 +64,7 @@ module.exports = {
       }
     }
   },
-  //其他配置....
+  // 其他配置....
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
