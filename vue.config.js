@@ -64,12 +64,15 @@ module.exports = {
       }
     }
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      $: "jquery",
-      jQuery: "jquery",
-      jquery: "jquery",
-      "window.jQuery": "jquery"
-    })
-  ]
+  //其他配置....
+  configureWebpack: {
+    plugins: [
+      new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        jquery: "jquery",
+        "window.jQuery": "jquery"
+      })
+    ]
+  }
 }
