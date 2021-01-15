@@ -4,7 +4,7 @@
     <!-- 标图row -->
     <div class="row mt-5">
       <div class="col-2 offset-5">
-        <img src="../assets/github.png"
+        <img src="~@assets/github.png"
              class='mx-auto d-block'
              width='50'
              height='50' />

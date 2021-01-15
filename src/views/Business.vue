@@ -4,7 +4,7 @@
     <!-- 置顶导航 -->
     <nav class="navbar navbar-dark fixed-top bg-twitternav">
       <span class="navbar-brand">
-        <img src="../assets/xiaomai.jpg"
+        <img src="~@assets/xiaomai.jpg"
              width="40"
              height="40"
              class="rounded" />

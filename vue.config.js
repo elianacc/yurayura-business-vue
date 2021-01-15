@@ -31,7 +31,7 @@ module.exports = {
   },
   css: {
     extract: IS_PROD,
-    requireModuleExtension: false,// 去掉文件名中的 .module
+    requireModuleExtension: true,// 去掉文件名中的 .module
     loaderOptions: {
       // 给 less-loader 传递 Less.js 相关选项
       less: {
