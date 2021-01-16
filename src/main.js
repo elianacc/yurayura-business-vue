@@ -8,7 +8,6 @@ import '@public/frame/bootstrap-extend.css'
 import '@public/frame/bootstrap.bundle.min'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import Properties from '@/properties'
 import storageUtil from '@utils/storageUtil'
 
 Vue.config.productionTip = false
@@ -20,7 +19,6 @@ axios.defaults.withCredentials = true
 
 // 全局注册对象，使用this.$x调用
 Vue.prototype.$axios = axios
-Vue.prototype.$serviceUrl = Properties.serviceUrl
 Vue.prototype.$storageUtil = storageUtil
 
 new Vue({

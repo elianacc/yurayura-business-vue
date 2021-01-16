@@ -48,7 +48,7 @@
                 <el-col :span="8"
                         :offset="1">
                   <img ref="verifyImage"
-                       :src="`${$serviceUrl}/sys/manager/getVerifyCode`"
+                       src="/api/sys/manager/getVerifyCode"
                        @click="loadVerifyImage" />
                 </el-col>
 
@@ -101,7 +101,7 @@ export default {
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
           this.$axios({
             method: 'post',
-            url: `${this.$serviceUrl}/sys/manager/login`,
+            url: '/api/sys/manager/login',
             headers: {
               'Content-Type': 'application/json;charset=utf-8',
               'X-Requested-With': 'XMLHttpRequest'
@@ -130,7 +130,7 @@ export default {
       })
     },
     loadVerifyImage () {
-      this.$refs.verifyImage.src = `${this.$serviceUrl}/sys/manager/getVerifyCode?randomId=${Math.random()}`
+      this.$refs.verifyImage.src = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
     }
   }
 }

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
-import Properties from '@/properties'
 import storageUtil from '@utils/storageUtil'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
@@ -68,7 +67,7 @@ router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage') {
     axios({
       method: 'post',
-      url: `${Properties.serviceUrl}/sys/manager/judgeAuthen`,
+      url: '/api/sys/manager/judgeAuthen',
       headers: {
         'X-Requested-With': 'XMLHttpRequest'
       },

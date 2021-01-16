@@ -115,7 +115,7 @@ export default {
       }).then(() => {
         this.$axios({
           method: 'post',
-          url: `${this.$serviceUrl}/sys/manager/logout`,
+          url: '/api/sys/manager/logout',
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
           },
