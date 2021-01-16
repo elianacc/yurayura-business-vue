@@ -60,7 +60,7 @@ module.exports = {
         // ws: true,//websocket支持
         secure: false,
         pathRewrite: {
-          "^/api": "/"
+          "^/api": ""
         }
       }
     }
