@@ -173,7 +173,7 @@ export default {
               this.sideMenuActive = nextTab.index
               this.$router.push(nextTab.index)
             } else {
-              this.sideMenuActive = '/business/index'
+              this.sideMenuActive = ''
               this.$router.push('/business')
             }
           }
