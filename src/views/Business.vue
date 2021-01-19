@@ -65,12 +65,13 @@
           <el-tab-pane v-for="item in editableTabs"
                        :key="item.name"
                        :label="item.title"
-                       :name="item.name"
-                       class="pl-4">
-            <!-- 主内容 -->
-            <router-view></router-view>
+                       :name="item.name">
+
           </el-tab-pane>
         </el-tabs>
+
+        <!-- 主内容 -->
+        <router-view></router-view>
 
       </div>
     </div>
@@ -172,7 +173,8 @@ export default {
               this.sideMenuActive = nextTab.index
               this.$router.push(nextTab.index)
             } else {
-              this.sideMenuActive = ''
+              this.sideMenuActive = '/business/index'
+              this.$router.push('/business')
             }
           }
         })
