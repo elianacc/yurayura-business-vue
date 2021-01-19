@@ -111,6 +111,9 @@ export default {
           }).then(res => {
             if (res.data.code === 200) {
               this.$storageUtil.setManagerMsg(res.data.data)
+              this.$storageUtil.deleteSideMenuActive()
+              this.$storageUtil.deleteEditableTabs()
+              this.$storageUtil.deleteEditableTabsValue()
               this.$router.push('/business')
             } else if (res.data.code === 100) {
               this.loadVerifyImage()
@@ -140,6 +143,7 @@ export default {
 .container {
   width: 992px;
 }
+
 /* el垂直表单标签padding-bottom置为0 */
 .card-body /deep/ .el-form--label-top .el-form-item__label {
   padding: 0rem;
@@ -148,6 +152,7 @@ export default {
 .card-body /deep/ .el-form-item {
   margin-bottom: 0rem;
 }
+
 /* bs4标签margin-bottom置为0 */
 .card-body /deep/ label {
   margin-bottom: 0rem;

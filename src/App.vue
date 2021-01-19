@@ -11,6 +11,7 @@ export default {
 </script>
 
 <style>
+/* 全局背景设置 */
 body {
   background: #10171e !important;
 }

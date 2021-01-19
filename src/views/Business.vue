@@ -22,20 +22,21 @@
     <div class="row r1">
       <!-- 侧边导航col -->
       <div class="col-2 c1">
-        <el-menu default-active="/business/index"
+        <el-menu :default-active="sideMenuActive"
                  :default-openeds="['sys','comic','user']"
                  background-color="#1c2938"
                  text-color="#adb5bd"
                  active-text-color="#f8f9fa"
                  class="el-menu-vertical"
                  router>
-          <el-menu-item index="/business/index">
+          <el-menu-item index="/business/index"
+                        @click="addTab('首页', 'index', '/business/index')">
             <i class="el-icon-location"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-submenu :index="submenu.index"
+          <el-submenu :index="submenu.name"
                       v-for="submenu in sideMenuData"
-                      :key="submenu.index">
+                      :key="submenu.name">
             <template slot="title">
               <i class="el-icon-menu"></i>
               <span slot="title">{{submenu.title}}</span>
@@ -43,16 +44,34 @@
 
             <el-menu-item :index="item.index"
                           v-for="item in submenu.item"
-                          :key="item.index">
+                          :key="item.name"
+                          @click="addTab(item.title, item.name, item.index)">
               <i :class="item.icon"></i>&nbsp;&nbsp;{{item.title}}
             </el-menu-item>
 
           </el-submenu>
         </el-menu>
       </div>
-      <!-- 主内容col -->
-      <div class="col-10 pt-2">
-        <router-view></router-view>
+      <!-- 标签导航和主内容col -->
+      <div class="col-10 pt-2 c2">
+
+        <!-- 标签导航 -->
+        <el-tabs v-model="editableTabsValue"
+                 type="card"
+                 closable
+                 @tab-remove="removeTab"
+                 @tab-click="tabClick"
+                 style="position: relative; right: 4%;">
+          <el-tab-pane v-for="item in editableTabs"
+                       :key="item.name"
+                       :label="item.title"
+                       :name="item.name"
+                       class="pl-4">
+            <!-- 主内容 -->
+            <router-view></router-view>
+          </el-tab-pane>
+        </el-tabs>
+
       </div>
     </div>
 
@@ -64,46 +83,53 @@ export default {
   name: 'Business',
   data () {
     return {
+      sideMenuActive: this.$storageUtil.getSideMenuActive(),
       sideMenu: [
         {
           title: '系统管理',
-          index: 'sys',
+          name: 'sys',
           item: [
             {
               index: '/business/sys_dict',
               icon: 'fa fa-book fa-lg',
-              title: '数据字典管理'
+              title: '数据字典管理',
+              name: 'sys_dict'
             },
             {
               index: '/business/sys_manager',
               icon: 'fa fa-user-secret fa-lg',
-              title: '管理员管理'
+              title: '管理员管理',
+              name: 'sys_manager'
             }
           ]
         },
         {
           title: '番剧管理',
-          index: 'comic',
+          name: 'comic',
           item: [
             {
               index: '/business/comic_info',
               icon: 'fa fa-github-alt fa-lg',
-              title: '番剧信息管理'
+              title: '番剧信息管理',
+              name: 'comic_info'
             }
           ]
         },
         {
           title: '用户管理',
-          index: 'user',
+          name: 'user',
           item: [
             {
               index: '/business/user_info',
               icon: 'fa fa-address-card fa-lg',
-              title: '用户信息管理'
+              title: '用户信息管理',
+              name: 'user_info'
             }
           ]
         }
-      ]
+      ],
+      editableTabsValue: this.$storageUtil.getEditableTabsValue(),
+      editableTabs: this.$storageUtil.getEditableTabs()
     }
   },
   methods: {
@@ -133,6 +159,43 @@ export default {
           }
         })
       }).catch(() => { })
+    },
+    removeTab (targetName) {
+      let tabs = this.editableTabs
+      let activeName = this.editableTabsValue
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1]
+            if (nextTab) {
+              activeName = nextTab.name
+              this.sideMenuActive = nextTab.index
+              this.$router.push(nextTab.index)
+            } else {
+              this.sideMenuActive = ''
+            }
+          }
+        })
+      }
+      this.editableTabsValue = activeName
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+    },
+    addTab (tabTitle, tabName, tabIndex) {
+      let newTabName = tabName
+      if (this.editableTabs.findIndex(tab => tab.name === newTabName) === -1) {
+        this.editableTabs.push({
+          title: tabTitle,
+          name: newTabName,
+          index: tabIndex
+        })
+      }
+      this.sideMenuActive = tabIndex
+      this.editableTabsValue = newTabName
+    },
+    tabClick (target) {
+      let nowTab = this.editableTabs.find(tab => tab.name === target.name)
+      this.sideMenuActive = nowTab.index
+      this.$router.push(nowTab.index)
     }
   },
   computed: {
@@ -141,6 +204,20 @@ export default {
         return this.sideMenu.filter(subMenu => subMenu.index !== 'sys')
       }
       return this.sideMenu
+    }
+  },
+  watch: {
+    editableTabs: {
+      deep: true,
+      handler (tabs) {
+        this.$storageUtil.setEditableTabs(tabs)
+      }
+    },
+    editableTabsValue (val) {
+      this.$storageUtil.setEditableTabsValue(val)
+    },
+    sideMenuActive (val) {
+      this.$storageUtil.setSideMenuActive(val)
     }
   }
 }
@@ -157,11 +234,43 @@ export default {
 .bg-twitternav {
   background-color: #1c2938;
 }
+
+/* el侧边导航宽高 */
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 250px;
   min-height: calc(100vh);
 }
+/* el侧边导航右白边清除 */
 .r1 .c1 /deep/ .el-menu {
   border-right: 0rem;
+}
+
+/* el标签页（选项卡）样式重写 */
+.r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__nav {
+  border: none;
+}
+.r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__item {
+  border-left: none;
+}
+.r1 .c2 /deep/ .el-tabs--card > .el-tabs__header {
+  border-bottom: none;
+  border-radius: 0.25rem;
+  background-color: #1c2938;
+}
+.r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
+  border-bottom-color: #409eff;
+}
+.r1 .c2 /deep/ .el-tabs__item .el-icon-close:hover {
+  background-color: #10171e;
+}
+.r1 .c2 /deep/ .el-tabs__item {
+  color: #909399;
+}
+.r1 .c2 /deep/ .el-tabs__item:hover {
+  color: #409eff;
+  cursor: pointer;
+}
+.r1 .c2 /deep/ .el-tabs__item.is-active {
+  color: #409eff;
 }
 </style>

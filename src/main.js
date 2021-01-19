@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 
-// 解决和后端session不同步的问题
+// 解决和后端session不同步的问题，让axios请求带上cookie
 axios.defaults.withCredentials = true
 
 // 全局注册对象，使用this.$x调用

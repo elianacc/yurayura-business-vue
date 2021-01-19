@@ -34,11 +34,11 @@ export default {
 </script>
 
 <style scoped>
-/* jumbotron样式重写 */
+/* bs4 jumbotron样式重写 */
 .jumbotron {
   background-color: #1c2938;
   color: #fff;
-  width: 85%;
+  width: 60%;
 }
 
 .github-btn-p {

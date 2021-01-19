@@ -63,6 +63,7 @@ const router = new Router({
   ]
 })
 
+// 设置全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage') {
     axios({
@@ -84,5 +85,11 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+// 解决重复访问相同路由时浏览器报错（虽然不影响）
+const VueRouterPush = Router.prototype.push
+Router.prototype.push = function push (to) {
+  return VueRouterPush.call(this, to).catch(err => err)
+}
 
 export default router
