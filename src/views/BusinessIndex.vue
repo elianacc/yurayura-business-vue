@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="jumbotron">
+    <div class="jumbotron bg-twitter">
       <h1 class="display-4">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
       <p class="lead">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4">
@@ -36,7 +36,6 @@ export default {
 <style scoped>
 /* bs4 jumbotron样式重写 */
 .jumbotron {
-  background-color: #1c2938;
   color: #fff;
   width: 60%;
 }

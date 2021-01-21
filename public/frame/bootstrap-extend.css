@@ -35,3 +35,20 @@ button:focus,
   content: "浏览文件";
   background-color: #007bff;
 }
+
+/* 推特色内容背景 */
+.bg-twitter {
+  background-color: #15202b;
+}
+
+/* 推特色按钮 */
+.btn-twitter {
+  color: #fff;
+  background-color: #1c2938;
+  border-color: #1c2938;
+}
+
+/* vue v-cloak样式 */
+[v-cloak] {
+  display: none;
+}

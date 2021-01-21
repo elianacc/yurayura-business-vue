@@ -9,6 +9,13 @@
              height="40"
              class="rounded" />
         <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
+        <span class="ml-8 collapse-span"
+              @click="sideMenuIsCollapse = !sideMenuIsCollapse;sideMenuCol = sideMenuIsCollapse? 'col-1': 'col-2';tabAndMainCol = sideMenuIsCollapse? 'col-11': 'col-10'">
+          <i class="el-icon-s-fold font-size-28"
+             v-show="!sideMenuIsCollapse"></i>
+          <i class="el-icon-s-unfold font-size-28"
+             v-show="sideMenuIsCollapse"></i>
+        </span>
       </span>
       <form class="form-inline">
         <button class="btn btn-danger ml-2"
@@ -21,24 +28,26 @@
 
     <div class="row r1">
       <!-- 侧边导航col -->
-      <div class="col-2 c1">
+      <div :class="sideMenuCol"
+           class="c1">
         <el-menu :default-active="sideMenuActive"
                  :default-openeds="['sys','comic','user']"
                  background-color="#1c2938"
                  text-color="#adb5bd"
-                 active-text-color="#f8f9fa"
+                 active-text-color="#409eff"
                  class="el-menu-vertical"
+                 :collapse="sideMenuIsCollapse"
                  router>
           <el-menu-item index="/business/index"
                         @click="addTab('首页', 'index', '/business/index')">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-submenu :index="submenu.name"
                       v-for="submenu in sideMenuData"
                       :key="submenu.name">
             <template slot="title">
-              <i class="el-icon-menu"></i>
+              <i :class="submenu.icon"></i>
               <span slot="title">{{submenu.title}}</span>
             </template>
 
@@ -53,7 +62,8 @@
         </el-menu>
       </div>
       <!-- 标签导航和主内容col -->
-      <div class="col-10 pt-2 c2">
+      <div :class="tabAndMainCol"
+           class="c2 pt-2">
 
         <!-- 标签导航 -->
         <el-tabs v-model="editableTabsValue"
@@ -84,11 +94,14 @@ export default {
   name: 'Business',
   data () {
     return {
+      sideMenuIsCollapse: false,
+      sideMenuCol: 'col-2',
       sideMenuActive: this.$storageUtil.getSideMenuActive(),
       sideMenu: [
         {
           title: '系统管理',
           name: 'sys',
+          icon: 'el-icon-s-tools',
           item: [
             {
               index: '/business/sys_dict',
@@ -107,6 +120,7 @@ export default {
         {
           title: '番剧管理',
           name: 'comic',
+          icon: 'el-icon-ship',
           item: [
             {
               index: '/business/comic_info',
@@ -119,6 +133,7 @@ export default {
         {
           title: '用户管理',
           name: 'user',
+          icon: 'el-icon-user',
           item: [
             {
               index: '/business/user_info',
@@ -129,6 +144,7 @@ export default {
           ]
         }
       ],
+      tabAndMainCol: 'col-10',
       editableTabsValue: this.$storageUtil.getEditableTabsValue(),
       editableTabs: this.$storageUtil.getEditableTabs()
     }
@@ -229,18 +245,29 @@ export default {
 .container {
   width: 1920px;
 }
-.r1 {
-  margin-top: 66px;
-}
-/* 推特色导航背景 */
+
+/* 置顶导航样式 */
 .bg-twitternav {
   background-color: #1c2938;
 }
+.ml-8 {
+  margin-left: 8rem;
+}
+.collapse-span {
+  cursor: pointer;
+}
+
+.r1 {
+  margin-top: 66px;
+}
 
 /* el侧边导航宽高 */
+.el-menu-vertical {
+  width: 65px;
+  min-height: calc(100vh);
+}
 .el-menu-vertical:not(.el-menu--collapse) {
   width: 250px;
-  min-height: calc(100vh);
 }
 /* el侧边导航右白边清除 */
 .r1 .c1 /deep/ .el-menu {
@@ -266,7 +293,7 @@ export default {
   background-color: #10171e;
 }
 .r1 .c2 /deep/ .el-tabs__item {
-  color: #909399;
+  color: #adb5bd;
 }
 .r1 .c2 /deep/ .el-tabs__item:hover {
   color: #409eff;
