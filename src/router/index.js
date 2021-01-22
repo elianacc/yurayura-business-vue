@@ -69,9 +69,6 @@ router.beforeEach((to, from, next) => {
     axios({
       method: 'post',
       url: '/api/sys/manager/judgeAuthen',
-      headers: {
-        'X-Requested-With': 'XMLHttpRequest'
-      },
       responseType: 'json'
     }).then(res => {
       if (res.data.code === 200) {

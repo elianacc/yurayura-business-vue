@@ -21,7 +21,7 @@
         <button class="btn btn-danger ml-2"
                 type="button"
                 @click="logoutManager">
-          <i class="fa fa-sign-out"></i>&nbsp;&nbsp;注销
+          <i class="fa fa-sign-out mr-2"></i>注销
         </button>
       </form>
     </nav>
@@ -55,7 +55,8 @@
                           v-for="item in submenu.item"
                           :key="item.name"
                           @click="addTab(item.title, item.name, item.index)">
-              <i :class="item.icon"></i>&nbsp;&nbsp;{{item.title}}
+              <i :class="item.icon"
+                 class="mr-2"></i>{{item.title}}
             </el-menu-item>
 
           </el-submenu>
@@ -70,8 +71,7 @@
                  type="card"
                  closable
                  @tab-remove="removeTab"
-                 @tab-click="tabClick"
-                 style="position: relative; right: 4%;">
+                 @tab-click="tabClick">
           <el-tab-pane v-for="item in editableTabs"
                        :key="item.name"
                        :label="item.title"
@@ -159,9 +159,6 @@ export default {
         this.$axios({
           method: 'post',
           url: '/api/sys/manager/logout',
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          },
           responseType: 'json'
         }).then(res => {
           if (res.data.code === 200) {
@@ -243,7 +240,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 1920px;
+  width: 1900px;
 }
 
 /* 置顶导航样式 */

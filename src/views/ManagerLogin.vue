@@ -5,16 +5,16 @@
     <div class="row mt-5">
       <div class="col-2 offset-5">
         <img src="~@assets/github.png"
-             class='mx-auto d-block'
-             width='50'
-             height='50' />
+             class="mx-auto d-block"
+             width="50"
+             height="50" />
       </div>
     </div>
 
     <!-- 标题row -->
     <div class="row mt-4">
       <div class="col-4 offset-4">
-        <h4 class='lead text-center text-white'>Yura~yura后台登入</h4>
+        <h4 class="lead text-center text-white">Yura~yura后台登入</h4>
       </div>
     </div>
 
@@ -57,7 +57,7 @@
               <el-form-item>
                 <button type="submit"
                         class="btn btn-primary btn-block mt-3 pr-4">
-                  <i class='fa fa-sign-in fa-lg'></i>&nbsp;&nbsp;登入
+                  <i class="fa fa-sign-in fa-lg mr-2"></i>登入
                 </button>
               </el-form-item>
             </el-form>
@@ -103,8 +103,7 @@ export default {
             method: 'post',
             url: '/api/sys/manager/login',
             headers: {
-              'Content-Type': 'application/json;charset=utf-8',
-              'X-Requested-With': 'XMLHttpRequest'
+              'Content-Type': 'application/json;charset=utf-8'
             },
             data: JSON.stringify(this.loginForm),
             responseType: 'json'
