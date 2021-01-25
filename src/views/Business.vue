@@ -9,8 +9,9 @@
              height="40"
              class="rounded" />
         <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
-        <span class="ml-9 collapse-span"
-              @click="sideMenuIsCollapse = !sideMenuIsCollapse;sideMenuCol = sideMenuIsCollapse? 'col-1': 'col-2';tabAndMainCol = sideMenuIsCollapse? 'col-11': 'col-10'">
+        <span :class="sideMenuIsCollapse? 'ml-5' : 'ml-9'"
+              class="collapse-span"
+              @click="sideMenuIsCollapse = !sideMenuIsCollapse">
           <i class="el-icon-s-fold font-size-28"
              v-show="!sideMenuIsCollapse"></i>
           <i class="el-icon-s-unfold font-size-28"
@@ -28,7 +29,7 @@
 
     <div class="row r1">
       <!-- 侧边导航col -->
-      <div :class="sideMenuCol"
+      <div :class="sideMenuIsCollapse? 'col-1': 'col-2'"
            class="c1 pr-0">
         <el-menu :default-active="sideMenuActive"
                  :default-openeds="['sys','comic','user']"
@@ -63,7 +64,7 @@
         </el-menu>
       </div>
       <!-- 标签导航和主内容col -->
-      <div :class="tabAndMainCol"
+      <div :class="sideMenuIsCollapse? 'col-11': 'col-10'"
            class="c2 pt-2 pl-0">
 
         <!-- 标签导航 -->
@@ -95,7 +96,6 @@ export default {
   data () {
     return {
       sideMenuIsCollapse: false,
-      sideMenuCol: 'col-2',
       sideMenuActive: this.$storageUtil.getSideMenuActive(),
       sideMenu: [
         {
@@ -144,7 +144,6 @@ export default {
           ]
         }
       ],
-      tabAndMainCol: 'col-10',
       editableTabsValue: this.$storageUtil.getEditableTabsValue(),
       editableTabs: this.$storageUtil.getEditableTabs()
     }
