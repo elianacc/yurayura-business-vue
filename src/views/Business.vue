@@ -1,5 +1,5 @@
 <template>
-  <div class="container p-0">
+  <div class="container pl-0">
 
     <!-- 置顶导航 -->
     <nav class="navbar navbar-dark fixed-top bg-twitternav">
@@ -9,7 +9,7 @@
              height="40"
              class="rounded" />
         <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
-        <span class="ml-8 collapse-span"
+        <span class="ml-9 collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse;sideMenuCol = sideMenuIsCollapse? 'col-1': 'col-2';tabAndMainCol = sideMenuIsCollapse? 'col-11': 'col-10'">
           <i class="el-icon-s-fold font-size-28"
              v-show="!sideMenuIsCollapse"></i>
@@ -29,7 +29,7 @@
     <div class="row r1">
       <!-- 侧边导航col -->
       <div :class="sideMenuCol"
-           class="c1">
+           class="c1 pr-0">
         <el-menu :default-active="sideMenuActive"
                  :default-openeds="['sys','comic','user']"
                  background-color="#1c2938"
@@ -64,7 +64,7 @@
       </div>
       <!-- 标签导航和主内容col -->
       <div :class="tabAndMainCol"
-           class="c2 pt-2">
+           class="c2 pt-2 pl-0">
 
         <!-- 标签导航 -->
         <el-tabs v-model="editableTabsValue"
@@ -216,7 +216,7 @@ export default {
   computed: {
     sideMenuData () {
       if (!this.$storageUtil.getManagerMsg().managerPermission.includes('sys')) {
-        return this.sideMenu.filter(subMenu => subMenu.index !== 'sys')
+        return this.sideMenu.filter(subMenu => subMenu.name !== 'sys')
       }
       return this.sideMenu
     }
@@ -247,8 +247,8 @@ export default {
 .bg-twitternav {
   background-color: #1c2938;
 }
-.ml-8 {
-  margin-left: 8rem;
+.ml-9 {
+  margin-left: 9rem;
 }
 .collapse-span {
   cursor: pointer;
