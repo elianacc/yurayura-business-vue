@@ -9,7 +9,7 @@
              height="40"
              class="rounded" />
         <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
-        <span :class="sideMenuIsCollapse? 'ml-5' : 'ml-9'"
+        <span :class="sideMenuIsCollapse? 'ml-3' : 'ml-8'"
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
           <i class="el-icon-s-fold font-size-28"
@@ -246,8 +246,8 @@ export default {
 .bg-twitternav {
   background-color: #1c2938;
 }
-.ml-9 {
-  margin-left: 9rem;
+.ml-8 {
+  margin-left: 8rem;
 }
 .collapse-span {
   cursor: pointer;
