@@ -34,9 +34,9 @@ export default {
 </script>
 
 <style scoped>
-/* bs4 jumbotron样式重写 */
+/* bs4 jumbotron重写 */
 .jumbotron {
-  color: #fff;
+  color: #f8f9fa;
   width: 60%;
 }
 

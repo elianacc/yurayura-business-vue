@@ -102,9 +102,6 @@ export default {
           this.$axios({
             method: 'post',
             url: '/api/sys/manager/login',
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-            },
             data: JSON.stringify(this.loginForm),
             responseType: 'json'
           }).then(res => {
@@ -143,16 +140,16 @@ export default {
   width: 992px;
 }
 
-/* el垂直表单标签padding-bottom置为0 */
+/* el垂直表单标签重写（padding-bottom置为0） */
 .card-body /deep/ .el-form--label-top .el-form-item__label {
   padding: 0rem;
 }
-/* el表单项margin-bottom置为0 */
+/* el表单项重写（margin-bottom置为0） */
 .card-body /deep/ .el-form-item {
   margin-bottom: 0rem;
 }
 
-/* bs4标签margin-bottom置为0 */
+/* bs4标签重写（margin-bottom置为0） */
 .card-body /deep/ label {
   margin-bottom: 0rem;
 }

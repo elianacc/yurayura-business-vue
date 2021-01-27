@@ -257,20 +257,27 @@ export default {
   margin-top: 66px;
 }
 
-/* el侧边导航宽高 */
-.el-menu-vertical {
-  width: 65px;
-  min-height: calc(100vh);
+.r1 .c1 /deep/ .el-scrollbar__wrap {
+  overflow-x: hidden;
 }
-.el-menu-vertical:not(.el-menu--collapse) {
-  width: 250px;
+.r1 .c1 /deep/ .el-scrollbar__thumb {
+  right: 45px;
 }
-/* el侧边导航右白边清除 */
+
+/* el侧边导航重写（右白边清除） */
 .r1 .c1 /deep/ .el-menu {
   border-right: 0rem;
 }
+/* el侧边导航宽高 */
+.r1 .c1 .el-menu-vertical {
+  width: 65px;
+  min-height: 3000px;
+}
+.r1 .c1 .el-menu-vertical:not(.el-menu--collapse) {
+  width: 250px;
+}
 
-/* el标签页（选项卡）样式重写 */
+/* el标签页（选项卡）重写 */
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
