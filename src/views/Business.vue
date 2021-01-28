@@ -30,60 +30,66 @@
     <div class="row r1">
       <!-- 侧边导航col -->
       <div :class="sideMenuIsCollapse? 'col-1': 'col-2'"
-           class="c1 pr-0">
-        <el-menu :default-active="sideMenuActive"
-                 :default-openeds="['sys','comic','user']"
-                 background-color="#1c2938"
-                 text-color="#adb5bd"
-                 active-text-color="#409eff"
-                 class="el-menu-vertical"
-                 :collapse="sideMenuIsCollapse"
-                 router>
-          <el-menu-item index="/business/index"
-                        @click="addTab('首页', 'index', '/business/index')">
-            <i class="el-icon-s-home"></i>
-            <span slot="title">首页</span>
-          </el-menu-item>
-          <el-submenu :index="submenu.name"
-                      v-for="submenu in sideMenuData"
-                      :key="submenu.name">
-            <template slot="title">
-              <i :class="submenu.icon"></i>
-              <span slot="title">{{submenu.title}}</span>
-            </template>
-
-            <el-menu-item :index="item.index"
-                          v-for="item in submenu.item"
-                          :key="item.name"
-                          @click="addTab(item.title, item.name, item.index)">
-              <i :class="item.icon"
-                 class="mr-2"></i>{{item.title}}
+           class="c1 pr-0"
+           style="height: 100vh;">
+        <el-scrollbar style="height: 100%;">
+          <el-menu :default-active="sideMenuActive"
+                   :default-openeds="['sys','comic','user']"
+                   background-color="#1c2938"
+                   text-color="#adb5bd"
+                   active-text-color="#409eff"
+                   class="el-menu-vertical"
+                   :collapse="sideMenuIsCollapse"
+                   router>
+            <el-menu-item index="/business/index"
+                          @click="addTab('首页', 'index', '/business/index')">
+              <i class="el-icon-s-home"></i>
+              <span slot="title">首页</span>
             </el-menu-item>
+            <el-submenu :index="submenu.name"
+                        v-for="submenu in sideMenuData"
+                        :key="submenu.name">
+              <template slot="title">
+                <i :class="submenu.icon"></i>
+                <span slot="title">{{submenu.title}}</span>
+              </template>
 
-          </el-submenu>
-        </el-menu>
+              <el-menu-item :index="item.index"
+                            v-for="item in submenu.item"
+                            :key="item.name"
+                            @click="addTab(item.title, item.name, item.index)">
+                <i :class="item.icon"
+                   class="mr-2"></i>{{item.title}}
+              </el-menu-item>
+
+            </el-submenu>
+          </el-menu>
+        </el-scrollbar>
       </div>
       <!-- 标签导航和主内容col -->
       <div :class="sideMenuIsCollapse? 'col-11': 'col-10'"
-           class="c2 pt-2 pl-0">
+           class="c2 pt-2 pl-0"
+           style="height: 100vh;">
 
-        <!-- 标签导航 -->
-        <el-tabs v-model="editableTabsValue"
-                 type="card"
-                 closable
-                 @tab-remove="removeTab"
-                 @tab-click="tabClick">
-          <el-tab-pane v-for="item in editableTabs"
-                       :key="item.name"
-                       :label="item.title"
-                       :name="item.name">
+        <el-scrollbar style="height: 100%;">
+          <!-- 标签导航 -->
+          <el-tabs v-model="editableTabsValue"
+                   type="card"
+                   closable
+                   @tab-remove="removeTab"
+                   @tab-click="tabClick">
+            <el-tab-pane v-for="item in editableTabs"
+                         :key="item.name"
+                         :label="item.title"
+                         :name="item.name">
 
-          </el-tab-pane>
-        </el-tabs>
+            </el-tab-pane>
+          </el-tabs>
 
-        <!-- 主内容 -->
-        <router-view></router-view>
+          <!-- 主内容 -->
+          <router-view class="pb-12"></router-view>
 
+        </el-scrollbar>
       </div>
     </div>
 
@@ -241,6 +247,9 @@ export default {
 .container {
   width: 1900px;
 }
+.pb-12 {
+  padding-bottom: 12rem;
+}
 
 /* 置顶导航样式 */
 .bg-twitternav {
@@ -257,11 +266,12 @@ export default {
   margin-top: 66px;
 }
 
-.r1 .c1 /deep/ .el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-.r1 .c1 /deep/ .el-scrollbar__thumb {
+/* el滚动条重写（位置调整） */
+.r1 .c1 /deep/ .el-scrollbar__bar {
   right: 45px;
+}
+.r1 .c2 /deep/ .el-scrollbar__bar {
+  left: 2000px;
 }
 
 /* el侧边导航重写（右白边清除） */
@@ -271,7 +281,7 @@ export default {
 /* el侧边导航宽高 */
 .r1 .c1 .el-menu-vertical {
   width: 65px;
-  min-height: 3000px;
+  min-height: 2000px;
 }
 .r1 .c1 .el-menu-vertical:not(.el-menu--collapse) {
   width: 250px;

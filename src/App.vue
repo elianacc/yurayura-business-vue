@@ -14,5 +14,6 @@ export default {
 /* 全局背景设置 */
 body {
   background: #10171e !important;
+  overflow-y: hidden;
 }
 </style>
