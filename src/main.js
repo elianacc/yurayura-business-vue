@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import filter from './filter'
 import axios from 'axios'
 import qs from 'qs'
 import '@public/frame/bootstrap.min.css'
@@ -26,6 +27,11 @@ Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 Vue.prototype.$storageUtil = storageUtil
 Vue.prototype.$sysDictUtil = sysDictUtil
+
+// 全局设置过滤器
+Object.keys(filter).forEach(key => {
+  Vue.filter(key, filter[key])
+})
 
 new Vue({
   router,

@@ -73,16 +73,10 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <div class="btn-group">
-              <button class="btn btn-primary btn-twitter font-size-14"
-                      type="submit">
-                <i class="fa fa-filter mr-2"></i>查询
-              </button>
-              <button class="btn btn-danger btn-twitter font-size-14"
-                      type="button">
-                <i class="fa fa-eraser mr-2"></i>清空
-              </button>
-            </div>
+            <button class="btn btn-primary btn-twitter font-size-14"
+                    type="submit">
+              <i class="fa fa-filter mr-2"></i>查询
+            </button>
           </el-form-item>
         </el-form>
       </div>
@@ -101,7 +95,7 @@
                              width="200">
               <template slot-scope="scope">
                 <div class="cmImg-mask">
-                  <img :src="`/api/${scope.row.comicImageUrl}`"
+                  <img :src="scope.row.comicImageUrl"
                        class="rounded"
                        width="165"
                        height="217" />
@@ -113,8 +107,39 @@
               </template>
             </el-table-column>
             <el-table-column label="番剧名"
-                             prop="comicName"
                              width="200">
+              <template slot-scope="scope">
+                <span>{{scope.row.comicName}}<span v-show="scope.row.comicShelfStatus == 0">(已下架)</span></span>
+              </template>
+            </el-table-column>
+            <el-table-column label="简介"
+                             width="350"
+                             prop="comicContent">
+            </el-table-column>
+            <el-table-column label="状态"
+                             width="200">
+              <template slot-scope="scope">
+                <span>{{scope.row.comicStatus | cmStatusFilter(scope.row.comicCurrentEpisodes, comicStatusDict)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="标签"
+                             width="300">
+              <template slot-scope="scope">
+                <span>{{scope.row.comicLabel | cmLabelFilter}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="时间"
+                             width="200"
+                             prop="comicTime">
+            </el-table-column>
+            <el-table-column label="操作"
+                             width="180">
+              <template>
+                <button type="button"
+                        class="btn btn-warning btn-twitter text-white font-size-14">
+                  <i class="fa fa-pencil-square-o mr-2"></i>修改
+                </button>
+              </template>
             </el-table-column>
           </el-table>
         </template>
@@ -201,7 +226,7 @@ export default {
   background-color: #15202b;
 }
 .r2 .c1 /deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
-  background-color: #1c2938;
+  background-color: #111a22;
 }
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th.is-leaf {

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="jumbotron bg-twitter">
-      <h1 class="display-4">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
-      <p class="lead">欢迎进入Yura~Yura~后端管理页面</p>
+      <h1 class="display-4 text-center">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
+      <p class="lead text-center">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4">
-      <p>YuraYura是一个兴趣使然的项目</p>
-      <p class="lead github-btn-p">
+      <p class="text-center">YuraYura是一个兴趣使然的项目</p>
+      <p class="lead github-btn-p text-center">
         <a class="btn btn-primary btn-lg"
            :href="githubUrl"
            data-toggle="tooltip"
@@ -37,7 +37,6 @@ export default {
 /* bs4 jumbotron重写 */
 .jumbotron {
   color: #f8f9fa;
-  width: 60%;
 }
 
 .github-btn-p {

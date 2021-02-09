@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style>
-/* 全局背景设置 */
+/* 全局背景及禁用y轴滚动设置 */
 body {
   background: #10171e !important;
   overflow-y: hidden;

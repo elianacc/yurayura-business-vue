@@ -9,7 +9,7 @@
              height="40"
              class="rounded" />
         <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
-        <span :class="sideMenuIsCollapse? 'ml-3' : 'ml-8'"
+        <span :class="sideMenuIsCollapse? 'ml-3' : 'ml-uncollapse-span'"
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
           <i class="el-icon-s-fold font-size-28"
@@ -29,67 +29,69 @@
 
     <div class="row r1">
       <!-- 侧边导航col -->
-      <div :class="sideMenuIsCollapse? 'col-1': 'col-2'"
-           class="c1 pr-0"
-           style="height: 100vh;">
-        <el-scrollbar style="height: 100%;">
-          <el-menu :default-active="sideMenuActive"
-                   :default-openeds="['sys','comic','user']"
-                   background-color="#1c2938"
-                   text-color="#adb5bd"
-                   active-text-color="#409eff"
-                   class="el-menu-vertical"
-                   :collapse="sideMenuIsCollapse"
-                   router>
-            <el-menu-item index="/business/index"
-                          @click="addTab('首页', 'index', '/business/index')">
-              <i class="el-icon-s-home"></i>
-              <span slot="title">首页</span>
-            </el-menu-item>
-            <el-submenu :index="submenu.name"
-                        v-for="submenu in sideMenuData"
-                        :key="submenu.name">
-              <template slot="title">
-                <i :class="submenu.icon"></i>
-                <span slot="title">{{submenu.title}}</span>
-              </template>
-
-              <el-menu-item :index="item.index"
-                            v-for="item in submenu.item"
-                            :key="item.name"
-                            @click="addTab(item.title, item.name, item.index)">
-                <i :class="item.icon"
-                   class="mr-2"></i>{{item.title}}
+      <div :class="sideMenuIsCollapse? 'col-sidemenu-collapse': 'col-sidemenu-uncollapse'"
+           class="c1">
+        <el-menu :default-active="sideMenuActive"
+                 :default-openeds="['sys','comic','user']"
+                 background-color="#1c2938"
+                 text-color="#adb5bd"
+                 active-text-color="#409eff"
+                 class="el-menu-vertical"
+                 :collapse="sideMenuIsCollapse"
+                 router
+                 style="height: 100vh;">
+          <el-scrollbar style="height: 100%;">
+            <div style="height: 1080px;">
+              <el-menu-item index="/business/index"
+                            @click="addTab('首页', 'index', '/business/index')">
+                <i class="el-icon-s-home"></i>
+                <span slot="title">首页</span>
               </el-menu-item>
+              <el-submenu :index="submenu.name"
+                          v-for="submenu in sideMenuData"
+                          :key="submenu.name">
+                <template slot="title">
+                  <i :class="submenu.icon"></i>
+                  <span slot="title">{{submenu.title}}</span>
+                </template>
 
-            </el-submenu>
-          </el-menu>
-        </el-scrollbar>
+                <el-menu-item :index="item.index"
+                              v-for="item in submenu.item"
+                              :key="item.name"
+                              @click="addTab(item.title, item.name, item.index)">
+                  <i :class="item.icon"
+                     class="mr-2"></i>{{item.title}}
+                </el-menu-item>
+
+              </el-submenu>
+            </div>
+          </el-scrollbar>
+        </el-menu>
       </div>
       <!-- 标签导航和主内容col -->
-      <div :class="sideMenuIsCollapse? 'col-11': 'col-10'"
+      <div :class="sideMenuIsCollapse? 'col-tabandmain-collapse': 'col-tabandmain-uncollapse'"
            class="c2 pt-2 pl-0"
            style="height: 100vh;">
 
+        <!-- 标签导航 -->
+        <el-tabs v-model="editableTabsValue"
+                 type="card"
+                 closable
+                 @tab-remove="removeTab"
+                 @tab-click="tabClick">
+          <el-tab-pane v-for="item in editableTabs"
+                       :key="item.name"
+                       :label="item.title"
+                       :name="item.name">
+
+          </el-tab-pane>
+        </el-tabs>
+
         <el-scrollbar style="height: 100%;">
-          <!-- 标签导航 -->
-          <el-tabs v-model="editableTabsValue"
-                   type="card"
-                   closable
-                   @tab-remove="removeTab"
-                   @tab-click="tabClick">
-            <el-tab-pane v-for="item in editableTabs"
-                         :key="item.name"
-                         :label="item.title"
-                         :name="item.name">
-
-            </el-tab-pane>
-          </el-tabs>
-
           <!-- 主内容 -->
           <router-view class="pb-12"></router-view>
-
         </el-scrollbar>
+
       </div>
     </div>
 
@@ -244,34 +246,169 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  width: 1900px;
+@media (min-width: 1px) {
+  .container {
+    width: 1366px;
+  }
+  .r1 .col-sidemenu-collapse {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-sidemenu-uncollapse {
+    flex: 0 0 16.77%;
+    max-width: 16.77%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-collapse {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-uncollapse {
+    flex: 0 0 83.23%;
+    max-width: 83.23%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
-.pb-12 {
-  padding-bottom: 12rem;
+@media (min-width: 1367px) {
+  .container {
+    width: 1440px;
+  }
+  .r1 .col-sidemenu-collapse {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-sidemenu-uncollapse {
+    flex: 0 0 15.95%;
+    max-width: 15.95%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-collapse {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-uncollapse {
+    flex: 0 0 84.05%;
+    max-width: 84.05%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+@media (min-width: 1441px) {
+  .container {
+    width: 1680px;
+  }
+  .r1 .col-sidemenu-collapse {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-sidemenu-uncollapse {
+    flex: 0 0 13.7%;
+    max-width: 13.7%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-collapse {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-uncollapse {
+    flex: 0 0 86.3%;
+    max-width: 86.3%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+@media (min-width: 1681px) {
+  .container {
+    width: 1920px;
+  }
+  .r1 .col-sidemenu-collapse {
+    flex: 0 0 8.333333%;
+    max-width: 8.333333%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-sidemenu-uncollapse {
+    flex: 0 0 12%;
+    max-width: 12%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-collapse {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+  .r1 .col-tabandmain-uncollapse {
+    flex: 0 0 88%;
+    max-width: 88%;
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
 
 /* 置顶导航样式 */
 .bg-twitternav {
   background-color: #1c2938;
 }
-.ml-8 {
-  margin-left: 8rem;
-}
-.collapse-span {
+/* 置顶导航-侧边导航展开图标 */
+nav .collapse-span {
   cursor: pointer;
+}
+nav .ml-uncollapse-span {
+  margin-left: 5.5rem;
 }
 
 .r1 {
   margin-top: 66px;
-}
-
-/* el滚动条重写（位置调整） */
-.r1 .c1 /deep/ .el-scrollbar__bar {
-  right: 45px;
-}
-.r1 .c2 /deep/ .el-scrollbar__bar {
-  left: 2000px;
 }
 
 /* el侧边导航重写（右白边清除） */
@@ -281,10 +418,18 @@ export default {
 /* el侧边导航宽高 */
 .r1 .c1 .el-menu-vertical {
   width: 65px;
-  min-height: 2000px;
 }
 .r1 .c1 .el-menu-vertical:not(.el-menu--collapse) {
-  width: 250px;
+  width: 210px;
+}
+
+/* el侧边导航折叠时隐藏文字 */
+.r1 .c1 .el-menu--collapse .el-submenu__title span {
+  display: none;
+}
+/* el侧边导航折叠时隐藏 > */
+.r1 .c1 .el-menu--collapse .el-submenu__title .el-submenu__icon-arrow {
+  display: none;
 }
 
 /* el标签页（选项卡）重写 */
@@ -314,5 +459,10 @@ export default {
 }
 .r1 .c2 /deep/ .el-tabs__item.is-active {
   color: #409eff;
+}
+
+/* 主内容底部留白 */
+.r1 .c2 .pb-12 {
+  padding-bottom: 12rem;
 }
 </style>

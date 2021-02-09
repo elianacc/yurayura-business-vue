@@ -16,7 +16,7 @@
 .font-size-40{font-size:2.5rem} /*h1*/
 
 /* bs4按钮（Warning）重写 */
-.btn-warning {
+.btn-warning, .btn-warning:hover, .btn-warning:focus {
   background-color: #f5b700;
 }
 
