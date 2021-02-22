@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 操作按钮及数据筛选表单row -->
     <div class="row mt-4 r1">
 
       <div class="col-2">
@@ -11,6 +12,7 @@
           </button>
           <button type="button"
                   class="btn btn-danger btn-twitter font-size-14"
+                  @click="deleteBatch"
                   v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
             <i class="fa fa-trash mr-2"></i>删除
           </button>
@@ -22,7 +24,8 @@
                  :model="selectForm"
                  label-suffix=":"
                  size="small"
-                 class="float-right">
+                 class="float-right"
+                 @submit.native.prevent="selectContent">
           <el-form-item label="番剧名"
                         prop="comicName"
                         label-width="4rem">
@@ -83,11 +86,12 @@
 
     </div>
 
+    <!-- 数据表格row -->
     <div class="row r2">
       <div class="col-12 c1">
         <template>
           <el-table :data="pageInfo.list"
-                    @selection-change="handleSelectionChange">
+                    @selection-change="tbCheckChange">
             <el-table-column type="selection"
                              width="55">
             </el-table-column>
@@ -136,8 +140,14 @@
                              width="180">
               <template>
                 <button type="button"
-                        class="btn btn-warning btn-twitter text-white font-size-14">
+                        class="btn btn-warning btn-twitter text-white font-size-14"
+                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')">
                   <i class="fa fa-pencil-square-o mr-2"></i>修改
+                </button>
+                <button type="button"
+                        class="btn btn-warning btn-twitter text-white font-size-14"
+                        v-if="!$storageUtil.getManagerMsg().managerPermission.includes('update')">
+                  <i class="fa fa-file-text-o mr-2"></i>详情
                 </button>
               </template>
             </el-table-column>
@@ -146,12 +156,21 @@
       </div>
     </div>
 
+    <!-- 数据表格信息及分页component -->
+    <business-pagination :pageInfo="pageInfo"
+                         @currentPageChangeImpl="currentPageChangeImpl"></business-pagination>
+
   </div>
 </template>
 
 <script>
+import BusinessPagination from '@components/BusinessPagination.vue'
+
 export default {
   name: 'BusinessComicInfo',
+  components: {
+    BusinessPagination
+  },
   data () {
     return {
       selectForm: {
@@ -160,14 +179,14 @@ export default {
         comicShelfStatus: '',
         comicTag: []
       },
-      pageInfo: [],
-      nowPageNum: 1,
+      pageInfo: {},
+      currentPageNum: 1,
       multipleSelection: [],
-      comicLabelDict: '',
-      comicStatusDict: '',
-      comicUpdtTimeDict: '',
-      comicUpdtStatusDict: '',
-      comicShelfStatusDict: ''
+      comicLabelDict: [],
+      comicStatusDict: [],
+      comicUpdtTimeDict: [],
+      comicUpdtStatusDict: [],
+      comicShelfStatusDict: []
     }
   },
   methods: {
@@ -178,7 +197,7 @@ export default {
     },
     getPage () {
       let sendData = this.selectForm
-      sendData.pageNum = this.nowPageNum
+      sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
         method: 'post',
@@ -199,8 +218,51 @@ export default {
         }
       })
     },
-    handleSelectionChange (val) {
+    selectContent () {
+      this.currentPageNum = 1
+      this.getPage()
+    },
+    currentPageChangeImpl (val) {
+      this.currentPageNum = val
+      this.getPage()
+    },
+    tbCheckChange (val) {
       this.multipleSelection = val
+    },
+    deleteBatch () {
+      if (this.multipleSelection.length === 0) {
+        this.$message.error('请至少选择一项删除')
+      } else {
+        this.$confirm('确定要删除选中项吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let sendData = new FormData()
+          sendData.append('ids', this.multipleSelection.map(selt => selt.id))
+          this.$axios({
+            method: 'post',
+            url: '/api/comic/deleteBatchByIds',
+            data: sendData,
+            responseType: 'json'
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+              this.multipleSelection = []
+              this.getPage()
+            } else if (res.data.code === 100) {
+              this.$message.success(res.data.msg)
+            } else if (res.data.code === 500) {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                duration: 0
+              })
+            }
+          })
+        }).catch(() => { })
+      }
+
     }
   },
   mounted () {
