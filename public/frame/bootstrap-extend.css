@@ -29,7 +29,7 @@ button:focus,
     color: #fff;
 }
 
-/* bs4文件浏览样式重写 */
+/* bs4文件浏览重写 */
 .custom-file-label::after {
   color: #fff;
   content: "浏览文件";

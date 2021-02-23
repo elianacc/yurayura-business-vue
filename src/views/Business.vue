@@ -91,6 +91,15 @@
         <el-scrollbar style="height: 100%;">
           <!-- 主内容 -->
           <router-view class="pb-12"></router-view>
+          <!-- 返回顶部 -->
+          <template>
+            <el-backtop target=".r1 .c2 .el-scrollbar__wrap"
+                        :bottom="20">
+              <div class="back-top rounded">
+                UP
+              </div>
+            </el-backtop>
+          </template>
         </el-scrollbar>
 
       </div>
@@ -396,7 +405,7 @@ export default {
   }
 }
 
-/* 置顶导航样式 */
+/* 置顶导航 */
 .bg-twitternav {
   background-color: #1c2938;
 }
@@ -465,5 +474,16 @@ nav .ml-uncollapse-span {
 /* 主内容底部留白 */
 .r1 .c2 .pb-12 {
   padding-bottom: 12rem;
+}
+
+/* 返回顶部 */
+.r1 .c2 .back-top {
+  height: 100%;
+  width: 100%;
+  background-color: #1c2938;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
+  text-align: center;
+  line-height: 40px;
+  color: #ffffff;
 }
 </style>
