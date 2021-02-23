@@ -111,11 +111,11 @@ export default {
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
               this.$router.push('/business')
-            } else if (res.data.code === 100) {
+            } else if (res.data.code === 102) {
               this.loadVerifyImage()
               this.$refs.loginForm.resetFields()
               this.$message.error(res.data.msg)
-            } else if (res.data.code === 101) {
+            } else if (res.data.code === 103) {
               console.log(res.data.msg)
             } else if (res.data.code === 500) {
               this.$notify.error({

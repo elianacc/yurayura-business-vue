@@ -207,8 +207,8 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.pageInfo = res.data.data
-        } else if (res.data.code === 100) {
-          this.pageInfo = []
+        } else if (res.data.code === 102) {
+          this.pageInfo = {}
         } else if (res.data.code === 500) {
           this.$notify.error({
             title: '错误',
@@ -250,7 +250,7 @@ export default {
               this.$message.success(res.data.msg)
               this.multipleSelection = []
               this.getPage()
-            } else if (res.data.code === 100) {
+            } else if (res.data.code === 102) {
               this.$message.success(res.data.msg)
             } else if (res.data.code === 500) {
               this.$notify.error({
