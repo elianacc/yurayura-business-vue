@@ -1,5 +1,5 @@
 const managerMsgKey = 'managerMsg'
-const sideMenuActiveKey = 'sideMenuActive'
+const sideMenuDftActiveKey = 'sideMenuDftActive'
 const editableTabsKey = 'editableTabs'
 const editableTabsValueKey = 'editableTabsValue'
 export default {
@@ -12,14 +12,14 @@ export default {
   deleteManagerMsg () {
     localStorage.removeItem(managerMsgKey)
   },
-  setSideMenuActive (val) {
-    localStorage.setItem(sideMenuActiveKey, val)
+  setSideMenuDftActive (val) {
+    localStorage.setItem(sideMenuDftActiveKey, val)
   },
-  getSideMenuActive () {
-    return localStorage.getItem(sideMenuActiveKey) || '/business/index'
+  getSideMenuDftActive () {
+    return localStorage.getItem(sideMenuDftActiveKey) || '/business/index'
   },
-  deleteSideMenuActive () {
-    localStorage.removeItem(sideMenuActiveKey)
+  deleteSideMenuDftActive () {
+    localStorage.removeItem(sideMenuDftActiveKey)
   },
   setEditableTabs (tabs) {
     localStorage.setItem(editableTabsKey, JSON.stringify(tabs))

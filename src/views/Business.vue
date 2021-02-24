@@ -32,7 +32,7 @@
       <!-- 侧边导航col -->
       <div :class="sideMenuIsCollapse? 'col-sidemenu-collapse': 'col-sidemenu-uncollapse'"
            class="c1">
-        <el-menu :default-active="sideMenuActive"
+        <el-menu :default-active="sideMenuDftActive"
                  :default-openeds="['sys','comic','user']"
                  background-color="#1c2938"
                  text-color="#adb5bd"
@@ -96,7 +96,7 @@
             <el-backtop target=".r1 .c2 .el-scrollbar__wrap"
                         :bottom="20">
               <div class="back-top rounded">
-                UP
+                <i class="el-icon-arrow-up"></i>
               </div>
             </el-backtop>
           </template>
@@ -114,7 +114,7 @@ export default {
   data () {
     return {
       sideMenuIsCollapse: false,
-      sideMenuActive: this.$storageUtil.getSideMenuActive(),
+      sideMenuDftActive: this.$storageUtil.getSideMenuDftActive(),
       sideMenu: [
         {
           title: '系统管理',
@@ -200,10 +200,10 @@ export default {
             let nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
               activeName = nextTab.name
-              this.sideMenuActive = nextTab.index
+              this.sideMenuDftActive = nextTab.index
               this.$router.push(nextTab.index)
             } else {
-              this.sideMenuActive = ''
+              this.sideMenuDftActive = ''
               this.$router.push('/business')
             }
           }
@@ -221,12 +221,12 @@ export default {
           index: tabIndex
         })
       }
-      this.sideMenuActive = tabIndex
+      this.sideMenuDftActive = tabIndex
       this.editableTabsValue = newTabName
     },
     tabClick (target) {
       let nowTab = this.editableTabs.find(tab => tab.name === target.name)
-      this.sideMenuActive = nowTab.index
+      this.sideMenuDftActive = nowTab.index
       this.$router.push(nowTab.index)
     }
   },
@@ -248,8 +248,8 @@ export default {
     editableTabsValue (val) {
       this.$storageUtil.setEditableTabsValue(val)
     },
-    sideMenuActive (val) {
-      this.$storageUtil.setSideMenuActive(val)
+    sideMenuDftActive (val) {
+      this.$storageUtil.setSideMenuDftActive(val)
     }
   }
 }

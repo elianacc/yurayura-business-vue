@@ -107,7 +107,7 @@ export default {
           }).then(res => {
             if (res.data.code === 200) {
               this.$storageUtil.setManagerMsg(res.data.data)
-              this.$storageUtil.deleteSideMenuActive()
+              this.$storageUtil.deleteSideMenuDftActive()
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
               this.$router.push('/business')
