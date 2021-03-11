@@ -14,7 +14,7 @@ export default {
   },
   cmLabelFilter (value) {
     let arrCmLabel = value.split(',')
-    arrCmLabel = arrCmLabel.filter(label => label != '')
+    arrCmLabel = arrCmLabel.filter(label => label !== '')
     return arrCmLabel.toString()
   }
 }

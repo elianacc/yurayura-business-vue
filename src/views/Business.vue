@@ -92,14 +92,12 @@
           <!-- 主内容 -->
           <router-view class="pb-12"></router-view>
           <!-- 返回顶部 -->
-          <template>
-            <el-backtop target=".r1 .c2 .el-scrollbar__wrap"
-                        :bottom="20">
-              <div class="back-top rounded">
-                <i class="el-icon-arrow-up"></i>
-              </div>
-            </el-backtop>
-          </template>
+          <el-backtop target=".r1 .c2 .el-scrollbar__wrap"
+                      :bottom="20">
+            <div class="back-top rounded">
+              <i class="el-icon-arrow-up"></i>
+            </div>
+          </el-backtop>
         </el-scrollbar>
 
       </div>

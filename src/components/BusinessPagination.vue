@@ -1,12 +1,12 @@
 <template>
-  <div class="row mt-5 r3">
+  <div class="row mt-5">
     <div class="col-4">
       <span class="badge badge-dark bg-twitter font-size-16"
             v-show="pageInfo">
         共{{pageInfo.pages}}页/{{pageInfo.total}}个
       </span>
     </div>
-    <div class="col-4 offset-4 pl-5 c2">
+    <div class="col-4 offset-4 pl-5">
       <el-pagination @current-change="currentPageChange"
                      :current-page.sync="pageInfo.pageNum"
                      :page-size="pageInfo.pageSize"
