@@ -48,7 +48,7 @@
                 <el-col :span="8"
                         :offset="1">
                   <img ref="verifyImage"
-                       src="/api/sys/manager/getVerifyCode"
+                       src=""
                        @click="loadVerifyImage" />
                 </el-col>
 
@@ -131,6 +131,9 @@ export default {
     loadVerifyImage () {
       this.$refs.verifyImage.src = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
     }
+  },
+  mounted () {
+    this.$refs.verifyImage.src = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
   }
 }
 </script>
