@@ -47,8 +47,7 @@
 
                 <el-col :span="8"
                         :offset="1">
-                  <img ref="verifyImage"
-                       src=""
+                  <img :src="loginForm.verifyImage"
                        @click="loadVerifyImage" />
                 </el-col>
 
@@ -79,7 +78,8 @@ export default {
       loginForm: {
         managerName: '',
         managerPassword: '',
-        verifyCode: ''
+        verifyCode: '',
+        verifyImage: null
       },
       loginRules: {
         managerName: [
@@ -129,11 +129,11 @@ export default {
       })
     },
     loadVerifyImage () {
-      this.$refs.verifyImage.src = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
+      this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
     }
   },
   mounted () {
-    this.$refs.verifyImage.src = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
+    this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
   }
 }
 </script>
