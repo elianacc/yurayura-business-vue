@@ -42,26 +42,26 @@
                  router
                  style="height: 100vh;">
           <el-scrollbar style="height: 100%;">
-            <div style="height: 1080px;">
+            <div style="height: 100vh;">
               <el-menu-item index="/business/index"
                             @click="addTab('首页', 'index', '/business/index')">
                 <i class="el-icon-s-home"></i>
                 <span slot="title">首页</span>
               </el-menu-item>
-              <el-submenu :index="submenu.name"
+              <el-submenu :index="submenu.menuName"
                           v-for="submenu in sideMenuData"
-                          :key="submenu.name">
+                          :key="submenu.menuName">
                 <template slot="title">
-                  <i :class="submenu.icon"></i>
-                  <span slot="title">{{submenu.title}}</span>
+                  <i :class="submenu.menuIconClass"></i>
+                  <span slot="title">{{submenu.menuTitle}}</span>
                 </template>
 
-                <el-menu-item :index="item.index"
-                              v-for="item in submenu.item"
-                              :key="item.name"
-                              @click="addTab(item.title, item.name, item.index)">
-                  <i :class="item.icon"
-                     class="mr-2"></i>{{item.title}}
+                <el-menu-item :index="item.menuIndex"
+                              v-for="item in submenu.menuSubList"
+                              :key="item.menuName"
+                              @click="addTab(item.menuTitle, item.menuName, item.menuIndex)">
+                  <i :class="item.menuIconClass"
+                     class="mr-2"></i>{{item.menuTitle}}
                 </el-menu-item>
 
               </el-submenu>
@@ -113,58 +113,29 @@ export default {
     return {
       sideMenuIsCollapse: false,
       sideMenuDftActive: this.$storageUtil.getSideMenuDftActive(),
-      sideMenu: [
-        {
-          title: '系统管理',
-          name: 'sys',
-          icon: 'el-icon-s-tools',
-          item: [
-            {
-              index: '/business/sys_dict',
-              icon: 'fa fa-book fa-lg',
-              title: '数据字典管理',
-              name: 'sys_dict'
-            },
-            {
-              index: '/business/sys_manager',
-              icon: 'fa fa-user-secret fa-lg',
-              title: '管理员管理',
-              name: 'sys_manager'
-            }
-          ]
-        },
-        {
-          title: '番剧管理',
-          name: 'comic',
-          icon: 'el-icon-ship',
-          item: [
-            {
-              index: '/business/comic_info',
-              icon: 'fa fa-github-alt fa-lg',
-              title: '番剧信息管理',
-              name: 'comic_info'
-            }
-          ]
-        },
-        {
-          title: '用户管理',
-          name: 'user',
-          icon: 'el-icon-user',
-          item: [
-            {
-              index: '/business/user_info',
-              icon: 'fa fa-address-card fa-lg',
-              title: '用户信息管理',
-              name: 'user_info'
-            }
-          ]
-        }
-      ],
+      sideMenu: [],
       editableTabsValue: this.$storageUtil.getEditableTabsValue(),
       editableTabs: this.$storageUtil.getEditableTabs()
     }
   },
   methods: {
+    getSideMenu () {
+      this.$axios({
+        method: 'post',
+        url: '/api/sys/menu/getList',
+        responseType: 'json'
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.sideMenu = res.data.data
+        } else if (res.data.code === 500) {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            duration: 0
+          })
+        }
+      })
+    },
     logoutManager () {
       this.$confirm('确定要注销吗？', '提示', {
         confirmButtonText: '确定',
@@ -231,7 +202,7 @@ export default {
   computed: {
     sideMenuData () {
       if (!this.$storageUtil.getManagerMsg().managerPermission.includes('sys')) {
-        return this.sideMenu.filter(subMenu => subMenu.name !== 'sys')
+        return this.sideMenu.filter(subMenu => subMenu.menuName !== 'sys')
       }
       return this.sideMenu
     }
@@ -249,6 +220,9 @@ export default {
     sideMenuDftActive (val) {
       this.$storageUtil.setSideMenuDftActive(val)
     }
+  },
+  mounted () {
+    this.getSideMenu()
   }
 }
 </script>

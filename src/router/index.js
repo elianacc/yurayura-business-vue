@@ -5,6 +5,7 @@ import storageUtil from '@utils/storageUtil'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
 import BusinessIndex from '@views/BusinessIndex.vue'
+import BusinessSysMenu from '@views/BusinessSysMenu.vue'
 import BusinessSysDict from '@views/BusinessSysDict.vue'
 import BusinessSysManager from '@views/BusinessSysManager.vue'
 import BusinessComicInfo from '@views/BusinessComicInfo.vue'
@@ -37,6 +38,11 @@ const router = new Router({
           path: 'index',
           name: 'BusinessIndex',
           component: BusinessIndex
+        },
+        {
+          path: 'sys_menu',
+          name: 'BusinessSysMenu',
+          component: BusinessSysMenu
         },
         {
           path: 'sys_dict',
