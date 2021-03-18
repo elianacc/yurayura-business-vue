@@ -66,7 +66,14 @@ const router = new Router({
         }
       ]
     }
-  ]
+  ],
+  scrollBehavior () {
+    // 页面刷新回到页面顶部的方法
+    return {
+      x: 0,
+      y: 0
+    }
+  }
 })
 
 // 设置全局前置守卫

@@ -2,7 +2,7 @@
   <div class="container pl-0">
 
     <!-- 置顶导航 -->
-    <nav class="navbar navbar-dark fixed-top bg-twitternav">
+    <nav class="navbar navbar-dark fixed-top bg-twitternav py-0 px-3">
       <span class="navbar-brand">
         <img src="~@assets/xiaomai.jpg"
              width="40"
@@ -42,7 +42,7 @@
                  router
                  style="height: 100vh;">
           <el-scrollbar style="height: 100%;">
-            <div style="height: 100vh;">
+            <div style="height: 1080px;">
               <el-menu-item index="/business/index"
                             @click="addTab('首页', 'index', '/business/index')">
                 <i class="el-icon-s-home"></i>
@@ -390,7 +390,7 @@ nav .ml-uncollapse-span {
 }
 
 .r1 {
-  margin-top: 66px;
+  margin-top: 50px;
 }
 
 /* el侧边导航重写（右白边清除） */
