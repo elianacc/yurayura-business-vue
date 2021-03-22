@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="containerShow">
     <!-- 操作按钮row -->
     <div class="row mt-4 r1">
       <div class="col-2">
@@ -99,6 +99,7 @@ export default {
   name: 'BusinessSysMenu',
   data () {
     return {
+      containerShow: true,
       dataList: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
@@ -124,6 +125,8 @@ export default {
           }).then(() => {
             if (res.data.code === 401) {
               this.$router.push('/manager_login')
+            } else {
+              this.containerShow = false
             }
           }).catch(() => { })
         } else if (res.data.code === 500) {
