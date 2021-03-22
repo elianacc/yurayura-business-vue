@@ -148,7 +148,6 @@ export default {
           responseType: 'json'
         }).then(res => {
           if (res.data.code === 200) {
-            this.$storageUtil.deleteManagerMsg()
             this.$router.push('/manager_login')
           } else if (res.data.code === 500) {
             this.$notify.error({

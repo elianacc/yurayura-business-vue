@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import axios from 'axios'
-import storageUtil from '@utils/storageUtil'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
 import BusinessIndex from '@views/BusinessIndex.vue'
@@ -87,7 +86,6 @@ router.beforeEach((to, from, next) => {
       if (res.data.code === 200) {
         next()
       } else {
-        storageUtil.deleteManagerMsg()
         next('/manager_login')
       }
     })

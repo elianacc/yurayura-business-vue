@@ -9,9 +9,6 @@ export default {
   getManagerMsg () {
     return JSON.parse(localStorage.getItem(managerMsgKey))
   },
-  deleteManagerMsg () {
-    localStorage.removeItem(managerMsgKey)
-  },
   setSideMenuDftActive (val) {
     localStorage.setItem(sideMenuDftActiveKey, val)
   },
