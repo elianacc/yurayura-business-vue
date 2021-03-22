@@ -122,7 +122,7 @@ export default {
     getSideMenu () {
       this.$axios({
         method: 'post',
-        url: '/api/sys/menu/getList',
+        url: '/api/sys/menu/getSysMenu',
         responseType: 'json'
       }).then(res => {
         if (res.data.code === 200) {

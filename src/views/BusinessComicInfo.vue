@@ -389,6 +389,14 @@ export default {
           this.pageInfo = res.data.data
         } else if (res.data.code === 102) {
           this.pageInfo = {}
+        } else if (res.data.code === 401 || res.data.code === 405) {
+          this.$alert(res.data.msg, '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            if (res.data.code === 401) {
+              this.$router.push('/manager_login')
+            }
+          }).catch(() => { })
         } else if (res.data.code === 500) {
           this.$notify.error({
             title: '错误',
@@ -434,6 +442,14 @@ export default {
               this.getPage()
             } else if (res.data.code === 102) {
               this.$message.error(res.data.msg)
+            } else if (res.data.code === 401 || res.data.code === 405) {
+              this.$alert(res.data.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                if (res.data.code === 401) {
+                  this.$router.push('/manager_login')
+                }
+              }).catch(() => { })
             } else if (res.data.code === 500) {
               this.$notify.error({
                 title: '错误',
@@ -545,6 +561,14 @@ export default {
               this.$message.error(res.data.msg)
             } else if (res.data.code === 103) {
               console.log(res.data.msg)
+            } else if (res.data.code === 401 || res.data.code === 405) {
+              this.$alert(res.data.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                if (res.data.code === 401) {
+                  this.$router.push('/manager_login')
+                }
+              }).catch(() => { })
             } else if (res.data.code === 500) {
               this.$notify.error({
                 title: '错误',

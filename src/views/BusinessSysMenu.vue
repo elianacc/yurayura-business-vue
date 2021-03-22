@@ -6,7 +6,8 @@
         <div class="btn-group float-left">
           <button type="button"
                   class="btn btn-info btn-twitter font-size-14"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')">
+                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
+                  @click="insertMainMenuOpen">
             <i class="fa fa-plus-circle mr-2"></i>添加主菜单
           </button>
         </div>
@@ -73,6 +74,23 @@
       </div>
     </div>
 
+    <!-- 数据对话框 -->
+    <div class="data-dialog">
+      <el-dialog :title="dataDialogTitle"
+                 :visible.sync="dataDialogVisible"
+                 @close="dataDialogClose">
+        <el-form :model="dataDialogForm"
+                 ref="dataDialogForm"
+                 :rules="dataDialogFormRule"
+                 hide-required-asterisk
+                 inline-message
+                 label-suffix=":"
+                 size="small">
+
+        </el-form>
+      </el-dialog>
+    </div>
+
   </div>
 </template>
 
@@ -81,7 +99,14 @@ export default {
   name: 'BusinessSysMenu',
   data () {
     return {
-      dataList: []
+      dataList: [],
+      dataDialogTitle: '',
+      dataDialogVisible: false,
+      dataDialogForm: {
+        id: 0,
+      },
+      dataDialogFormRule: {
+      }
     }
   },
   methods: {
@@ -93,6 +118,14 @@ export default {
       }).then(res => {
         if (res.data.code === 200) {
           this.dataList = res.data.data
+        } else if (res.data.code === 401 || res.data.code === 405) {
+          this.$alert(res.data.msg, '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            if (res.data.code === 401) {
+              this.$router.push('/manager_login')
+            }
+          }).catch(() => { })
         } else if (res.data.code === 500) {
           this.$notify.error({
             title: '错误',
@@ -101,6 +134,13 @@ export default {
           })
         }
       })
+    },
+    insertMainMenuOpen () {
+
+    },
+    dataDialogClose () {
+    },
+    submitContent () {
     }
   },
   mounted () {
@@ -137,6 +177,9 @@ export default {
   text-align: center;
 }
 .r2 .c1 /deep/ .el-table thead {
+  color: #f8f9fa;
+}
+.r2 .c1 /deep/ .el-icon-arrow-right {
   color: #f8f9fa;
 }
 </style>
