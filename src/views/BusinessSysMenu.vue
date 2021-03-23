@@ -85,7 +85,14 @@
                  hide-required-asterisk
                  inline-message
                  label-suffix=":"
-                 size="small">
+                 size="small"
+                 @submit.native.prevent="submitContent">
+          <el-form-item label="标题"
+                        prop="menuTitle"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.menuTitle"
+                      class="w-75"></el-input>
+          </el-form-item>
 
         </el-form>
       </el-dialog>
@@ -103,10 +110,13 @@ export default {
       dataList: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
+      isMainMenuDialog: true,
       dataDialogForm: {
         id: 0,
+        menuTitle: '',
       },
       dataDialogFormRule: {
+        menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -139,7 +149,9 @@ export default {
       })
     },
     insertMainMenuOpen () {
-
+      this.dataDialogTitle = '『添加主菜单窗口』'
+      this.isMainMenuDialog = true
+      this.dataDialogVisible = true
     },
     dataDialogClose () {
     },
@@ -184,5 +196,25 @@ export default {
 }
 .r2 .c1 /deep/ .el-icon-arrow-right {
   color: #f8f9fa;
+}
+
+/* el对话框重写 */
+.data-dialog /deep/ .el-dialog,
+.data-dialog /deep/ .el-pager li {
+  background: #15202b;
+}
+
+.data-dialog /deep/ .el-dialog__title {
+  color: #f8f9fa;
+}
+
+/* data-dialog表单 */
+/* el表单标签重写（颜色修改） */
+.data-dialog /deep/ .el-form-item__label {
+  color: #f8f9fa;
+}
+.data-dialog /deep/ .el-date-editor.el-input,
+.data-dialog /deep/ .el-date-editor.el-input__inner {
+  width: 75%;
 }
 </style>

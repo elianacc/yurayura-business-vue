@@ -752,7 +752,7 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
 }
-/* el表单上传 */
+/* el表单上传重写 */
 .data-dialog /deep/ .el-upload--picture-card {
   width: 50px;
   height: 50px;
