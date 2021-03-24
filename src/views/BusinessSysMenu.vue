@@ -102,7 +102,7 @@
           <el-form-item label="图标样式"
                         prop="menuIconClass"
                         label-width="10rem">
-            <el-input v-model.trim="dataDialogForm.menuIconClass"
+            <el-input v-model="dataDialogForm.menuIconClass"
                       class="w-75"></el-input>
           </el-form-item>
           <el-form-item label="序号"
@@ -199,12 +199,11 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          console.log(valid)
           let sendUrl = ''
           if (this.isMainMenuDialog) {
-            sendUrl = this.dataDialogForm.id === 0 ? '/api/menu/insert' : '/api/menu/update'
+            sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/menu/insert' : '/api/sys/menu/update'
           } else {
-            sendUrl = this.dataDialogForm.id === 0 ? '/api/menuSub/insert' : '/api/menuSub/update'
+            sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/menuSub/insert' : '/api/sys/menuSub/update'
           }
           this.$axios({
             method: 'post',
