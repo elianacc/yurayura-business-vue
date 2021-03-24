@@ -7,7 +7,7 @@
           <button type="button"
                   class="btn btn-info btn-twitter font-size-14"
                   v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
-                  @click="insertMainMenuOpen">
+                  @click="insertMainMenuDialogOpen">
             <i class="fa fa-plus-circle mr-2"></i>添加主菜单
           </button>
         </div>
@@ -93,8 +93,39 @@
             <el-input v-model.trim="dataDialogForm.menuTitle"
                       class="w-75"></el-input>
           </el-form-item>
-
+          <el-form-item label="标识"
+                        prop="menuName"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.menuName"
+                      class="w-75"></el-input>
+          </el-form-item>
+          <el-form-item label="图标样式"
+                        prop="menuIconClass"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.menuIconClass"
+                      class="w-75"></el-input>
+          </el-form-item>
+          <el-form-item label="序号"
+                        prop="menuSeq"
+                        label-width="10rem">
+            <el-input-number :min="1"
+                             v-model="dataDialogForm.menuSeq"
+                             class="w-50"></el-input-number>
+          </el-form-item>
+          <el-form-item label="路径"
+                        prop="menuIndex"
+                        label-width="10rem"
+                        v-if="!isMainMenuDialog">
+            <el-input v-model.trim="dataDialogForm.menuIndex"
+                      class="w-75"></el-input>
+          </el-form-item>
         </el-form>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button @click="dataDialogVisible = false">取 消</el-button>
+          <el-button type="primary"
+                     @click="submitContent">确 定</el-button>
+        </div>
       </el-dialog>
     </div>
 
@@ -114,9 +145,17 @@ export default {
       dataDialogForm: {
         id: 0,
         menuTitle: '',
+        menuName: '',
+        menuIconClass: '',
+        menuSeq: '',
+        menuIndex: ''
       },
       dataDialogFormRule: {
-        menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }]
+        menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
+        menuName: [{ required: true, message: '标识不能为空', trigger: 'blur' }],
+        menuIconClass: [{ required: true, message: '图标样式不能为空', trigger: 'blur' }],
+        menuSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }],
+        menuIndex: [{ required: true, message: '路径不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -148,14 +187,57 @@ export default {
         }
       })
     },
-    insertMainMenuOpen () {
+    insertMainMenuDialogOpen () {
       this.dataDialogTitle = '『添加主菜单窗口』'
       this.isMainMenuDialog = true
       this.dataDialogVisible = true
     },
     dataDialogClose () {
+      this.$refs.dataDialogForm.resetFields()
+      this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
+      this.$refs.dataDialogForm.validate(valid => {
+        if (valid) {
+          console.log(valid)
+          let sendUrl = ''
+          if (this.isMainMenuDialog) {
+            sendUrl = this.dataDialogForm.id === 0 ? '/api/menu/insert' : '/api/menu/update'
+          } else {
+            sendUrl = this.dataDialogForm.id === 0 ? '/api/menuSub/insert' : '/api/menuSub/update'
+          }
+          this.$axios({
+            method: 'post',
+            url: sendUrl,
+            data: JSON.stringify(this.dataDialogForm),
+            responseType: 'json'
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+              this.getList()
+              this.dataDialogVisible = false
+            } else if (res.data.code === 102) {
+              this.$message.error(res.data.msg)
+            } else if (res.data.code === 103) {
+              console.log(res.data.msg)
+            } else if (res.data.code === 401 || res.data.code === 405) {
+              this.$alert(res.data.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                if (res.data.code === 401) {
+                  this.$router.push('/manager_login')
+                }
+              }).catch(() => { })
+            } else if (res.data.code === 500) {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                duration: 0
+              })
+            }
+          })
+        }
+      })
     }
   },
   mounted () {
