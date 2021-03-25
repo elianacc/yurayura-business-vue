@@ -193,7 +193,6 @@ export default {
     },
     deleteById (id, menuType) {
       let sendUrl = menuType === 1 ? '/api/sys/menu/deleteById' : '/api/sys/menuSub/deleteById'
-      console.log(sendUrl)
       let confirmMsg = menuType === 1 ? '删除一级菜单会连同删除对应二级菜单，确定要删除吗？' : '确定要删除此二级菜单吗？'
       this.$confirm(confirmMsg, '提示', {
         confirmButtonText: '确定',
