@@ -66,7 +66,7 @@
                 <button type="button"
                         class="btn btn-danger btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')"
-                        @click="delete(scope.row.id, scope.row.menuType)">
+                        @click="deleteById(scope.row.id, scope.row.menuType)">
                   <i class="fa fa-trash mr-2"></i>删除
                 </button>
               </div>
@@ -191,10 +191,49 @@ export default {
         }
       })
     },
-    delete (id, menuType) {
-      let sendUrl = menuType === 1 ? '/api/sys/menu/delete' : '/api/sys/menuSub/delete'
+    deleteById (id, menuType) {
+      let sendUrl = menuType === 1 ? '/api/sys/menu/deleteById' : '/api/sys/menuSub/deleteById'
       console.log(sendUrl)
-
+      let confirmMsg = menuType === 1 ? '删除一级菜单会连同删除对应二级菜单，确定要删除吗？' : '确定要删除此二级菜单吗？'
+      this.$confirm(confirmMsg, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios({
+          method: 'post',
+          url: sendUrl,
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+          },
+          data: this.$qs.stringify({ id }),
+          responseType: 'json'
+        }).then(res => {
+          if (res.data.code === 200) {
+            this.$alert(res.data.msg, '提示:确定后刷新侧边菜单', {
+              confirmButtonText: '确定'
+            }).then(() => {
+              location.reload()
+            })
+          } else if (res.data.code === 102) {
+            this.$message.error(res.data.msg)
+          } else if (res.data.code === 401 || res.data.code === 405) {
+            this.$alert(res.data.msg, '提示', {
+              confirmButtonText: '确定'
+            }).then(() => {
+              if (res.data.code === 401) {
+                this.$router.push('/manager_login')
+              }
+            })
+          } else if (res.data.code === 500) {
+            this.$notify.error({
+              title: '错误',
+              message: res.data.msg,
+              duration: 0
+            })
+          }
+        })
+      })
     },
     insertMainMenuDialogOpen () {
       this.dataDialogTitle = '『添加主菜单窗口』'
