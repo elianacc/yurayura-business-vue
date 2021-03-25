@@ -174,7 +174,6 @@
                  inline-message
                  label-suffix=":"
                  size="small"
-                 @submit.native.prevent="submitContent"
                  :disabled="isDetailDialog">
           <el-form-item label="番剧名"
                         prop="comicName"
@@ -303,8 +302,11 @@
         </el-form>
         <div slot="footer"
              class="dialog-footer">
-          <el-button @click="dataDialogVisible = false">取 消</el-button>
+          <el-button type="danger"
+                     icon="el-icon-close"
+                     @click="dataDialogVisible = false">取 消</el-button>
           <el-button type="primary"
+                     icon="el-icon-check"
                      @click="submitContent"
                      v-show="!isDetailDialog">确 定</el-button>
         </div>
@@ -396,7 +398,7 @@ export default {
             if (res.data.code === 401) {
               this.$router.push('/manager_login')
             }
-          }).catch(() => { })
+          })
         } else if (res.data.code === 500) {
           this.$notify.error({
             title: '错误',
@@ -449,7 +451,7 @@ export default {
                 if (res.data.code === 401) {
                   this.$router.push('/manager_login')
                 }
-              }).catch(() => { })
+              })
             } else if (res.data.code === 500) {
               this.$notify.error({
                 title: '错误',
@@ -458,7 +460,7 @@ export default {
               })
             }
           })
-        }).catch(() => { })
+        })
       }
     },
     detailDialogOpen (id) {
@@ -568,7 +570,7 @@ export default {
                 if (res.data.code === 401) {
                   this.$router.push('/manager_login')
                 }
-              }).catch(() => { })
+              })
             } else if (res.data.code === 500) {
               this.$notify.error({
                 title: '错误',

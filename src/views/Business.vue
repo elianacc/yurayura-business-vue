@@ -157,7 +157,7 @@ export default {
             })
           }
         })
-      }).catch(() => { })
+      })
     },
     removeTab (targetName) {
       let tabs = this.editableTabs
