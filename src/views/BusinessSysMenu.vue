@@ -22,8 +22,14 @@
                   default-expand-all
                   :tree-props="{children: 'menuSubList'}">
           <el-table-column label="标题"
-                           width="200"
-                           prop="menuTitle">
+                           width="200">
+            <template slot-scope="scope">
+              <i class="fa fa-list-ul mr-1"
+                 v-if="scope.row.menuType === 1"></i>
+              <i class="fa fa-link mr-1"
+                 v-else></i>
+              {{scope.row.menuTitle}}
+            </template>
           </el-table-column>
           <el-table-column label="标识"
                            width="200"
@@ -54,7 +60,8 @@
               <div class="btn-group">
                 <button type="button"
                         class="btn btn-success btn-twitter text-white font-size-14"
-                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert') && scope.row.menuType === 1">
+                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert') && scope.row.menuType === 1"
+                        @click="insertSubMenuDialogOpen(scope.row.id)">
                   <i class="fa fa-plus mr-2"></i>添加子菜单
                 </button>
                 <button type="button"
@@ -152,7 +159,8 @@ export default {
         menuName: '',
         menuIconClass: '',
         menuSeq: '',
-        menuIndex: ''
+        menuIndex: '',
+        menuPid: 0
       },
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
@@ -239,6 +247,12 @@ export default {
       this.isMainMenuDialog = true
       this.dataDialogVisible = true
     },
+    insertSubMenuDialogOpen (pid) {
+      this.dataDialogForm.menuPid = pid
+      this.dataDialogTitle = '『添加子菜单窗口』'
+      this.isMainMenuDialog = false
+      this.dataDialogVisible = true
+    },
     updateDialogOpen (menuType, menuName, menuPid) {
       this.dataDialogTitle = menuType === 1 ? '『修改主菜单窗口』' : '『修改子菜单窗口』'
       this.isMainMenuDialog = menuType === 1 ? true : false
@@ -262,7 +276,8 @@ export default {
         menuName: '',
         menuIconClass: '',
         menuSeq: '',
-        menuIndex: ''
+        menuIndex: '',
+        menuPid: 0
       }
       this.$refs.dataDialogForm.clearValidate()
     },
