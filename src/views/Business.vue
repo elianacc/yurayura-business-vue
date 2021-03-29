@@ -82,9 +82,8 @@
                  @tab-click="tabClick">
           <el-tab-pane v-for="item in editableTabs"
                        :key="item.name"
-                       :label="item.title"
                        :name="item.name">
-
+            <span slot="label"><i class="fa fa-tag fa-lg mr-2"></i>{{item.title}}</span>
           </el-tab-pane>
         </el-tabs>
 
