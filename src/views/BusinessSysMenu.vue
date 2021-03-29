@@ -217,11 +217,7 @@ export default {
           responseType: 'json'
         }).then(res => {
           if (res.data.code === 200) {
-            this.$alert(res.data.msg, '提示:确定后刷新侧边菜单', {
-              confirmButtonText: '确定'
-            }).then(() => {
-              location.reload()
-            })
+            location.reload()
           } else if (res.data.code === 102) {
             this.$message.error(res.data.msg)
           } else if (res.data.code === 401 || res.data.code === 405) {
@@ -297,12 +293,8 @@ export default {
             responseType: 'json'
           }).then(res => {
             if (res.data.code === 200) {
-              this.$alert(res.data.msg, '提示:确定后刷新侧边菜单', {
-                confirmButtonText: '确定'
-              }).then(() => {
-                location.reload()
-              })
               this.dataDialogVisible = false
+              location.reload()
             } else if (res.data.code === 102) {
               this.$message.error(res.data.msg)
             } else if (res.data.code === 103) {
