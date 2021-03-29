@@ -247,8 +247,8 @@ export default {
       this.isMainMenuDialog = true
       this.dataDialogVisible = true
     },
-    insertSubMenuDialogOpen (pid) {
-      this.dataDialogForm.menuPid = pid
+    insertSubMenuDialogOpen (menuPid) {
+      this.dataDialogForm.menuPid = menuPid
       this.dataDialogTitle = '『添加子菜单窗口』'
       this.isMainMenuDialog = false
       this.dataDialogVisible = true
