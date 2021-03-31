@@ -238,7 +238,7 @@
                                fill="#007bff">
               <el-checkbox-button v-for="item in comicLabelDict"
                                   :label="item.dictVal"
-                                  :key="item.id"><i class="fa fa-tag mr-2"></i>{{item.dictName}}</el-checkbox-button>
+                                  :key="item.id"><i class="fa fa-paperclip mr-2"></i>{{item.dictName}}</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="自定义标签"
@@ -500,7 +500,9 @@ export default {
       if (inputValue && this.dataDialogForm.customTag.indexOf(inputValue) === -1 && this.dataDialogForm.cmTag.indexOf(inputValue) === -1) {
         this.dataDialogForm.customTag.push(inputValue)
       } else {
-        this.$message.warning('当前标签已存在')
+        if (inputValue) {
+          this.$message.warning('当前标签已存在')
+        }
       }
       this.dataDialogForm.customTagInputVisible = false
       this.dataDialogForm.customTagInput = ''
@@ -644,6 +646,7 @@ export default {
 </script>
 
 <style scoped>
+/* 查询表单 */
 /* el表单标签重写（颜色修改） */
 .r1 .c2 /deep/ .el-form-item__label {
   color: #f8f9fa;
@@ -720,7 +723,6 @@ export default {
 .data-dialog /deep/ .el-pager li {
   background: #15202b;
 }
-
 .data-dialog /deep/ .el-dialog__title {
   color: #f8f9fa;
 }
@@ -730,6 +732,7 @@ export default {
 .data-dialog /deep/ .el-form-item__label {
   color: #f8f9fa;
 }
+/* el表单日期选择重写（宽度修改） */
 .data-dialog /deep/ .el-date-editor.el-input,
 .data-dialog /deep/ .el-date-editor.el-input__inner {
   width: 75%;

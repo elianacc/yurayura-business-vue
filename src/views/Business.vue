@@ -34,7 +34,7 @@
            class="c1">
         <el-menu :default-active="sideMenuDftActive"
                  :default-openeds="['sys','comic','user']"
-                 background-color="#1c2938"
+                 background-color="#192734"
                  text-color="#adb5bd"
                  active-text-color="#409eff"
                  class="el-menu-vertical"
@@ -377,7 +377,7 @@ export default {
 
 /* 置顶导航 */
 .bg-twitternav {
-  background-color: #1c2938;
+  background-color: #192734;
 }
 /* 置顶导航-侧边导航展开图标 */
 nav .collapse-span {
@@ -422,7 +422,7 @@ nav .ml-uncollapse-span {
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header {
   border-bottom: none;
   border-radius: 0.25rem;
-  background-color: #1c2938;
+  background-color: #192734;
 }
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {
   border-bottom-color: #409eff;
@@ -450,7 +450,7 @@ nav .ml-uncollapse-span {
 .r1 .c2 .back-top {
   height: 100%;
   width: 100%;
-  background-color: #1c2938;
+  background-color: #192734;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
   text-align: center;
   line-height: 40px;

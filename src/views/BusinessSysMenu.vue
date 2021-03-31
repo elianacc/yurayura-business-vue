@@ -355,6 +355,7 @@ export default {
 .r2 .c1 /deep/ .el-table thead {
   color: #f8f9fa;
 }
+/* el树形表格折叠箭头重写（颜色改变） */
 .r2 .c1 /deep/ .el-icon-arrow-right {
   color: #f8f9fa;
 }
@@ -364,7 +365,6 @@ export default {
 .data-dialog /deep/ .el-pager li {
   background: #15202b;
 }
-
 .data-dialog /deep/ .el-dialog__title {
   color: #f8f9fa;
 }
@@ -373,9 +373,5 @@ export default {
 /* el表单标签重写（颜色修改） */
 .data-dialog /deep/ .el-form-item__label {
   color: #f8f9fa;
-}
-.data-dialog /deep/ .el-date-editor.el-input,
-.data-dialog /deep/ .el-date-editor.el-input__inner {
-  width: 75%;
 }
 </style>

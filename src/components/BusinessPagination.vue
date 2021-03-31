@@ -1,8 +1,8 @@
 <template>
-  <div class="row mt-5">
+  <div class="row mt-5 custom-pagination">
     <div class="col-4">
       <span class="badge badge-dark bg-twitter font-size-16"
-            v-show="pageInfo">
+            v-show="pageInfo.pages">
         共{{pageInfo.pages}}页/{{pageInfo.total}}个
       </span>
     </div>
@@ -35,4 +35,22 @@ export default {
 </script>
 
 <style scoped>
+/* el分页重写 */
+.custom-pagination /deep/ .el-pagination.is-background .btn-next,
+.custom-pagination /deep/ .el-pagination.is-background .btn-prev,
+.custom-pagination /deep/ .el-pagination.is-background .el-pager li {
+  background-color: #192734;
+}
+.custom-pagination /deep/ .el-pagination.is-background .btn-next.disabled,
+.custom-pagination /deep/ .el-pagination.is-background .btn-next:disabled,
+.custom-pagination /deep/ .el-pagination.is-background .btn-prev.disabled,
+.custom-pagination /deep/ .el-pagination.is-background .btn-prev:disabled,
+.custom-pagination /deep/ .el-pagination.is-background .el-pager li.disabled {
+  color: #606266;
+}
+.custom-pagination /deep/ .el-pagination.is-background .btn-next,
+.custom-pagination /deep/ .el-pagination.is-background .btn-prev,
+.custom-pagination /deep/ .el-pagination.is-background .el-pager li {
+  color: #f8f9fa;
+}
 </style>
