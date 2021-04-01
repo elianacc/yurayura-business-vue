@@ -4,20 +4,19 @@
     <div class="row mt-4 r1">
 
       <div class="col-2">
-        <div class="btn-group float-left">
-          <button type="button"
-                  class="btn btn-info btn-twitter font-size-14"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
-                  @click="insertDialogOpen">
-            <i class="fa fa-plus-circle mr-2"></i>添加
-          </button>
-          <button type="button"
-                  class="btn btn-danger btn-twitter font-size-14"
-                  @click="deleteBatch"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
-            <i class="fa fa-trash mr-2"></i>删除
-          </button>
-        </div>
+        <button type="button"
+                class="btn btn-primary font-size-14 mr-2"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
+                @click="insertDialogOpen">
+          <i class="fa fa-plus-circle mr-2"></i>添加
+        </button>
+        <button type="button"
+                class="btn btn-danger font-size-14"
+                style="position: relative; top: 0.03125rem;"
+                @click="deleteBatch"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
+          <i class="fa fa-trash mr-2"></i>删除
+        </button>
       </div>
 
       <div class="col-10 c2">
@@ -31,13 +30,21 @@
           <el-form-item label="字典编码"
                         prop="dictCode"
                         label-width="4.5rem">
-            <el-input v-model.trim="selectForm.dictCode"></el-input>
+            <el-input v-model.trim="selectForm.dictCode"
+                      clearable></el-input>
           </el-form-item>
           <el-form-item>
-            <button class="btn btn-primary btn-twitter font-size-14"
-                    type="submit">
-              <i class="fa fa-filter mr-2"></i>查询
-            </button>
+            <div class="btn-group">
+              <button class="btn btn-primary font-size-14"
+                      type="submit">
+                <i class="fa fa-filter mr-2"></i>查询
+              </button>
+              <button class="btn btn-primary font-size-14"
+                      type="button"
+                      @click="clearSelectContent">
+                <i class="fa fa-refresh mr-2"></i>刷新
+              </button>
+            </div>
           </el-form-item>
         </el-form>
       </div>
@@ -75,7 +82,7 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-warning btn-twitter text-white font-size-14"
+                      class="btn btn-info btn-twitter font-size-14"
                       v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o mr-2"></i>修改
@@ -89,6 +96,63 @@
     <!-- 数据表格信息及分页component -->
     <business-pagination :pageInfo="pageInfo"
                          @currentPageChangeImpl="currentPageChangeImpl"></business-pagination>
+
+    <!-- 数据对话框 -->
+    <div class="data-dialog">
+      <el-dialog :title="dataDialogTitle"
+                 :visible.sync="dataDialogVisible"
+                 @close="dataDialogClose">
+        <el-form :model="dataDialogForm"
+                 ref="dataDialogForm"
+                 :rules="dataDialogFormRule"
+                 hide-required-asterisk
+                 inline-message
+                 label-suffix=":"
+                 size="small">
+          <el-form-item label="字典编码"
+                        prop="dictCode"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.dictCode"
+                      class="w-75"></el-input>
+          </el-form-item>
+          <el-form-item label="字典名"
+                        prop="dictName"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.dictName"
+                      class="w-75"></el-input>
+          </el-form-item>
+          <el-form-item label="字典值"
+                        prop="dictVal"
+                        label-width="10rem">
+            <el-input v-model.trim="dataDialogForm.dictVal"
+                      class="w-75"></el-input>
+          </el-form-item>
+          <el-form-item label="状态"
+                        prop="dictStatus"
+                        label-width="10rem">
+            <el-radio-group v-model="dataDialogForm.dictStatus">
+              <el-radio :label="1"
+                        border>
+                启用
+              </el-radio>
+              <el-radio :label="0"
+                        border>
+                禁用
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button type="danger"
+                     icon="el-icon-close"
+                     @click="dataDialogVisible = false">取 消</el-button>
+          <el-button type="primary"
+                     icon="el-icon-check"
+                     @click="submitContent">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
 
   </div>
 </template>
@@ -105,16 +169,25 @@ export default {
     return {
       containerShow: true,
       selectForm: {
-        dictCodeL: ''
+        dictCode: ''
       },
       pageInfo: {},
       currentPageNum: 1,
+      isSelectPage: false,
       multipleSelection: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
       dataDialogForm: {
+        id: 0,
+        dictCode: '',
+        dictName: '',
+        dictVal: '',
+        dictStatus: 1
       },
       dataDialogFormRule: {
+        dictCode: [{ required: true, message: '字典编码不能为空', trigger: 'blur' }],
+        dictName: [{ required: true, message: '字典名不能为空', trigger: 'blur' }],
+        dictVal: [{ required: true, message: '字典值不能为空', trigger: 'blur' }],
       }
     }
   },
@@ -156,6 +229,11 @@ export default {
       })
     },
     selectContent () {
+      if (this.selectForm.dictCode) {
+        this.isSelectPage = true
+      } else {
+        this.isSelectPage = false
+      }
       this.currentPageNum = 1
       this.getPage()
     },
@@ -164,18 +242,119 @@ export default {
       this.selectContent()
     },
     currentPageChangeImpl (val) {
-      this.$refs.selectForm.resetFields()
+      if (!this.isSelectPage) {
+        this.$refs.selectForm.resetFields()
+      }
       this.currentPageNum = val
       this.getPage()
     },
     deleteBatch () {
-
+      if (this.multipleSelection.length === 0) {
+        this.$message.warning('请至少选择一项删除')
+      } else {
+        this.$confirm('确定要删除选中项吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let sendData = new FormData()
+          sendData.append('ids', this.multipleSelection.map(selt => selt.id))
+          this.$axios({
+            method: 'post',
+            url: '/api/sys/dict/deleteBatchByIds',
+            data: sendData,
+            responseType: 'json'
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+              this.multipleSelection = []
+              this.getPage()
+            } else if (res.data.code === 102) {
+              this.$message.error(res.data.msg)
+            } else if (res.data.code === 401 || res.data.code === 405) {
+              this.$alert(res.data.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                if (res.data.code === 401) {
+                  this.$router.push('/manager_login')
+                }
+              })
+            } else if (res.data.code === 500) {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                duration: 0
+              })
+            }
+          })
+        })
+      }
     },
     insertDialogOpen () {
-
+      this.dataDialogTitle = '『添加窗口』'
+      this.dataDialogVisible = true
     },
     updateDialogOpen (id) {
-      console.log(id)
+      this.dataDialogTitle = '『修改窗口』'
+      this.dataDialogOpenAndSetVal(id)
+    },
+    dataDialogOpenAndSetVal (id) {
+      let pageInfoList = this.pageInfo.list
+      let currentDict = pageInfoList.find(dict => dict.id === id)
+      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentDict[key])
+      this.dataDialogVisible = true
+    },
+    submitContent () {
+      this.$refs.dataDialogForm.validate(valid => {
+        if (valid) {
+          console.log(valid)
+          let sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/dict/insert' : '/api/sys/dict/update'
+          this.$axios({
+            method: 'post',
+            url: sendUrl,
+            data: JSON.stringify(this.dataDialogForm),
+            responseType: 'json'
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.$message.success(res.data.msg)
+              if (this.dataDialogForm.id === 0) {
+                this.clearSelectContent()
+              } else {
+                this.getPage()
+              }
+              this.dataDialogVisible = false
+            } else if (res.data.code === 102) {
+              this.$message.error(res.data.msg)
+            } else if (res.data.code === 103) {
+              console.log(res.data.msg)
+            } else if (res.data.code === 401 || res.data.code === 405) {
+              this.$alert(res.data.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                if (res.data.code === 401) {
+                  this.$router.push('/manager_login')
+                }
+              })
+            } else if (res.data.code === 500) {
+              this.$notify.error({
+                title: '错误',
+                message: res.data.msg,
+                duration: 0
+              })
+            }
+          })
+        }
+      })
+    },
+    dataDialogClose () {
+      this.dataDialogForm = {
+        id: 0,
+        dictCode: '',
+        dictName: '',
+        dictVal: '',
+        dictStatus: 1
+      }
+      this.$refs.dataDialogForm.clearValidate()
     }
   },
   mounted () {

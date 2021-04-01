@@ -53,4 +53,11 @@ export default {
 .custom-pagination /deep/ .el-pagination.is-background .el-pager li {
   color: #f8f9fa;
 }
+.custom-pagination
+  /deep/
+  .el-pagination.is-background
+  .el-pager
+  li:not(.disabled).active {
+  background-color: #007bff;
+}
 </style>

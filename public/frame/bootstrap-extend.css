@@ -15,11 +15,6 @@
 .font-size-38{font-size:2.375rem}
 .font-size-40{font-size:2.5rem} /*h1*/
 
-/* bs4按钮（Warning）重写 */
-.btn-warning, .btn-warning:hover, .btn-warning:focus {
-  background-color: #f5b700;
-}
-
 /* bs4按钮聚焦重写（去除按钮聚焦时的边框） */
 button:focus,
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {

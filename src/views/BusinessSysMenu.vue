@@ -3,9 +3,9 @@
     <!-- 操作按钮row -->
     <div class="row mt-4 r1">
       <div class="col-2">
-        <div class="btn-group float-left">
+        <div class="btn-group">
           <button type="button"
-                  class="btn btn-info btn-twitter font-size-14"
+                  class="btn btn-primary font-size-14"
                   v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
                   @click="insertMainMenuDialogOpen">
             <i class="fa fa-plus-circle mr-2"></i>添加主菜单
@@ -59,13 +59,13 @@
             <template slot-scope="scope">
               <div class="btn-group">
                 <button type="button"
-                        class="btn btn-success btn-twitter text-white font-size-14"
+                        class="btn btn-success btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert') && scope.row.menuType === 1"
                         @click="insertSubMenuDialogOpen(scope.row.id)">
                   <i class="fa fa-plus mr-2"></i>添加子菜单
                 </button>
                 <button type="button"
-                        class="btn btn-warning btn-twitter text-white font-size-14"
+                        class="btn btn-info btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
                         @click="updateDialogOpen(scope.row.menuType, scope.row.menuName, scope.row.menuPid)">
                   <i class="fa fa-pencil-square-o mr-2"></i>修改
@@ -252,9 +252,9 @@ export default {
     updateDialogOpen (menuType, menuName, menuPid) {
       this.dataDialogTitle = menuType === 1 ? '『修改主菜单窗口』' : '『修改子菜单窗口』'
       this.isMainMenuDialog = menuType === 1 ? true : false
-      this.dialogOpenAndSetVal(menuType, menuName, menuPid)
+      this.dataDialogOpenAndSetVal(menuType, menuName, menuPid)
     },
-    dialogOpenAndSetVal (menuType, menuName, menuPid) {
+    dataDialogOpenAndSetVal (menuType, menuName, menuPid) {
       let currentMenu;
       if (menuType === 1) {
         currentMenu = this.dataList.find(menu => menu.menuName === menuName)

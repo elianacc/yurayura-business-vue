@@ -4,20 +4,19 @@
     <div class="row mt-4 r1">
 
       <div class="col-2">
-        <div class="btn-group float-left">
-          <button type="button"
-                  class="btn btn-info btn-twitter font-size-14"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
-                  @click="insertDialogOpen">
-            <i class="fa fa-plus-circle mr-2"></i>添加
-          </button>
-          <button type="button"
-                  class="btn btn-danger btn-twitter font-size-14"
-                  @click="deleteBatch"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
-            <i class="fa fa-trash mr-2"></i>删除
-          </button>
-        </div>
+        <button type="button"
+                class="btn btn-primary font-size-14 mr-2"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
+                @click="insertDialogOpen">
+          <i class="fa fa-plus-circle mr-2"></i>添加
+        </button>
+        <button type="button"
+                class="btn btn-danger font-size-14"
+                style="position: relative; top: 0.03125rem;"
+                @click="deleteBatch"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
+          <i class="fa fa-trash mr-2"></i>删除
+        </button>
       </div>
 
       <div class="col-10 c2">
@@ -31,7 +30,8 @@
           <el-form-item label="番剧名"
                         prop="comicName"
                         label-width="4rem">
-            <el-input v-model.trim="selectForm.comicName"></el-input>
+            <el-input v-model.trim="selectForm.comicName"
+                      clearable></el-input>
           </el-form-item>
           <el-form-item label="状态"
                         prop="comicStatus"
@@ -78,10 +78,17 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <button class="btn btn-primary btn-twitter font-size-14"
-                    type="submit">
-              <i class="fa fa-filter mr-2"></i>查询
-            </button>
+            <div class="btn-group">
+              <button class="btn btn-primary font-size-14"
+                      type="submit">
+                <i class="fa fa-filter mr-2"></i>查询
+              </button>
+              <button class="btn btn-primary font-size-14"
+                      type="button"
+                      @click="clearSelectContent">
+                <i class="fa fa-refresh mr-2"></i>刷新
+              </button>
+            </div>
           </el-form-item>
         </el-form>
       </div>
@@ -141,13 +148,13 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-warning btn-twitter text-white font-size-14"
+                      class="btn btn-info btn-twitter font-size-14"
                       v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o mr-2"></i>修改
               </button>
               <button type="button"
-                      class="btn btn-warning btn-twitter text-white font-size-14"
+                      class="btn btn-info btn-twitter font-size-14"
                       v-if="!$storageUtil.getManagerMsg().managerPermission.includes('update')"
                       @click="detailDialogOpen(scope.row.id)">
                 <i class="fa fa-file-text-o mr-2"></i>详情
@@ -334,6 +341,7 @@ export default {
       },
       pageInfo: {},
       currentPageNum: 1,
+      isSelectPage: false,
       multipleSelection: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
@@ -409,6 +417,11 @@ export default {
       })
     },
     selectContent () {
+      if (this.selectForm.comicName || this.selectForm.comicStatus || this.selectForm.comicShelfStatus || this.selectForm.comicTag) {
+        this.isSelectPage = true
+      } else {
+        this.isSelectPage = false
+      }
       this.currentPageNum = 1
       this.getPage()
     },
@@ -417,7 +430,9 @@ export default {
       this.selectContent()
     },
     currentPageChangeImpl (val) {
-      this.$refs.selectForm.resetFields()
+      if (!this.isSelectPage) {
+        this.$refs.selectForm.resetFields()
+      }
       this.currentPageNum = val
       this.getPage()
     },
@@ -466,7 +481,7 @@ export default {
     detailDialogOpen (id) {
       this.dataDialogTitle = '『详情窗口』'
       this.isDetailDialog = true
-      this.dialogOpenAndSetVal(id)
+      this.dataDialogOpenAndSetVal(id)
     },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
@@ -476,9 +491,9 @@ export default {
     updateDialogOpen (id) {
       this.dataDialogTitle = '『修改窗口』'
       this.isDetailDialog = false
-      this.dialogOpenAndSetVal(id)
+      this.dataDialogOpenAndSetVal(id)
     },
-    dialogOpenAndSetVal (id) {
+    dataDialogOpenAndSetVal (id) {
       let pageInfoList = this.pageInfo.list
       let currentComic = pageInfoList.find(comic => comic.id === id)
       this.dataDialogForm.id = currentComic.id
