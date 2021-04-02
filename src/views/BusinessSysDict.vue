@@ -10,13 +10,6 @@
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle mr-2"></i>添加
         </button>
-        <button type="button"
-                class="btn btn-danger font-size-14"
-                style="position: relative; top: 0.03125rem;"
-                @click="deleteBatch"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
-          <i class="fa fa-trash mr-2"></i>删除
-        </button>
       </div>
 
       <div class="col-10 c2">
@@ -54,11 +47,7 @@
     <!-- 数据表格row -->
     <div class="row r2">
       <div class="col-12 c1">
-        <el-table :data="pageInfo.list"
-                  @selection-change="tbSelectionChange">
-          <el-table-column type="selection"
-                           width="55">
-          </el-table-column>
+        <el-table :data="pageInfo.list">
           <el-table-column label="字典编码"
                            width="200"
                            prop="dictCode">
@@ -113,7 +102,8 @@
                         prop="dictCode"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.dictCode"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="字典名"
                         prop="dictName"
@@ -193,9 +183,6 @@ export default {
     }
   },
   methods: {
-    tbSelectionChange (val) {
-      this.multipleSelection = val
-    },
     getPage () {
       let sendData = this.selectForm
       sendData.pageNum = this.currentPageNum
@@ -248,48 +235,6 @@ export default {
       }
       this.currentPageNum = val
       this.getPage()
-    },
-    deleteBatch () {
-      if (this.multipleSelection.length === 0) {
-        this.$message.warning('请至少选择一项删除')
-      } else {
-        this.$confirm('确定要删除选中项吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let sendData = new FormData()
-          sendData.append('ids', this.multipleSelection.map(selt => selt.id))
-          this.$axios({
-            method: 'post',
-            url: '/api/sys/dict/deleteBatchByIds',
-            data: sendData,
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
-              this.$message.success(res.data.msg)
-              this.multipleSelection = []
-              this.getPage()
-            } else if (res.data.code === 102) {
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 401 || res.data.code === 405) {
-              this.$alert(res.data.msg, '提示', {
-                confirmButtonText: '确定'
-              }).then(() => {
-                if (res.data.code === 401) {
-                  this.$router.push('/manager_login')
-                }
-              })
-            } else if (res.data.code === 500) {
-              this.$notify.error({
-                title: '错误',
-                message: res.data.msg,
-                duration: 0
-              })
-            }
-          })
-        })
-      }
     },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
