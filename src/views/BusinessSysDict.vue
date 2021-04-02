@@ -67,6 +67,10 @@
               <span v-else>禁用</span>
             </template>
           </el-table-column>
+          <el-table-column label="序号"
+                           width="200"
+                           prop="dictSeq">
+          </el-table-column>
           <el-table-column label="操作"
                            width="180">
             <template slot-scope="scope">
@@ -132,6 +136,13 @@
               </el-radio>
             </el-radio-group>
           </el-form-item>
+          <el-form-item label="序号"
+                        prop="dictSeq"
+                        label-width="10rem">
+            <el-input-number :min="1"
+                             v-model="dataDialogForm.dictSeq"
+                             class="w-50"></el-input-number>
+          </el-form-item>
         </el-form>
         <div slot="footer"
              class="dialog-footer">
@@ -173,12 +184,14 @@ export default {
         dictCode: '',
         dictName: '',
         dictVal: '',
-        dictStatus: 1
+        dictStatus: 1,
+        dictSeq: 1
       },
       dataDialogFormRule: {
         dictCode: [{ required: true, message: '字典编码不能为空', trigger: 'blur' }],
         dictName: [{ required: true, message: '字典名不能为空', trigger: 'blur' }],
         dictVal: [{ required: true, message: '字典值不能为空', trigger: 'blur' }],
+        dictSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -298,7 +311,8 @@ export default {
         dictCode: '',
         dictName: '',
         dictVal: '',
-        dictStatus: 1
+        dictStatus: 1,
+        dictSeq: 1
       }
       this.$refs.dataDialogForm.clearValidate()
     }

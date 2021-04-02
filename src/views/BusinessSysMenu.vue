@@ -158,7 +158,7 @@ export default {
         menuTitle: '',
         menuName: '',
         menuIconClass: '',
-        menuSeq: '',
+        menuSeq: 1,
         menuIndex: '',
         menuPid: 0
       },
@@ -271,7 +271,7 @@ export default {
         menuTitle: '',
         menuName: '',
         menuIconClass: '',
-        menuSeq: '',
+        menuSeq: 1,
         menuIndex: '',
         menuPid: 0
       }
