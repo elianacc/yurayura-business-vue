@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-5 custom-pagination">
     <div class="col-4">
-      <span class="badge badge-dark bg-twitter font-size-16"
+      <span class="badge badge-dark bg-twitter-content font-size-16"
             v-show="pageInfo.pages">
         共{{pageInfo.pages}}页/{{pageInfo.total}}个
       </span>

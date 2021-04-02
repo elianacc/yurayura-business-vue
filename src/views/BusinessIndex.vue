@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="jumbotron bg-twitter">
+    <div class="jumbotron bg-twitter-content">
       <h1 class="display-4 text-center">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
       <p class="lead text-center">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4">

@@ -46,8 +46,12 @@ button:focus,
 }
 
 /* 推特色内容背景 */
-.bg-twitter {
+.bg-twitter-content {
   background-color: #15202b;
+}
+/* 推特色导航背景 */
+.bg-twitter-nav {
+  background-color: #192734;
 }
 
 /* 推特色按钮 */

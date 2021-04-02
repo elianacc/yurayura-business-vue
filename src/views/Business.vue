@@ -2,7 +2,7 @@
   <div class="container pl-0">
 
     <!-- 置顶导航 -->
-    <nav class="navbar navbar-dark fixed-top bg-twitternav py-0 px-3">
+    <nav class="navbar navbar-dark fixed-top bg-twitter-nav py-0 px-3">
       <span class="navbar-brand">
         <img src="~@assets/xiaomai.jpg"
              width="40"
@@ -375,10 +375,6 @@ export default {
   }
 }
 
-/* 置顶导航 */
-.bg-twitternav {
-  background-color: #192734;
-}
 /* 置顶导航-侧边导航展开图标 */
 nav .collapse-span {
   cursor: pointer;
