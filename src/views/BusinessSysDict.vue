@@ -125,7 +125,8 @@
                         prop="dictVal"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.dictVal"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="状态"
                         prop="dictStatus"
