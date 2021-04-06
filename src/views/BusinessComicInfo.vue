@@ -355,9 +355,9 @@ export default {
         comicShelfStatus: '',
         comicTag: []
       },
+      searchContent: {},
       pageInfo: {},
       currentPageNum: 1,
-      isSelectPage: false,
       multipleSelection: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
@@ -403,7 +403,7 @@ export default {
       this.multipleSelection = val
     },
     getPage () {
-      let sendData = this.selectForm
+      let sendData = JSON.parse(JSON.stringify(this.searchContent))
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
@@ -434,11 +434,7 @@ export default {
       })
     },
     selectContent () {
-      if (this.selectForm.comicName || this.selectForm.comicStatus || this.selectForm.comicShelfStatus || this.selectForm.comicTag) {
-        this.isSelectPage = true
-      } else {
-        this.isSelectPage = false
-      }
+      this.searchContent = JSON.parse(JSON.stringify(this.selectForm))
       this.currentPageNum = 1
       this.getPage()
     },
@@ -447,9 +443,6 @@ export default {
       this.selectContent()
     },
     currentPageChangeImpl (val) {
-      if (!this.isSelectPage) {
-        this.$refs.selectForm.resetFields()
-      }
       this.currentPageNum = val
       this.getPage()
     },

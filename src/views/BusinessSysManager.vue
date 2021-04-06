@@ -53,25 +53,66 @@
                            width="200"
                            prop="managerName">
           </el-table-column>
+          <el-table-column label="权限"
+                           width="200">
+            <template slot-scope="scope">
+              <span>{{scope.row.managerPermission | managerPermissionFilter}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="创建时间"
+                           width="200"
+                           prop="managerCreateTime">
+          </el-table-column>
+          <el-table-column label="更新时间"
+                           width="200"
+                           prop="managerUpdateTime">
+          </el-table-column>
+          <el-table-column label="状态"
+                           width="200">
+            <template slot-scope="scope">
+              <span v-if="scope.row.managerStatus === 1">启用</span>
+              <span v-else>禁用</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作"
+                           width="180">
+            <template slot-scope="scope">
+              <button type="button"
+                      class="btn btn-info btn-twitter font-size-14"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
+                      @click="updateDialogOpen(scope.row.id)">
+                <i class="fa fa-pencil-square-o mr-2"></i>修改
+              </button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </div>
+
+    <!-- 数据表格信息及分页component -->
+    <business-pagination :pageInfo="pageInfo"
+                         @currentPageChangeImpl="currentPageChangeImpl"></business-pagination>
 
   </div>
 </template>
 
 <script>
+import BusinessPagination from '@components/BusinessPagination.vue'
+
 export default {
   name: 'BusinessSysManager',
+  components: {
+    BusinessPagination
+  },
   data () {
     return {
       containerShow: true,
       selectForm: {
         managerName: ''
       },
+      searchContent: {},
       pageInfo: {},
       currentPageNum: 1,
-      isSelectPage: false,
       dataDialogTitle: '',
       dataDialogVisible: false,
       dataDialogForm: {
@@ -83,7 +124,7 @@ export default {
   },
   methods: {
     getPage () {
-      let sendData = this.selectForm
+      let sendData = JSON.parse(JSON.stringify(this.searchContent))
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
@@ -116,13 +157,23 @@ export default {
       })
     },
     selectContent () {
-
+      this.searchContent = JSON.parse(JSON.stringify(this.selectForm))
+      this.currentPageNum = 1
+      this.getPage()
     },
     clearSelectContent () {
-
+      this.$refs.selectForm.resetFields()
+      this.selectContent()
+    },
+    currentPageChangeImpl (val) {
+      this.currentPageNum = val
+      this.getPage()
     },
     insertDialogOpen () {
 
+    },
+    updateDialogOpen (id) {
+      console.log(id)
     }
   },
   mounted () {

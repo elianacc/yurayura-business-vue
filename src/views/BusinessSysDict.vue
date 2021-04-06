@@ -173,9 +173,9 @@ export default {
       selectForm: {
         dictCode: ''
       },
+      searchContent: {},
       pageInfo: {},
       currentPageNum: 1,
-      isSelectPage: false,
       dataDialogTitle: '',
       dataDialogVisible: false,
       dataDialogForm: {
@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     getPage () {
-      let sendData = this.selectForm
+      let sendData = JSON.parse(JSON.stringify(this.searchContent))
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
@@ -229,11 +229,7 @@ export default {
       })
     },
     selectContent () {
-      if (this.selectForm.dictCode) {
-        this.isSelectPage = true
-      } else {
-        this.isSelectPage = false
-      }
+      this.searchContent = JSON.parse(JSON.stringify(this.selectForm))
       this.currentPageNum = 1
       this.getPage()
     },
@@ -242,9 +238,6 @@ export default {
       this.selectContent()
     },
     currentPageChangeImpl (val) {
-      if (!this.isSelectPage) {
-        this.$refs.selectForm.resetFields()
-      }
       this.currentPageNum = val
       this.getPage()
     },
