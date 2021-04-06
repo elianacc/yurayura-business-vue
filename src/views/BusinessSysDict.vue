@@ -176,7 +176,6 @@ export default {
       pageInfo: {},
       currentPageNum: 1,
       isSelectPage: false,
-      multipleSelection: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
       dataDialogForm: {
