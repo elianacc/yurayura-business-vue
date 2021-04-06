@@ -124,6 +124,10 @@
               <span>{{scope.row.comicName}}<span v-show="scope.row.comicShelfStatus == 0">(已下架)</span></span>
             </template>
           </el-table-column>
+          <el-table-column label="评分"
+                           width="100"
+                           prop="comicScore">
+          </el-table-column>
           <el-table-column label="简介"
                            width="350"
                            prop="comicContent">
@@ -135,7 +139,7 @@
             </template>
           </el-table-column>
           <el-table-column label="标签"
-                           width="300">
+                           width="200">
             <template slot-scope="scope">
               <span>{{scope.row.comicLabel | cmLabelFilter}}</span>
             </template>
@@ -195,6 +199,17 @@
                             value-format="yyyy-MM-dd"
                             placeholder="请选择日期"
                             v-model="dataDialogForm.comicTime"></el-date-picker>
+          </el-form-item>
+          <el-form-item label="评分"
+                        prop="comicScore"
+                        label-width="10rem">
+            <el-input-number :min="1.1"
+                             :precision="1"
+                             :step="0.1"
+                             :max="10"
+                             v-model="dataDialogForm.comicScore"
+                             class="w-50">
+            </el-input-number>
           </el-form-item>
           <el-form-item label="简介"
                         prop="comicContent"
@@ -349,6 +364,7 @@ export default {
       dataDialogForm: {
         id: 0,
         comicName: '',
+        comicScore: 1.0,
         comicTime: '',
         comicContent: '',
         comicStatus: 0,
@@ -603,6 +619,7 @@ export default {
       this.dataDialogForm = {
         id: 0,
         comicName: '',
+        comicScore: 1.0,
         comicTime: '',
         comicContent: '',
         comicStatus: 0,
