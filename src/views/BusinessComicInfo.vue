@@ -267,7 +267,7 @@
                         label-width="10rem">
             <el-tag v-for="tag in dataDialogForm.customTag"
                     :key="tag"
-                    closable
+                    :closable="!isDetailDialog"
                     effect="dark"
                     color="#007bff"
                     @close="customTagClose(tag)">
@@ -283,7 +283,8 @@
             </el-input>
             <el-button v-else
                        class="button-new-tag"
-                       @click="showCustomTagInput">+ 新标签</el-button>
+                       @click="showCustomTagInput"
+                       v-show="!isDetailDialog">+ 新标签</el-button>
           </el-form-item>
           <el-form-item label="图片"
                         label-width="10rem">
@@ -801,5 +802,16 @@ export default {
 }
 .data-dialog /deep/ .el-upload--picture-card i {
   font-size: 17px;
+}
+/* el禁用表单重写 */
+.data-dialog /deep/ .el-input.is-disabled .el-input__inner {
+  color: #606266;
+}
+.data-dialog /deep/ .el-textarea.is-disabled .el-textarea__inner {
+  color: #606266;
+}
+.data-dialog /deep/ .el-radio__input.is-disabled .el-radio__inner,
+.data-dialog /deep/ .el-radio__input.is-disabled.is-checked .el-radio__inner {
+  background-color: #15202b;
 }
 </style>
