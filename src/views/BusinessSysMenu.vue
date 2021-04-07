@@ -105,7 +105,8 @@
                         prop="menuName"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.menuName"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="图标样式"
                         prop="menuIconClass"
@@ -125,7 +126,8 @@
                         label-width="10rem"
                         v-if="!isMainMenuDialog">
             <el-input v-model.trim="dataDialogForm.menuIndex"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -261,7 +263,6 @@ export default {
       } else {
         currentMenu = this.dataList.find(menu => menu.id === menuPid).menuSubList.find(subMenu => subMenu.menuName === menuName)
       }
-      this.dataDialogForm.id = currentMenu.id
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentMenu[key])
       this.dataDialogVisible = true
     },
@@ -373,5 +374,9 @@ export default {
 /* el表单标签重写（颜色修改） */
 .data-dialog /deep/ .el-form-item__label {
   color: #f8f9fa;
+}
+/* el禁用表单重写 */
+.data-dialog /deep/ .el-input.is-disabled .el-input__inner {
+  color: #606266;
 }
 </style>

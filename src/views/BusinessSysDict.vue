@@ -258,7 +258,6 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          console.log(valid)
           let sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/dict/insert' : '/api/sys/dict/update'
           this.$axios({
             method: 'post',
@@ -368,6 +367,10 @@ export default {
 }
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
-  color: #ffffff;
+  color: #f8f9fa;
+}
+/* el禁用表单重写 */
+.data-dialog /deep/ .el-input.is-disabled .el-input__inner {
+  color: #606266;
 }
 </style>

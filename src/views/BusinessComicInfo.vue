@@ -506,7 +506,6 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let pageInfoList = this.pageInfo.list
       let currentComic = pageInfoList.find(comic => comic.id === id)
-      this.dataDialogForm.id = currentComic.id
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
       this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
       this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
@@ -765,7 +764,7 @@ export default {
 }
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
-  color: #ffffff;
+  color: #f8f9fa;
 }
 /* el表单自定义标签 */
 .data-dialog .el-tag + .el-tag {
