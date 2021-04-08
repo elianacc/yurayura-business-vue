@@ -265,8 +265,7 @@ export default {
       this.dataDialogOpenAndSetVal(id)
     },
     dataDialogOpenAndSetVal (id) {
-      let pageInfoList = this.pageInfo.list
-      let currentManager = pageInfoList.find(manager => manager.id === id)
+      let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
       this.dataDialogForm.managerPermArr = currentManager.managerPermission.split(',')
       this.dataDialogVisible = true

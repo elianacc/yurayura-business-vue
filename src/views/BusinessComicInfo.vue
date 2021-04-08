@@ -504,8 +504,7 @@ export default {
       this.dataDialogOpenAndSetVal(id)
     },
     dataDialogOpenAndSetVal (id) {
-      let pageInfoList = this.pageInfo.list
-      let currentComic = pageInfoList.find(comic => comic.id === id)
+      let currentComic = this.pageInfo.list.find(comic => comic.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
       this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
       this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
@@ -562,7 +561,7 @@ export default {
           Object.keys(this.dataDialogForm).forEach(key => {
             sendData.append(key, this.dataDialogForm[key])
           })
-          let comicLabelArr = this.diaLogComicLabel
+          let comicLabelArr = JSON.parse(JSON.stringify(this.diaLogComicLabel))
           for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
             comicLabelArr.push('')
           }

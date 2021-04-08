@@ -250,8 +250,7 @@ export default {
       this.dataDialogOpenAndSetVal(id)
     },
     dataDialogOpenAndSetVal (id) {
-      let pageInfoList = this.pageInfo.list
-      let currentDict = pageInfoList.find(dict => dict.id === id)
+      let currentDict = this.pageInfo.list.find(dict => dict.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentDict[key])
       this.dataDialogVisible = true
     },
