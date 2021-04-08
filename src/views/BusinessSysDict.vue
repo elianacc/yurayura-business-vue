@@ -196,7 +196,7 @@ export default {
   },
   methods: {
     getPage () {
-      let sendData = JSON.parse(JSON.stringify(this.searchContent))
+      let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
@@ -229,7 +229,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = JSON.parse(JSON.stringify(this.selectForm))
+      this.searchContent = Object.assign({}, this.selectForm)
       this.currentPageNum = 1
       this.getPage()
     },

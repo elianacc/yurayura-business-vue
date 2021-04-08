@@ -403,7 +403,7 @@ export default {
       this.multipleSelection = val
     },
     getPage () {
-      let sendData = JSON.parse(JSON.stringify(this.searchContent))
+      let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$axios({
@@ -434,7 +434,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = JSON.parse(JSON.stringify(this.selectForm))
+      this.searchContent = Object.assign({}, this.selectForm)
       this.currentPageNum = 1
       this.getPage()
     },
@@ -561,7 +561,7 @@ export default {
           Object.keys(this.dataDialogForm).forEach(key => {
             sendData.append(key, this.dataDialogForm[key])
           })
-          let comicLabelArr = JSON.parse(JSON.stringify(this.diaLogComicLabel))
+          let comicLabelArr = this.diaLogComicLabel.slice(0)
           for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
             comicLabelArr.push('')
           }
