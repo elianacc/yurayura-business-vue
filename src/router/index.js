@@ -9,6 +9,7 @@ import BusinessSysDict from '@views/BusinessSysDict.vue'
 import BusinessSysManager from '@views/BusinessSysManager.vue'
 import BusinessComicInfo from '@views/BusinessComicInfo.vue'
 import BusinessUserInfo from '@views/BusinessUserInfo.vue'
+import Notfound from '@components/404.vue'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ const router = new Router({
           component: BusinessUserInfo
         }
       ]
+    },
+    {
+      path: '*',
+      name: '404',
+      component: Notfound
     }
   ],
   scrollBehavior () {
@@ -77,7 +83,7 @@ const router = new Router({
 
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'ManagerLogin' && to.name !== 'HomePage') {
+  if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== '404') {
     axios({
       method: 'post',
       url: '/api/sys/manager/judgeAuthen',
@@ -90,7 +96,17 @@ router.beforeEach((to, from, next) => {
       }
     })
   } else {
-    next()
+    axios({
+      method: 'post',
+      url: '/api/sys/manager/judgeAuthen',
+      responseType: 'json'
+    }).then(res => {
+      if (res.data.code === 200) {
+        next(false)
+      } else {
+        next()
+      }
+    })
   }
 })
 
