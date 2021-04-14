@@ -24,19 +24,19 @@ export default {
       switch (perm) {
         case 'sys':
           permNewArr.push('系统管理')
-          break;
+          break
         case 'insert':
           permNewArr.push('添加')
-          break;
+          break
         case 'delete':
           permNewArr.push('删除')
-          break;
+          break
         case 'update':
           permNewArr.push('修改')
-          break;
+          break
         case 'select':
           permNewArr.push('查询')
-          break;
+          break
       }
     })
     return permNewArr.toString()

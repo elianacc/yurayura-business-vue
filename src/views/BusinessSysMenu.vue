@@ -257,7 +257,7 @@ export default {
       this.dataDialogOpenAndSetVal(menuType, menuName, menuPid)
     },
     dataDialogOpenAndSetVal (menuType, menuName, menuPid) {
-      let currentMenu;
+      let currentMenu
       if (menuType === 1) {
         currentMenu = this.dataList.find(menu => menu.menuName === menuName)
       } else {

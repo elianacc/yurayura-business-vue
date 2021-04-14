@@ -11,7 +11,7 @@
            data-toggle="tooltip"
            data-placement="right"
            title="点击跳转到本项目前端Vue工程所在GitHub仓库"
-           target="_blank"><i class="fa fa-github fa-lg"></i>&nbsp;&nbsp;了解更多</a>
+           target="_blank"><i class="fa fa-github fa-lg mr-2"></i>了解更多</a>
       </p>
     </div>
   </div>
