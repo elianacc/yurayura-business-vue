@@ -110,7 +110,7 @@ export default {
               this.$storageUtil.deleteSideMenuDftActive()
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
-              this.$router.push('/business')
+              this.$router.replace('/business')
             } else if (res.data.code === 102) {
               this.loadVerifyImage()
               this.$refs.loginForm.resetFields()
