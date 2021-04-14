@@ -16,7 +16,23 @@
 
 <script>
 export default {
-  name: 'Notfound'
+  name: 'Notfound',
+  methods: {
+    judgeBack () {
+      this.$axios({
+        method: 'post',
+        url: '/api/sys/manager/judgeAuthen',
+        responseType: 'json'
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$router.go(-1)
+        }
+      })
+    }
+  },
+  mounted () {
+    this.judgeBack()
+  }
 }
 </script>
 
