@@ -40,5 +40,29 @@ export default {
       }
     })
     return permNewArr.toString()
+  },
+  userStatusFilter (value) {
+    let userStatus
+    switch (value) {
+      case 0:
+        userStatus = '正常'
+        break
+      case -3:
+        userStatus = '小黑屋3天'
+        break
+      case -7:
+        userStatus = '小黑屋一周'
+        break
+      case -30:
+        userStatus = '小黑屋一月'
+        break
+      case -365:
+        userStatus = '小黑屋一年'
+        break
+      case -999:
+        userStatus = '小黑屋永久'
+        break
+    }
+    return userStatus
   }
 }

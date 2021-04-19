@@ -7,7 +7,7 @@
       <div class="col-2">
         <button type="button"
                 class="btn btn-primary font-size-14 mr-2"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle mr-2"></i>添加
         </button>
@@ -79,7 +79,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o mr-2"></i>修改
               </button>
