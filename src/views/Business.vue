@@ -170,7 +170,7 @@ export default {
               this.sideMenuDftActive = nextTab.index
               this.$router.push(nextTab.index)
             } else {
-              this.sideMenuDftActive = null
+              this.sideMenuDftActive = ''
               this.$router.push('/business')
             }
           }
@@ -203,26 +203,32 @@ export default {
         return this.sideMenu.filter(subMenu => subMenu.menuName !== 'sys')
       }
       return this.sideMenu
+    },
+    menuItems () {
+      let menuItems = []
+      this.sideMenuData.map(subMenu => subMenu.menuSubList).forEach(menuGp => {
+        menuItems = menuItems.concat(menuGp)
+      })
+      return menuItems
     }
   },
   watch: {
-    $route (to) {
-      if (to.path !== this.sideMenuDftActive) {
-        if (to.name === 'Business') {
-          this.sideMenuDftActive = null
-          this.editableTabs = []
-        } else if (to.name === 'BusinessIndex') {
-          this.addTab('首页', 'index', '/business/index')
-        } else {
-          let menuItems = []
-          this.sideMenuData.map(subMenu => subMenu.menuSubList).forEach(menuGp => {
-            menuItems = menuItems.concat(menuGp)
-          })
-          let path = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-          let nowItem = menuItems.find(menuItem => menuItem.menuIndex === path)
-          this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+    $route: {
+      handler (to) {
+        if (to.path !== this.sideMenuDftActive) {
+          if (to.name === 'Business') {
+            this.sideMenuDftActive = ''
+            this.editableTabs = []
+          } else if (to.name === 'BusinessIndex') {
+            this.addTab('首页', 'index', '/business/index')
+          } else {
+            let path = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+            let nowItem = this.menuItems.find(menuItem => menuItem.menuIndex === path)
+            this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+          }
         }
-      }
+      },
+      immediate: true
     },
     editableTabs: {
       deep: true,

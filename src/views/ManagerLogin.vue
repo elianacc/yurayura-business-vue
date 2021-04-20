@@ -110,7 +110,7 @@ export default {
               this.$storageUtil.deleteSideMenuDftActive()
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
-              this.$router.replace('/business')
+              this.$router.replace('/business/index')
             } else if (res.data.code === 102) {
               this.loadVerifyImage()
               this.$refs.loginForm.resetFields()
@@ -138,10 +138,7 @@ export default {
         responseType: 'json'
       }).then(res => {
         if (res.data.code === 200) {
-          this.$storageUtil.deleteSideMenuDftActive()
-          this.$storageUtil.deleteEditableTabs()
-          this.$storageUtil.deleteEditableTabsValue()
-          this.$router.replace('/business')
+          this.$router.go(-1)
         } else {
           this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
         }

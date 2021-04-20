@@ -13,7 +13,7 @@ export default {
     localStorage.setItem(sideMenuDftActiveKey, val)
   },
   getSideMenuDftActive () {
-    return localStorage.getItem(sideMenuDftActiveKey) || '/business/index'
+    return localStorage.getItem(sideMenuDftActiveKey) || ''
   },
   deleteSideMenuDftActive () {
     localStorage.removeItem(sideMenuDftActiveKey)
@@ -22,13 +22,7 @@ export default {
     localStorage.setItem(editableTabsKey, JSON.stringify(tabs))
   },
   getEditableTabs () {
-    return JSON.parse(localStorage.getItem(editableTabsKey)) || [
-      {
-        title: '首页',
-        name: 'index',
-        index: '/business/index'
-      }
-    ]
+    return JSON.parse(localStorage.getItem(editableTabsKey)) || []
   },
   deleteEditableTabs () {
     localStorage.removeItem(editableTabsKey)
@@ -37,7 +31,7 @@ export default {
     localStorage.setItem(editableTabsValueKey, val)
   },
   getEditableTabsValue () {
-    return localStorage.getItem(editableTabsValueKey) || 'index'
+    return localStorage.getItem(editableTabsValueKey) || ''
   },
   deleteEditableTabsValue () {
     localStorage.removeItem(editableTabsValueKey)
