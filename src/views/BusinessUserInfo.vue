@@ -84,16 +84,112 @@
                    height="100" />
             </template>
           </el-table-column>
+          <el-table-column label="用户名"
+                           width="150"
+                           prop="userName">
+          </el-table-column>
+          <el-table-column label="昵称"
+                           width="150"
+                           prop="userNickname">
+          </el-table-column>
+          <el-table-column label="性别"
+                           width="100">
+            <template slot-scope="scope">
+              <span v-if="scope.row.userSex === 1">男</span>
+              <span v-else>女</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="生日"
+                           width="150"
+                           prop="userBirthday">
+          </el-table-column>
+          <el-table-column label="所在省市"
+                           width="150">
+            <template slot-scope="scope">
+              {{scope.row.userProvince}} {{scope.row.userCity}}
+            </template>
+          </el-table-column>
+          <el-table-column label="邮箱"
+                           width="150"
+                           prop="userEmail">
+          </el-table-column>
+          <el-table-column label="手机号"
+                           width="200"
+                           prop="userPhoneNumber">
+          </el-table-column>
+          <el-table-column label="状态"
+                           width="150">
+            <template slot-scope="scope">
+              {{scope.row.userStatus | userStatusFilter}}
+            </template>
+          </el-table-column>
+          <el-table-column label="注册时间"
+                           width="200"
+                           prop="userRegTime">
+          </el-table-column>
+          <el-table-column label="操作"
+                           width="180">
+            <template slot-scope="scope">
+              <button type="button"
+                      class="btn btn-info btn-twitter font-size-14"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
+                      @click="updateStatusDialogOpen(scope.row.id)">
+                <i class="fa fa-pencil-square-o mr-2"></i>调整状态
+              </button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
+    </div>
+
+    <!-- 数据表格信息及分页component -->
+    <business-pagination :pageInfo="pageInfo"
+                         @currentPageChangeImpl="currentPageChangeImpl"></business-pagination>
+
+    <!-- 调整状态对话框 -->
+    <div class="up-status-dialog">
+      <el-dialog :title="updateStatusDialogTitle"
+                 :visible.sync="updateStatusDialogVisible"
+                 @close="updateStatusDialogClose">
+        <el-form :model="updateStatusDialogForm"
+                 label-suffix=":"
+                 size="small">
+          <el-form-item label="状态"
+                        label-width="10rem">
+            <el-select v-model="updateStatusDialogForm.userStatus"
+                       placeholder="请选择"
+                       class="w-75">
+              <el-option v-for="item in userStatusDict"
+                         :key="item.id"
+                         :value="item.dictVal"
+                         :label="item.dictName">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer"
+             class="dialog-footer">
+          <el-button type="danger"
+                     icon="el-icon-close"
+                     @click="updateStatusDialogVisible = false">取 消</el-button>
+          <el-button type="primary"
+                     icon="el-icon-check"
+                     @click="submitContent">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
 
   </div>
 </template>
 
 <script>
+import BusinessPagination from '@components/BusinessPagination.vue'
+
 export default {
   name: 'BusinessUserInfo',
+  components: {
+    BusinessPagination
+  },
   data () {
     return {
       selectForm: {
@@ -105,6 +201,12 @@ export default {
       searchContent: {},
       pageInfo: {},
       currentPageNum: 1,
+      updateStatusDialogTitle: '',
+      updateStatusDialogVisible: false,
+      updateStatusDialogForm: {
+        id: 0,
+        userStatus: '0'
+      },
       userStatusDict: []
     }
   },
@@ -144,9 +246,69 @@ export default {
       })
     },
     selectContent () {
+      this.searchContent = Object.assign({}, this.selectForm)
+      this.currentPageNum = 1
+      this.getPage()
     },
     clearSelectContent () {
-
+      this.$refs.selectForm.resetFields()
+      this.selectContent()
+    },
+    currentPageChangeImpl (val) {
+      this.currentPageNum = val
+      this.getPage()
+    },
+    updateStatusDialogOpen (id) {
+      this.updateStatusDialogTitle = '『调整状态窗口』'
+      this.updateStatusDialogOpenAndSetVal(id)
+    },
+    updateStatusDialogOpenAndSetVal (id) {
+      let currentUser = this.pageInfo.list.find(user => user.id === id)
+      this.updateStatusDialogForm.id = currentUser.id
+      this.updateStatusDialogForm.userStatus = currentUser.userStatus.toString()
+      this.updateStatusDialogVisible = true
+    },
+    submitContent () {
+      let sendUrl = '/api/user/updateStatus'
+      this.$axios({
+        method: 'post',
+        url: sendUrl,
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+        },
+        data: this.$qs.stringify(this.updateStatusDialogForm),
+        responseType: 'json'
+      }).then(res => {
+        if (res.data.code === 200) {
+          this.$message.success(res.data.msg)
+          this.getPage()
+          this.updateStatusDialogVisible = false
+        } else if (res.data.code === 102) {
+          this.$message.error(res.data.msg)
+        } else if (res.data.code === 103) {
+          console.log(res.data.msg)
+        } else if (res.data.code === 401 || res.data.code === 405) {
+          this.$alert(res.data.msg, '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            if (res.data.code === 401) {
+              this.$router.push('/manager_login')
+            }
+          })
+        } else if (res.data.code === 500) {
+          this.$notify.error({
+            title: '错误',
+            message: res.data.msg,
+            duration: 0
+          })
+        }
+      })
+    },
+    updateStatusDialogClose () {
+      this.updateStatusDialogForm = {
+        id: 0,
+        userStatus: '0'
+      }
     }
   },
   mounted () {
@@ -190,6 +352,21 @@ export default {
   text-align: center;
 }
 .r2 .c1 /deep/ .el-table thead {
+  color: #f8f9fa;
+}
+
+/* el对话框重写 */
+.up-status-dialog /deep/ .el-dialog,
+.up-status-dialog /deep/ .el-pager li {
+  background: #15202b;
+}
+.up-status-dialog /deep/ .el-dialog__title {
+  color: #f8f9fa;
+}
+
+/* data-dialog表单 */
+/* el表单标签重写（颜色修改） */
+.up-status-dialog /deep/ .el-form-item__label {
   color: #f8f9fa;
 }
 </style>
