@@ -203,13 +203,6 @@ export default {
         return this.sideMenu.filter(subMenu => subMenu.menuName !== 'sys')
       }
       return this.sideMenu
-    },
-    menuItems () {
-      let menuItems = []
-      this.sideMenuData.map(subMenu => subMenu.menuSubList).forEach(menuGp => {
-        menuItems = menuItems.concat(menuGp)
-      })
-      return menuItems
     }
   },
   watch: {
@@ -222,9 +215,29 @@ export default {
           } else if (to.name === 'BusinessIndex') {
             this.addTab('首页', 'index', '/business/index')
           } else {
-            let path = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-            let nowItem = this.menuItems.find(menuItem => menuItem.menuIndex === path)
-            this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+            this.$axios({
+              method: 'post',
+              url: '/api/sys/menuSub/getByIndex',
+              headers: {
+                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+              },
+              data: this.$qs.stringify({ index }),
+              responseType: 'json'
+            }).then(res => {
+              if (res.data.code === 200) {
+                let nowItem = res.data.data
+                this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+              } else if (res.data.code === 102) {
+                this.$message.error(res.data.msg)
+              } else if (res.data.code === 500) {
+                this.$notify.error({
+                  title: '错误',
+                  message: res.data.msg,
+                  duration: 0
+                })
+              }
+            })
           }
         }
       },
