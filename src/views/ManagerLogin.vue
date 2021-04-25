@@ -130,23 +130,10 @@ export default {
     },
     loadVerifyImage () {
       this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
-    },
-    judgeBack () {
-      this.$axios({
-        method: 'post',
-        url: '/api/sys/manager/judgeAuthen',
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.$router.go(-1)
-        } else {
-          this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
-        }
-      })
     }
   },
   mounted () {
-    this.judgeBack()
+    this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
   }
 }
 </script>
