@@ -406,28 +406,23 @@ export default {
       let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$axios({
-        method: 'post',
-        url: '/api/comic/getPage',
-        data: JSON.stringify(sendData),
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.pageInfo = res.data.data
-        } else if (res.data.code === 102) {
+      this.$api.post(this.$apiUrl.COMIC_GETPAGE, JSON.stringify(sendData), res => {
+        if (res.code === 200) {
+          this.pageInfo = res.data
+        } else if (res.code === 102) {
           this.pageInfo = {}
-        } else if (res.data.code === 401 || res.data.code === 405) {
-          this.$alert(res.data.msg, '提示', {
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            if (res.data.code === 401) {
+            if (res.code === 401) {
               this.$router.push('/manager_login')
             }
           })
-        } else if (res.data.code === 500) {
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
@@ -457,30 +452,25 @@ export default {
         }).then(() => {
           let sendData = new FormData()
           sendData.append('ids', this.multipleSelection.map(selt => selt.id))
-          this.$axios({
-            method: 'post',
-            url: '/api/comic/deleteBatchByIds',
-            data: sendData,
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
-              this.$message.success(res.data.msg)
+          this.$api.post(this.$apiUrl.COMIC_DELETEBATCHBYIDS, sendData, res => {
+            if (res.code === 200) {
+              this.$message.success(res.msg)
               this.multipleSelection = []
               this.getPage()
-            } else if (res.data.code === 102) {
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 401 || res.data.code === 405) {
-              this.$alert(res.data.msg, '提示', {
+            } else if (res.code === 102) {
+              this.$message.error(res.msg)
+            } else if (res.code === 401 || res.code === 405) {
+              this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                if (res.data.code === 401) {
+                if (res.code === 401) {
                   this.$router.push('/manager_login')
                 }
               })
-            } else if (res.data.code === 500) {
+            } else if (res.code === 500) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: res.msg,
                 duration: 0
               })
             }
@@ -569,37 +559,32 @@ export default {
           if (!this.dataDialogForm.comicImgFile) {
             sendData.delete('comicImgFile')
           }
-          let sendUrl = this.dataDialogForm.id === 0 ? '/api/comic/insert' : '/api/comic/update'
-          this.$axios({
-            method: 'post',
-            url: sendUrl,
-            data: sendData,
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
-              this.$message.success(res.data.msg)
+          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.COMIC_INSERT : this.$apiUrl.COMIC_UPDATE
+          this.$api.post(sendUrl, sendData, res => {
+            if (res.code === 200) {
+              this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
                 this.clearSelectContent()
               } else {
                 this.getPage()
               }
               this.dataDialogVisible = false
-            } else if (res.data.code === 102) {
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 103) {
-              console.log(res.data.msg)
-            } else if (res.data.code === 401 || res.data.code === 405) {
-              this.$alert(res.data.msg, '提示', {
+            } else if (res.code === 102) {
+              this.$message.error(res.msg)
+            } else if (res.code === 103) {
+              console.log(res.msg)
+            } else if (res.code === 401 || res.code === 405) {
+              this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                if (res.data.code === 401) {
+                if (res.code === 401) {
                   this.$router.push('/manager_login')
                 }
               })
-            } else if (res.data.code === 500) {
+            } else if (res.code === 500) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: res.msg,
                 duration: 0
               })
             }

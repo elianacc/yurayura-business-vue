@@ -175,65 +175,53 @@ export default {
   },
   methods: {
     getList () {
-      this.$axios({
-        method: 'post',
-        url: '/api/sys/menu/getList',
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.dataList = res.data.data
-        } else if (res.data.code === 401 || res.data.code === 405) {
-          this.$alert(res.data.msg, '提示', {
+      this.$api.get(this.$apiUrl.SYS_MENU_GETLIST, null, res => {
+        if (res.code === 200) {
+          this.dataList = res.data
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            if (res.data.code === 401) {
+            if (res.code === 401) {
               this.$router.push('/manager_login')
             } else {
               this.containerShow = false
             }
           })
-        } else if (res.data.code === 500) {
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
       })
     },
     deleteById (id, menuType) {
-      let sendUrl = menuType === 1 ? '/api/sys/menu/deleteById' : '/api/sys/menuSub/deleteById'
+      let sendUrl = menuType === 1 ? this.$apiUrl.SYS_MENU_DELETEBYID : this.$apiUrl.SYS_MENUSUB_DELETEBYID
       let confirmMsg = menuType === 1 ? '删除一级菜单会连同删除对应二级菜单，确定要删除吗？' : '确定要删除此二级菜单吗？'
       this.$confirm(confirmMsg, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios({
-          method: 'post',
-          url: sendUrl,
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-          },
-          data: this.$qs.stringify({ id }),
-          responseType: 'json'
-        }).then(res => {
-          if (res.data.code === 200) {
+        this.$api.get(sendUrl, { id }, res => {
+          if (res.code === 200) {
             location.reload()
-          } else if (res.data.code === 102) {
-            this.$message.error(res.data.msg)
-          } else if (res.data.code === 401 || res.data.code === 405) {
-            this.$alert(res.data.msg, '提示', {
+          } else if (res.code === 102) {
+            this.$message.error(res.msg)
+          } else if (res.code === 401 || res.code === 405) {
+            this.$alert(res.msg, '提示', {
               confirmButtonText: '确定'
             }).then(() => {
-              if (res.data.code === 401) {
+              if (res.code === 401) {
                 this.$router.push('/manager_login')
               }
             })
-          } else if (res.data.code === 500) {
+          } else if (res.code === 500) {
             this.$notify.error({
               title: '错误',
-              message: res.data.msg,
+              message: res.msg,
               duration: 0
             })
           }
@@ -283,35 +271,30 @@ export default {
         if (valid) {
           let sendUrl = ''
           if (this.isMainMenuDialog) {
-            sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/menu/insert' : '/api/sys/menu/update'
+            sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MENU_INSERT : this.$apiUrl.SYS_MENU_UPDATE
           } else {
-            sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/menuSub/insert' : '/api/sys/menuSub/update'
+            sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MENUSUB_INSERT : this.$apiUrl.SYS_MENUSUB_UPDATE
           }
-          this.$axios({
-            method: 'post',
-            url: sendUrl,
-            data: JSON.stringify(this.dataDialogForm),
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
+          this.$api.post(sendUrl, JSON.stringify(this.dataDialogForm), res => {
+            if (res.code === 200) {
               this.dataDialogVisible = false
               location.reload()
-            } else if (res.data.code === 102) {
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 103) {
-              console.log(res.data.msg)
-            } else if (res.data.code === 401 || res.data.code === 405) {
-              this.$alert(res.data.msg, '提示', {
+            } else if (res.code === 102) {
+              this.$message.error(res.msg)
+            } else if (res.code === 103) {
+              console.log(res.msg)
+            } else if (res.code === 401 || res.code === 405) {
+              this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                if (res.data.code === 401) {
+                if (res.code === 401) {
                   this.$router.push('/manager_login')
                 }
               })
-            } else if (res.data.code === 500) {
+            } else if (res.code === 500) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: res.msg,
                 duration: 0
               })
             }

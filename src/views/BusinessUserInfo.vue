@@ -218,28 +218,23 @@ export default {
       let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$axios({
-        method: 'post',
-        url: '/api/user/getPage',
-        data: JSON.stringify(sendData),
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.pageInfo = res.data.data
-        } else if (res.data.code === 102) {
+      this.$api.post(this.$apiUrl.USER_GETPAGE, JSON.stringify(sendData), res => {
+        if (res.code === 200) {
+          this.pageInfo = res.data
+        } else if (res.code === 102) {
           this.pageInfo = {}
-        } else if (res.data.code === 401 || res.data.code === 405) {
-          this.$alert(res.data.msg, '提示', {
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            if (res.data.code === 401) {
+            if (res.code === 401) {
               this.$router.push('/manager_login')
             }
           })
-        } else if (res.data.code === 500) {
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
@@ -269,39 +264,33 @@ export default {
       this.updateStatusDialogVisible = true
     },
     submitContent () {
-      let sendUrl = '/api/user/updateStatus'
-      this.$axios({
-        method: 'post',
-        url: sendUrl,
-        headers: {
-          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-        },
-        data: this.$qs.stringify(this.updateStatusDialogForm),
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.$message.success(res.data.msg)
+      let sendUrl = this.$apiUrl.USER_UPDATESTATUS
+      this.$api.post(sendUrl, this.$qs.stringify(this.updateStatusDialogForm), res => {
+        if (res.code === 200) {
+          this.$message.success(res.msg)
           this.getPage()
           this.updateStatusDialogVisible = false
-        } else if (res.data.code === 102) {
-          this.$message.error(res.data.msg)
-        } else if (res.data.code === 103) {
-          console.log(res.data.msg)
-        } else if (res.data.code === 401 || res.data.code === 405) {
-          this.$alert(res.data.msg, '提示', {
+        } else if (res.code === 102) {
+          this.$message.error(res.msg)
+        } else if (res.code === 103) {
+          console.log(res.msg)
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            if (res.data.code === 401) {
+            if (res.code === 401) {
               this.$router.push('/manager_login')
             }
           })
-        } else if (res.data.code === 500) {
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
+      }, {
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       })
     },
     updateStatusDialogClose () {

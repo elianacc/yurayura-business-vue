@@ -214,30 +214,25 @@ export default {
       let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$axios({
-        method: 'post',
-        url: '/api/sys/manager/getPage',
-        data: JSON.stringify(sendData),
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.pageInfo = res.data.data
-        } else if (res.data.code === 102) {
+      this.$api.post(this.$apiUrl.SYS_MANAGER_GETPAGE, JSON.stringify(sendData), res => {
+        if (res.code === 200) {
+          this.pageInfo = res.data
+        } else if (res.code === 102) {
           this.pageInfo = {}
-        } else if (res.data.code === 401 || res.data.code === 405) {
-          this.$alert(res.data.msg, '提示', {
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
             confirmButtonText: '确定'
           }).then(() => {
-            if (res.data.code === 401) {
+            if (res.code === 401) {
               this.$router.push('/manager_login')
             } else {
               this.containerShow = false
             }
           })
-        } else if (res.data.code === 500) {
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
@@ -273,42 +268,37 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendUrl = this.dataDialogForm.id === 0 ? '/api/sys/manager/insert' : '/api/sys/manager/update'
+          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MANAGER_INSERT : this.$apiUrl.SYS_MANAGER_UPDATE
           let sendData = Object.assign({}, this.dataDialogForm)
           if (sendData.managerPassword) {
             sendData.managerPassword = Base64.encode(sendData.managerPassword)
           }
           sendData.managerPermission = sendData.managerPermArr.toString()
-          this.$axios({
-            method: 'post',
-            url: sendUrl,
-            data: JSON.stringify(sendData),
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
-              this.$message.success(res.data.msg)
+          this.$api.post(sendUrl, JSON.stringify(sendData), res => {
+            if (res.code === 200) {
+              this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
                 this.clearSelectContent()
               } else {
                 this.getPage()
               }
               this.dataDialogVisible = false
-            } else if (res.data.code === 102) {
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 103) {
-              console.log(res.data.msg)
-            } else if (res.data.code === 401 || res.data.code === 405) {
-              this.$alert(res.data.msg, '提示', {
+            } else if (res.code === 102) {
+              this.$message.error(res.msg)
+            } else if (res.code === 103) {
+              console.log(res.msg)
+            } else if (res.code === 401 || res.code === 405) {
+              this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'
               }).then(() => {
-                if (res.data.code === 401) {
+                if (res.code === 401) {
                   this.$router.push('/manager_login')
                 }
               })
-            } else if (res.data.code === 500) {
+            } else if (res.code === 500) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: res.msg,
                 duration: 0
               })
             }

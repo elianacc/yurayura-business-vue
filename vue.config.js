@@ -23,6 +23,7 @@ module.exports = {
     config.resolve.alias // 添加别名
       .set('@', resolve('src'))
       .set('@assets', resolve('src/assets'))
+      .set('@api', resolve('src/api'))
       .set('@components', resolve('src/components'))
       .set('@views', resolve('src/views'))
       .set('@utils', resolve('src/utils'))

@@ -4,6 +4,8 @@ import router from './router'
 import filter from './filter'
 import axios from 'axios'
 import qs from 'qs'
+import api from '@api/baseRequest'
+import apiUrl from '@api/baseUrl'
 import '@public/frame/bootstrap.min.css'
 import '@public/frame/font-awesome.css'
 import '@public/frame/bootstrap-extend.css'
@@ -25,8 +27,9 @@ axios.defaults.withCredentials = true
 axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json;charset=utf-8' }
 
 // 全局注册对象，使用this.$x调用
-Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
+Vue.prototype.$api = api
+Vue.prototype.$apiUrl = apiUrl
 Vue.prototype.$storageUtil = storageUtil
 Vue.prototype.$sysDictUtil = sysDictUtil
 Vue.prototype.$commentUtil = commentUtil

@@ -119,17 +119,13 @@ export default {
   },
   methods: {
     getSideMenu () {
-      this.$axios({
-        method: 'post',
-        url: '/api/sys/menu/getSysMenu',
-        responseType: 'json'
-      }).then(res => {
-        if (res.data.code === 200) {
-          this.sideMenu = res.data.data
-        } else if (res.data.code === 500) {
+      this.$api.get(this.$apiUrl.SYS_MENU_GETSYSMENU, null, res => {
+        if (res.code === 200) {
+          this.sideMenu = res.data
+        } else if (res.code === 500) {
           this.$notify.error({
             title: '错误',
-            message: res.data.msg,
+            message: res.msg,
             duration: 0
           })
         }
@@ -141,17 +137,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$axios({
-          method: 'post',
-          url: '/api/sys/manager/logout',
-          responseType: 'json'
-        }).then(res => {
-          if (res.data.code === 200) {
+        this.$api.get(this.$apiUrl.SYS_MANAGER_LOGOUT, null, res => {
+          if (res.code === 200) {
             this.$router.push('/manager_login')
-          } else if (res.data.code === 500) {
+          } else if (res.code === 500) {
             this.$notify.error({
               title: '错误',
-              message: res.data.msg,
+              message: res.msg,
               duration: 0
             })
           }
@@ -216,24 +208,16 @@ export default {
             this.addTab('首页', 'index', '/business/index')
           } else {
             let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-            this.$axios({
-              method: 'post',
-              url: '/api/sys/menuSub/getByIndex',
-              headers: {
-                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-              },
-              data: this.$qs.stringify({ index }),
-              responseType: 'json'
-            }).then(res => {
-              if (res.data.code === 200) {
-                let nowItem = res.data.data
+            this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
+              if (res.code === 200) {
+                let nowItem = res.data
                 this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
-              } else if (res.data.code === 102) {
-                this.$message.error(res.data.msg)
-              } else if (res.data.code === 500) {
+              } else if (res.code === 102) {
+                this.$message.error(res.msg)
+              } else if (res.code === 500) {
                 this.$notify.error({
                   title: '错误',
-                  message: res.data.msg,
+                  message: res.msg,
                   duration: 0
                 })
               }

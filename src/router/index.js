@@ -85,7 +85,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
     axios({
-      method: 'post',
+      method: 'get',
       url: '/api/sys/manager/judgeAuthen',
       responseType: 'json'
     }).then(res => {

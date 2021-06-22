@@ -1,17 +1,13 @@
 import axios from 'axios'
-import qs from 'qs'
 
 export default {
   // 字典获取方法
   async get (dictCode) {
     let dictData = ''
     await axios({
-      method: 'post',
+      method: 'get',
       url: '/api/sys/dict/getByDictCode',
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-      },
-      data: qs.stringify({ dictCode }),
+      params: { dictCode },
       responseType: 'json'
     }).then(res => {
       if (res.data.code == 200) {

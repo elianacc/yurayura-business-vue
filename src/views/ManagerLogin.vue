@@ -99,28 +99,23 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
-          this.$axios({
-            method: 'post',
-            url: '/api/sys/manager/login',
-            data: JSON.stringify(this.loginForm),
-            responseType: 'json'
-          }).then(res => {
-            if (res.data.code === 200) {
-              this.$storageUtil.setManagerMsg(res.data.data)
+          this.$api.post(this.$apiUrl.SYS_MANAGER_LOGIN, JSON.stringify(this.loginForm), res => {
+            if (res.code === 200) {
+              this.$storageUtil.setManagerMsg(res.data)
               this.$storageUtil.deleteSideMenuDftActive()
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
               this.$router.replace('/business/index')
-            } else if (res.data.code === 102) {
+            } else if (res.code === 102) {
               this.loadVerifyImage()
               this.$refs.loginForm.resetFields()
-              this.$message.error(res.data.msg)
-            } else if (res.data.code === 103) {
-              console.log(res.data.msg)
-            } else if (res.data.code === 500) {
+              this.$message.error(res.msg)
+            } else if (res.code === 103) {
+              console.log(res.msg)
+            } else if (res.code === 500) {
               this.$notify.error({
                 title: '错误',
-                message: res.data.msg,
+                message: res.msg,
                 duration: 0
               })
             }
@@ -129,11 +124,11 @@ export default {
       })
     },
     loadVerifyImage () {
-      this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
+      this.loginForm.verifyImage = `${this.$apiUrl.SYS_MANAGER_GETVERIFYCODE}?randomId=${Math.random()}`
     }
   },
   mounted () {
-    this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
+    this.loginForm.verifyImage = `${this.$apiUrl.SYS_MANAGER_GETVERIFYCODE}?randomId=${Math.random()}`
   }
 }
 </script>
