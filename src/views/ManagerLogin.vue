@@ -99,6 +99,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
+          delete this.loginForm.verifyImage
           this.$api.post(this.$apiUrl.SYS_MANAGER_LOGIN, JSON.stringify(this.loginForm), res => {
             if (res.code === 200) {
               this.$storageUtil.setManagerMsg(res.data)
