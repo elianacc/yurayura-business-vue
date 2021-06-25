@@ -5,17 +5,17 @@
 
       <div class="col-2">
         <button type="button"
-                class="btn btn-primary font-size-14 mr-2"
+                class="btn btn-primary font-size-14 me-2"
                 v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
                 @click="insertDialogOpen">
-          <i class="fa fa-plus-circle mr-2"></i>添加
+          <i class="fa fa-plus-circle me-2"></i>添加
         </button>
         <button type="button"
                 class="btn btn-danger font-size-14"
                 style="position: relative; top: 0.03125rem;"
                 @click="deleteBatch"
                 v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
-          <i class="fa fa-trash mr-2"></i>删除
+          <i class="fa fa-trash me-2"></i>删除
         </button>
       </div>
 
@@ -25,7 +25,7 @@
                  ref="selectForm"
                  label-suffix=":"
                  size="small"
-                 class="float-right"
+                 class="float-end"
                  @submit.native.prevent="selectContent">
           <el-form-item label="番剧名"
                         prop="comicName"
@@ -81,12 +81,12 @@
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
                       type="submit">
-                <i class="fa fa-filter mr-2"></i>查询
+                <i class="fa fa-filter me-2"></i>查询
               </button>
               <button class="btn btn-primary font-size-14"
                       type="button"
                       @click="clearSelectContent">
-                <i class="fa fa-refresh mr-2"></i>刷新
+                <i class="fa fa-refresh me-2"></i>刷新
               </button>
             </div>
           </el-form-item>
@@ -152,16 +152,16 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-info btn-twitter font-size-14"
+                      class="btn btn-info btn-twitter font-size-14 text-white"
                       v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
                       @click="updateDialogOpen(scope.row.id)">
-                <i class="fa fa-pencil-square-o mr-2"></i>修改
+                <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
               <button type="button"
-                      class="btn btn-info btn-twitter font-size-14"
+                      class="btn btn-info btn-twitter font-size-14 text-white"
                       v-if="!$storageUtil.getManagerMsg().managerPermission.includes('update')"
                       @click="detailDialogOpen(scope.row.id)">
-                <i class="fa fa-file-text-o mr-2"></i>详情
+                <i class="fa fa-file-text-o me-2"></i>详情
               </button>
             </template>
           </el-table-column>
@@ -260,7 +260,7 @@
                                fill="#007bff">
               <el-checkbox-button v-for="item in comicLabelDict"
                                   :label="item.dictVal"
-                                  :key="item.id"><i class="fa fa-paperclip mr-2"></i>{{item.dictName}}</el-checkbox-button>
+                                  :key="item.id"><i class="fa fa-paperclip me-2"></i>{{item.dictName}}</el-checkbox-button>
             </el-checkbox-group>
           </el-form-item>
           <el-form-item label="自定义标签"

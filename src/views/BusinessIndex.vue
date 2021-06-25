@@ -1,24 +1,25 @@
 <template>
   <div>
     <div class="jumbotron bg-twitter-content">
-      <h1 class="display-4 text-center">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
-      <p class="lead text-center">欢迎进入Yura~Yura~后端管理页面</p>
-      <hr class="my-4">
-      <p class="text-center">YuraYura是一个兴趣使然的项目</p>
+      <h1 class="display-4 text-center text-white">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
+      <p class="lead text-center text-white">欢迎进入Yura~Yura~后端管理页面</p>
+      <hr class="my-4 bg-secondary">
+      <p class="text-center text-white">YuraYura是一个兴趣使然的项目</p>
       <p class="lead github-btn-p text-center">
         <a class="btn btn-primary btn-lg"
+           ref="getMoreLink"
            :href="githubUrl"
-           data-toggle="tooltip"
-           data-placement="right"
+           data-bs-toggle="tooltip"
+           data-bs-placement="right"
            title="点击跳转到本项目前端Vue工程所在GitHub仓库"
-           target="_blank"><i class="fa fa-github fa-lg mr-2"></i>了解更多</a>
+           target="_blank"><i class="fa fa-github fa-lg me-2"></i>了解更多</a>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
+import { Tooltip } from '@public/frame/bootstrap.bundle.min'
 
 export default {
   name: 'BusinessIndex',
@@ -28,15 +29,16 @@ export default {
     }
   },
   mounted () {
-    $('[data-toggle="tooltip"]').tooltip()
+    new Tooltip(this.$refs.getMoreLink)
   }
 }
 </script>
 
 <style scoped>
-/* bs4 jumbotron重写 */
 .jumbotron {
-  color: #f8f9fa;
+  padding: 4rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.3rem;
 }
 
 .github-btn-p {

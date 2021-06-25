@@ -54,10 +54,12 @@
               </el-form-item>
 
               <el-form-item>
-                <button type="submit"
-                        class="btn btn-primary btn-block mt-3 pr-4">
-                  <i class="fa fa-sign-in fa-lg mr-2"></i>登入
-                </button>
+                <div class="d-grid">
+                  <button type="submit"
+                          class="btn btn-primary mt-3">
+                    <i class="fa fa-sign-in fa-lg me-2"></i>登入
+                  </button>
+                </div>
               </el-form-item>
             </el-form>
           </div>
@@ -148,7 +150,7 @@ export default {
   margin-bottom: 0rem;
 }
 
-/* bs4标签重写（margin-bottom置为0） */
+/* bs5标签重写（margin-bottom置为0） */
 .card-body /deep/ label {
   margin-bottom: 0rem;
 }

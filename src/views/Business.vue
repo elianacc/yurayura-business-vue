@@ -1,5 +1,5 @@
 <template>
-  <div class="container pl-0">
+  <div class="container ps-0">
 
     <!-- 置顶导航 -->
     <nav class="navbar navbar-dark fixed-top bg-twitter-nav py-0 px-3">
@@ -8,8 +8,8 @@
              width="40"
              height="40"
              class="rounded" />
-        <span class="ml-3">{{$storageUtil.getManagerMsg().managerName}}</span>
-        <span :class="sideMenuIsCollapse? 'ml-3' : 'ml-uncollapse-span'"
+        <span class="ms-3">{{$storageUtil.getManagerMsg().managerName}}</span>
+        <span :class="sideMenuIsCollapse? 'ms-3' : 'ms-uncollapse-span'"
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
           <i class="el-icon-s-fold font-size-28"
@@ -18,11 +18,11 @@
              v-show="sideMenuIsCollapse"></i>
         </span>
       </span>
-      <form class="form-inline">
-        <button class="btn btn-danger ml-2"
+      <form class="d-flex">
+        <button class="btn btn-danger ms-2"
                 type="button"
                 @click="logoutManager">
-          <i class="fa fa-sign-out mr-2"></i>注销
+          <i class="fa fa-sign-out me-2"></i>注销
         </button>
       </form>
     </nav>
@@ -61,7 +61,7 @@
                               :key="item.menuName"
                               @click="addTab(item.menuTitle, item.menuName, item.menuIndex)">
                   <i :class="item.menuIconClass"
-                     class="mr-2"></i>{{item.menuTitle}}
+                     class="me-2"></i>{{item.menuTitle}}
                 </el-menu-item>
 
               </el-submenu>
@@ -71,7 +71,7 @@
       </div>
       <!-- 标签导航和主内容col -->
       <div :class="sideMenuIsCollapse? 'col-tabandmain-collapse': 'col-tabandmain-uncollapse'"
-           class="c2 pt-2 pl-0"
+           class="c2 pt-2 ps-0"
            style="height: 100vh;">
 
         <!-- 标签导航 -->
@@ -83,7 +83,7 @@
           <el-tab-pane v-for="item in editableTabs"
                        :key="item.name"
                        :name="item.name">
-            <span slot="label"><i class="fa fa-tag fa-lg mr-2"></i>{{item.title}}</span>
+            <span slot="label"><i class="fa fa-tag fa-lg me-2"></i>{{item.title}}</span>
           </el-tab-pane>
         </el-tabs>
 
@@ -400,7 +400,7 @@ export default {
 nav .collapse-span {
   cursor: pointer;
 }
-nav .ml-uncollapse-span {
+nav .ms-uncollapse-span {
   margin-left: 5.5rem;
 }
 

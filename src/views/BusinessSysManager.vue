@@ -6,10 +6,10 @@
 
       <div class="col-2">
         <button type="button"
-                class="btn btn-primary font-size-14 mr-2"
+                class="btn btn-primary font-size-14 me-2"
                 v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                 @click="insertDialogOpen">
-          <i class="fa fa-plus-circle mr-2"></i>添加
+          <i class="fa fa-plus-circle me-2"></i>添加
         </button>
       </div>
 
@@ -19,7 +19,7 @@
                  ref="selectForm"
                  label-suffix=":"
                  size="small"
-                 class="float-right"
+                 class="float-end"
                  @submit.native.prevent="selectContent">
           <el-form-item label="管理员名"
                         prop="managerName"
@@ -31,12 +31,12 @@
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
                       type="submit">
-                <i class="fa fa-filter mr-2"></i>查询
+                <i class="fa fa-filter me-2"></i>查询
               </button>
               <button class="btn btn-primary font-size-14"
                       type="button"
                       @click="clearSelectContent">
-                <i class="fa fa-refresh mr-2"></i>刷新
+                <i class="fa fa-refresh me-2"></i>刷新
               </button>
             </div>
           </el-form-item>
@@ -78,10 +78,10 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-info btn-twitter font-size-14"
+                      class="btn btn-info btn-twitter font-size-14 text-white"
                       v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                       @click="updateDialogOpen(scope.row.id)">
-                <i class="fa fa-pencil-square-o mr-2"></i>修改
+                <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
             </template>
           </el-table-column>

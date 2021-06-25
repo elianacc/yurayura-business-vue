@@ -8,7 +8,7 @@
                   class="btn btn-primary font-size-14"
                   v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                   @click="insertMainMenuDialogOpen">
-            <i class="fa fa-plus-circle mr-2"></i>添加主菜单
+            <i class="fa fa-plus-circle me-2"></i>添加主菜单
           </button>
         </div>
       </div>
@@ -24,9 +24,9 @@
           <el-table-column label="标题"
                            width="200">
             <template slot-scope="scope">
-              <i class="fa fa-list-ul mr-1"
+              <i class="fa fa-list-ul me-1"
                  v-if="scope.row.menuType === 1"></i>
-              <i class="fa fa-link mr-1"
+              <i class="fa fa-link me-1"
                  v-else></i>
               {{scope.row.menuTitle}}
             </template>
@@ -62,19 +62,19 @@
                         class="btn btn-success btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys') && scope.row.menuType === 1"
                         @click="insertSubMenuDialogOpen(scope.row.id)">
-                  <i class="fa fa-plus mr-2"></i>添加子菜单
+                  <i class="fa fa-plus me-2"></i>添加子菜单
                 </button>
                 <button type="button"
-                        class="btn btn-info btn-twitter font-size-14"
+                        class="btn btn-info btn-twitter font-size-14 text-white"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                         @click="updateDialogOpen(scope.row.menuType, scope.row.menuName, scope.row.menuPid)">
-                  <i class="fa fa-pencil-square-o mr-2"></i>修改
+                  <i class="fa fa-pencil-square-o me-2"></i>修改
                 </button>
                 <button type="button"
                         class="btn btn-danger btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                         @click="deleteById(scope.row.id, scope.row.menuType)">
-                  <i class="fa fa-trash mr-2"></i>删除
+                  <i class="fa fa-trash me-2"></i>删除
                 </button>
               </div>
             </template>

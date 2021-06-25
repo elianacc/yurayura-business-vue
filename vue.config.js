@@ -1,5 +1,4 @@
 // vue.config.js
-const webpack = require('webpack')
 const path = require('path')
 const IS_PROD = process.env.NODE_ENV === 'production'
 const resolve = (dir) => path.join(__dirname, dir)
@@ -69,15 +68,5 @@ module.exports = {
         }
       }
     }
-  },
-  // 其他配置....
-  configureWebpack: {
-    plugins: [
-      new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
-      })
-    ]
   }
 }

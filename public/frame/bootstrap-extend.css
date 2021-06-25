@@ -15,34 +15,13 @@
 .font-size-38{font-size:2.375rem}
 .font-size-40{font-size:2.5rem} /*h1*/
 
-/* line-height */
-.lh-1 {
-  line-height: 1;
-}
-.lh-sm {
-  line-height: 1.25;
-}
-.lh-base {
-  line-height: 1.5;
-}
-.lh-lg {
-  line-height: 2;
-}
-
-/* bs4按钮聚焦重写（去除按钮聚焦时的边框） */
+/* bs5按钮聚焦重写（去除按钮聚焦时的边框） */
 button:focus,
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
     outline: none;
     border-color: transparent;
     box-shadow: none;
     color: #fff;
-}
-
-/* bs4文件浏览重写 */
-.custom-file-label::after {
-  color: #fff;
-  content: "浏览文件";
-  background-color: #007bff;
 }
 
 /* 推特色内容背景 */
