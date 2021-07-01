@@ -98,6 +98,12 @@ export default {
   },
   methods: {
     loginBusiness () {
+      const loading = this.$loading({
+        lock: true,
+        text: '登入中...',
+        spinner: 'el-icon-loading',
+        background: '#0d1117'
+      })
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
@@ -108,14 +114,19 @@ export default {
               this.$storageUtil.deleteSideMenuDftActive()
               this.$storageUtil.deleteEditableTabs()
               this.$storageUtil.deleteEditableTabsValue()
-              this.$router.replace('/business/index')
+              setTimeout(() => {
+                loading.close()
+                this.$router.replace('/business/index')
+              }, 1000)
             } else if (res.code === 102) {
               this.loadVerifyImage()
               this.$refs.loginForm.resetFields()
+              loading.close()
               this.$message.error(res.msg)
             } else if (res.code === 103) {
               console.log(res.msg)
             } else if (res.code === 500) {
+              loading.close()
               this.$notify.error({
                 title: '错误',
                 message: res.msg,
