@@ -531,14 +531,15 @@ export default {
       this.$message.warning('只能上传一张图片')
     },
     cmImgUplChange (file) {
-      let res = this.$commentUtil.imgVerificat(file.raw, 102400)
-      if (res) {
-        this.$message.warning(res)
-        this.$refs.dialogComicImgUpl.clearFiles()
-      } else {
-        this.dataDialogForm.cmImgUplUrl = URL.createObjectURL(file.raw)
-        this.dataDialogForm.comicImgFile = file.raw
-      }
+      this.$commentUtil.imgVerificat(file.raw, 102400, res => {
+        if (res) {
+          this.$message.warning(res)
+          this.$refs.dialogComicImgUpl.clearFiles()
+        } else {
+          this.dataDialogForm.cmImgUplUrl = URL.createObjectURL(file.raw)
+          this.dataDialogForm.comicImgFile = file.raw
+        }
+      })
     },
     cmImgUplDel () {
       this.dataDialogForm.cmImgUplUrl = ''
