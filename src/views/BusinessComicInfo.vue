@@ -803,6 +803,8 @@ export default {
   height: 176px;
   position: relative;
   cursor: pointer;
+  bottom: 2px;
+  right: 2px;
 }
 .data-dialog .cmImg-mask .cmImg-mask-content {
   width: 134px;
