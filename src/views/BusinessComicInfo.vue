@@ -296,15 +296,17 @@
                        :on-exceed="cmImgUplLimitTip"
                        :on-change="cmImgUplChange"
                        :on-remove="cmImgUplDel"
-                       class="mb-2"
-                       v-show="!isDetailDialog">
-              <i class="el-icon-plus font-size-16"></i>
+                       class="mb-2">
+              <div class="cmImg-mask"
+                   v-if="dataDialogForm.cmImgUplUrl"><img :src="dataDialogForm.cmImgUplUrl"
+                     width="132"
+                     height="174"
+                     class="rounded">
+                <div class="cmImg-mask-content"><i class="el-icon-plus text-light"></i></div>
+              </div>
+              <i class="el-icon-plus"
+                 v-else></i>
             </el-upload>
-            <img v-show="dataDialogForm.cmImgUplUrl"
-                 :src="dataDialogForm.cmImgUplUrl"
-                 width="132"
-                 height="174"
-                 class="rounded">
           </el-form-item>
           <el-form-item label="观看地址"
                         prop="comicLink"
@@ -377,6 +379,7 @@ export default {
         customTagInputVisible: false,
         customTagInput: '',
         cmImgUplUrl: '',
+        cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
         comicShelfStatus: 1
@@ -497,6 +500,7 @@ export default {
       let currentComic = this.pageInfo.list.find(comic => comic.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
       this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
+      this.dataDialogForm.cmImgUplUrlTmp = currentComic.comicImageUrl
       this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
       this.dataDialogForm.cmUdTimeShow = currentComic.comicStatus !== 0 ? true : false
       this.dataDialogForm.comicUdTime = currentComic.comicStatus !== 0 && currentComic.comicStatus !== 8 ? currentComic.comicStatus.toString() : ''
@@ -536,13 +540,13 @@ export default {
           this.$message.warning(res)
           this.$refs.dialogComicImgUpl.clearFiles()
         } else {
-          this.dataDialogForm.cmImgUplUrl = URL.createObjectURL(file.raw)
+          this.dataDialogForm.cmImgUplUrl = ''
           this.dataDialogForm.comicImgFile = file.raw
         }
       })
     },
     cmImgUplDel () {
-      this.dataDialogForm.cmImgUplUrl = ''
+      this.dataDialogForm.cmImgUplUrl = this.dataDialogForm.cmImgUplUrlTmp
       this.dataDialogForm.comicImgFile = null
     },
     submitContent () {
@@ -609,6 +613,7 @@ export default {
         customTagInputVisible: false,
         customTagInput: '',
         cmImgUplUrl: '',
+        cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
         comicShelfStatus: 1
@@ -769,16 +774,16 @@ export default {
 }
 /* el表单上传重写 */
 .data-dialog /deep/ .el-upload--picture-card {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
+  width: 132px;
+  height: 174px;
+  line-height: 174px;
 }
 .data-dialog /deep/ .el-upload-list--picture-card .el-upload-list__item {
-  width: 50px;
-  height: 50px;
+  width: 132px;
+  height: 174px;
 }
 .data-dialog /deep/ .el-upload--picture-card i {
-  font-size: 17px;
+  font-size: 30px;
 }
 /* el禁用表单重写 */
 .data-dialog /deep/ .el-input.is-disabled .el-input__inner {
@@ -790,5 +795,41 @@ export default {
 .data-dialog /deep/ .el-radio__input.is-disabled .el-radio__inner,
 .data-dialog /deep/ .el-radio__input.is-disabled.is-checked .el-radio__inner {
   background-color: #15202b;
+}
+
+/* 番剧上传图片遮罩 */
+.data-dialog .cmImg-mask {
+  width: 134px;
+  height: 176px;
+  position: relative;
+  cursor: pointer;
+}
+.data-dialog .cmImg-mask .cmImg-mask-content {
+  width: 134px;
+  height: 176px;
+  background: black;
+  position: absolute;
+  bottom: 1px;
+  left: -1px;
+  display: none;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding-top: 7px;
+  border-radius: 0.25rem;
+}
+.data-dialog .cmImg-mask:hover .cmImg-mask-content {
+  width: 134px;
+  height: 176px;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  bottom: 1px;
+  left: -1px;
+  display: block;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding-top: 7px;
+  border-radius: 0.25rem;
 }
 </style>
