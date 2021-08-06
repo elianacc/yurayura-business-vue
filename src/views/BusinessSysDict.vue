@@ -26,6 +26,20 @@
             <el-input v-model.trim="selectForm.dictCode"
                       clearable></el-input>
           </el-form-item>
+          <el-form-item label="状态"
+                        prop="dictStatus"
+                        label-width="3rem">
+            <el-select v-model="selectForm.dictStatus"
+                       clearable
+                       placeholder="请选择">
+              <el-option value="1"
+                         label="启用">
+              </el-option>
+              <el-option value="0"
+                         label="禁用">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
@@ -171,7 +185,8 @@ export default {
     return {
       containerShow: true,
       selectForm: {
-        dictCode: ''
+        dictCode: '',
+        dictStatus: ''
       },
       searchContent: {},
       pageInfo: {},
