@@ -161,7 +161,7 @@ export default {
             if (nextTab) {
               activeName = nextTab.name
               this.sideMenuDftActive = nextTab.index
-              if (activeName == 'index') {
+              if (activeName === 'index') {
                 this.$router.push(nextTab.index)
               } else {
                 this.$router.push({ path: nextTab.index, query: { menuName: nextTab.name } })
@@ -191,7 +191,7 @@ export default {
     tabClick (target) {
       let nowTab = this.editableTabs.find(tab => tab.name === target.name)
       this.sideMenuDftActive = nowTab.index
-      if (nowTab.name == 'index') {
+      if (nowTab.name === 'index') {
         this.$router.push(nowTab.index)
       } else {
         this.$router.push({ path: nowTab.index, query: { menuName: nowTab.name } })
