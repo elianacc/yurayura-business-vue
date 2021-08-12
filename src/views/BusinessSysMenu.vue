@@ -127,7 +127,7 @@
                         v-if="!isMainMenuDialog">
             <el-input v-model.trim="dataDialogForm.menuIndex"
                       class="w-75"
-                      :disabled="dataDialogForm.id !== 0"></el-input>
+                      disabled></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -149,6 +149,15 @@
 export default {
   name: 'BusinessSysMenu',
   data () {
+    let checkMenuName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('标识不能为空'))
+      }
+      if (!/^[a-z]+$/.test(value)) {
+        return callback(new Error('标识只能含有小写字母'))
+      }
+      callback()
+    }
     return {
       containerShow: true,
       dataList: [],
@@ -161,15 +170,14 @@ export default {
         menuName: '',
         menuIconClass: '',
         menuSeq: 1,
-        menuIndex: '',
+        menuIndex: '/business',
         menuPid: 0
       },
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
-        menuName: [{ required: true, message: '标识不能为空', trigger: 'blur' }],
+        menuName: [{ validator: checkMenuName, trigger: 'blur' }],
         menuIconClass: [{ required: true, message: '图标样式不能为空', trigger: 'blur' }],
-        menuSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }],
-        menuIndex: [{ required: true, message: '路径不能为空', trigger: 'blur' }]
+        menuSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }]
       }
     }
   },
@@ -261,7 +269,7 @@ export default {
         menuName: '',
         menuIconClass: '',
         menuSeq: 1,
-        menuIndex: '',
+        menuIndex: '/business',
         menuPid: 0
       }
       this.$refs.dataDialogForm.clearValidate()
@@ -301,6 +309,12 @@ export default {
           })
         }
       })
+    }
+  },
+  watch: {
+    'dataDialogForm.menuName' (val) {
+      this.dataDialogForm.menuIndex = '/business'
+      this.dataDialogForm.menuIndex = `${this.dataDialogForm.menuIndex}/${val}`
     }
   },
   mounted () {

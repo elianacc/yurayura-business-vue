@@ -208,21 +208,31 @@ export default {
           } else if (to.name === 'BusinessIndex') {
             this.addTab('首页', 'index', '/business/index')
           } else {
-            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-            this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
-              if (res.code === 200) {
-                let nowItem = res.data
-                this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
-              } else if (res.code === 102) {
-                this.$message.error(res.msg)
-              } else if (res.code === 500) {
-                this.$notify.error({
-                  title: '错误',
-                  message: res.msg,
-                  duration: 0
+            if (to.query.menuName === undefined) {
+              this.$router.replace('/Notfound')
+            } else {
+              let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+              let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
+              if (lastIndex === to.query.menuName) {
+                this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
+                  if (res.code === 200) {
+                    let nowItem = res.data
+                    this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+                  } else if (res.code === 102) {
+                    this.$message.error(res.msg)
+                  } else if (res.code === 500) {
+                    this.$notify.error({
+                      title: '错误',
+                      message: res.msg,
+                      duration: 0
+                    })
+                  }
                 })
+              } else {
+                this.$router.replace('/Notfound')
               }
-            })
+            }
+
           }
         }
       },
