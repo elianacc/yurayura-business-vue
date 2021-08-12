@@ -1,13 +1,11 @@
 <template>
   <div v-if="containerShow">
-
     <!-- 操作按钮及数据筛选表单row -->
     <div class="row mt-4 r1">
 
       <div class="col-2">
         <button type="button"
                 class="btn btn-primary font-size-14 me-2"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle me-2"></i>添加
         </button>
@@ -21,11 +19,52 @@
                  size="small"
                  class="float-end"
                  @submit.native.prevent="selectContent">
-          <el-form-item label="管理员名"
-                        prop="managerName"
+          <el-form-item label="权限编码"
+                        prop="permissionCode"
                         label-width="4.5rem">
-            <el-input v-model.trim="selectForm.managerName"
+            <el-input v-model.trim="selectForm.permissionCode"
                       clearable></el-input>
+          </el-form-item>
+          <el-form-item label="权限类型"
+                        prop="permissionType"
+                        label-width="4.5rem">
+            <el-select v-model="selectForm.permissionType"
+                       clearable
+                       placeholder="请选择">
+              <el-option value="1"
+                         label="菜单">
+              </el-option>
+              <el-option value="2"
+                         label="按钮">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="状态"
+                        prop="permissionStatus"
+                        label-width="3rem">
+            <el-select v-model="selectForm.permissionStatus"
+                       clearable
+                       placeholder="请选择">
+              <el-option value="1"
+                         label="启用">
+              </el-option>
+              <el-option value="0"
+                         label="禁用">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="所属子菜单"
+                        prop="permissionBelongSubmenuName"
+                        label-width="5.5rem">
+            <el-select v-model="selectForm.permissionBelongSubmenuName"
+                       clearable
+                       placeholder="----请选择所属子菜单----">
+              <el-option v-for="item in menuSubs"
+                         :key="item.id"
+                         :value="item.menuName"
+                         :label="item.menuTitle">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -49,37 +88,43 @@
     <div class="row r2">
       <div class="col-12 c1">
         <el-table :data="pageInfo.list">
-          <el-table-column label="管理员名"
+          <el-table-column label="权限编码"
                            width="200"
-                           prop="managerName">
+                           prop="permissionCode">
           </el-table-column>
-          <el-table-column label="权限"
+          <el-table-column label="权限名称"
+                           width="200"
+                           prop="permissionName">
+          </el-table-column>
+          <el-table-column label="所属子菜单"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.managerPermission | managerPermissionFilter}}</span>
+              <span>{{scope.row.permissionBelongSubmenuName | permissionBelongFilter(menuSubs)}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间"
-                           width="200"
-                           prop="managerCreateTime">
-          </el-table-column>
-          <el-table-column label="更新时间"
-                           width="200"
-                           prop="managerUpdateTime">
+          <el-table-column label="权限类型"
+                           width="200">
+            <template slot-scope="scope">
+              <span v-if="scope.row.permissionType === 1">菜单</span>
+              <span v-else>按钮</span>
+            </template>
           </el-table-column>
           <el-table-column label="状态"
                            width="200">
             <template slot-scope="scope">
-              <span v-if="scope.row.managerStatus === 1">启用</span>
+              <span v-if="scope.row.permissionStatus === 1">启用</span>
               <span v-else>禁用</span>
             </template>
+          </el-table-column>
+          <el-table-column label="序号"
+                           width="200"
+                           prop="permissionSeq">
           </el-table-column>
           <el-table-column label="操作"
                            width="180">
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
@@ -105,36 +150,59 @@
                  inline-message
                  label-suffix=":"
                  size="small">
-          <el-form-item label="管理员名"
-                        prop="managerName"
+          <el-form-item label="权限名称"
+                        prop="permissionName"
                         label-width="10rem">
-            <el-input v-model.trim="dataDialogForm.managerName"
-                      class="w-75"
-                      :disabled="dataDialogForm.id !== 0"></el-input>
+            <el-input v-model.trim="dataDialogForm.permissionName"
+                      class="w-75"></el-input>
           </el-form-item>
-          <el-form-item label="密码"
-                        label-width="10rem"
-                        prop="managerPassword">
-            <el-input v-model.trim="dataDialogForm.managerPassword"
-                      show-password
-                      class="w-75"
-                      :placeholder="dataDialogForm.id !== 0? '修改密码为空则使用此管理员旧密码': ''">
-            </el-input>
+          <el-form-item label="所属子菜单"
+                        prop="permissionBelongSubmenuName"
+                        label-width="10rem">
+            <el-select v-model="dataDialogForm.permissionBelongSubmenuName"
+                       clearable
+                       placeholder="----请选择所属子菜单----"
+                       class="w-50">
+              <el-option v-for="item in menuSubs"
+                         :key="item.id"
+                         :value="item.menuName"
+                         :label="item.menuTitle">
+              </el-option>
+            </el-select>
           </el-form-item>
-          <el-form-item label="权限"
+          <el-form-item label="权限类型"
+                        prop="permissionType"
+                        label-width="10rem">
+            <el-radio-group v-model="dataDialogForm.permissionType">
+              <el-radio :label="1"
+                        border>
+                菜单
+              </el-radio>
+              <el-radio :label="2"
+                        border>
+                按钮
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
+          <el-form-item label="权限按钮"
+                        prop="permissionBtnVal"
                         label-width="10rem"
-                        prop="managerPermArr">
-            <el-checkbox-group v-model="dataDialogForm.managerPermArr">
-              <el-checkbox v-for="item in managerPermissionDict"
-                           :key="item.id"
-                           :label="item.dictVal"
-                           :disabled="item.dictVal === 'select'">{{item.dictName}}</el-checkbox>
-            </el-checkbox-group>
+                        v-show="dataDialogForm.permBtnGrpShow">
+            <el-select v-model="dataDialogForm.permissionBtnVal"
+                       clearable
+                       placeholder="----请选择权限按钮----"
+                       class="w-50">
+              <el-option v-for="item in permissionBtnDict"
+                         :key="item.id"
+                         :value="item.dictVal"
+                         :label="item.dictName">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="状态"
-                        prop="managerStatus"
+                        prop="permissionStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.managerStatus">
+            <el-radio-group v-model="dataDialogForm.permissionStatus">
               <el-radio :label="1"
                         border>
                 启用
@@ -145,10 +213,12 @@
               </el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item label="tip"
-                        label-width="10rem"
-                        v-if="dataDialogForm.id !== 0">
-            <span class="text-white">权限修改后，此管理员需重新登入后生效！</span>
+          <el-form-item label="序号"
+                        prop="permissionSeq"
+                        label-width="10rem">
+            <el-input-number :min="1"
+                             v-model="dataDialogForm.permissionSeq"
+                             class="w-50"></el-input-number>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -168,24 +238,26 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
-import { Base64 } from 'js-base64'
 
 export default {
-  name: 'BusinessSysManager',
+  name: 'BusinessSysPermission',
   components: {
     BusinessPagination
   },
   data () {
-    let checkPassword = (rule, value, callback) => {
-      if (this.dataDialogForm.id === 0 && !value) {
-        return callback(new Error('密码不能为空'))
+    let checkPermissionBtnVal = (rule, value, callback) => {
+      if (this.dataDialogForm.permissionType == 2 && !value) {
+        return callback(new Error('权限按钮不能为空'))
       }
       callback()
     }
     return {
       containerShow: true,
       selectForm: {
-        managerName: ''
+        permissionCode: '',
+        permissionType: '',
+        permissionStatus: '',
+        permissionBelongSubmenuName: ''
       },
       searchContent: {},
       pageInfo: {},
@@ -194,27 +266,32 @@ export default {
       dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
-        managerName: '',
-        managerPassword: '',
-        managerPermArr: ['select'],
-        managerStatus: 1
+        permissionName: '',
+        permissionBelongSubmenuName: '',
+        permissionType: 1,
+        permissionBtnVal: '',
+        permissionStatus: 1,
+        permissionSeq: 1,
+        permBtnGrpShow: false
       },
       dataDialogFormRule: {
-        managerName: [{ required: true, message: '管理员名不能为空', trigger: 'blur' }],
-        managerPassword: [{ validator: checkPassword, trigger: 'blur' }]
+        permissionName: [{ required: true, message: '权限名称不能为空', trigger: 'blur' }],
+        permissionBelongSubmenuName: [{ required: true, message: '所属子菜单不能为空', trigger: 'blur' }],
+        permissionBtnVal: [{ validator: checkPermissionBtnVal, trigger: 'blur' }]
       },
-      managerPermissionDict: []
+      menuSubs: [],
+      permissionBtnDict: []
     }
   },
   methods: {
     async getSysDict () {
-      this.managerPermissionDict = await this.$sysDictUtil.get('managerPermission')
+      this.permissionBtnDict = await this.$sysDictUtil.get('permissionBtn')
     },
     getPage () {
       let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.post(this.$apiUrl.SYS_MANAGER_GETPAGE, JSON.stringify(sendData), res => {
+      this.$api.post(this.$apiUrl.SYS_PERMISSION_GETPAGE, JSON.stringify(sendData), res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -260,21 +337,19 @@ export default {
       this.dataDialogOpenAndSetVal(id)
     },
     dataDialogOpenAndSetVal (id) {
-      let currentManager = this.pageInfo.list.find(manager => manager.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-      this.dataDialogForm.managerPermArr = currentManager.managerPermission.split(',')
+      let currentPerm = this.pageInfo.list.find(perm => perm.id === id)
+      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentPerm[key])
+      if (currentPerm.permissionType == 2) {
+        let permCode = currentPerm.permissionCode
+        this.dataDialogForm.permissionBtnVal = permCode.substring(permCode.lastIndexOf('_') + 1, permCode.length)
+      }
       this.dataDialogVisible = true
     },
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MANAGER_INSERT : this.$apiUrl.SYS_MANAGER_UPDATE
-          let sendData = Object.assign({}, this.dataDialogForm)
-          if (sendData.managerPassword) {
-            sendData.managerPassword = Base64.encode(sendData.managerPassword)
-          }
-          sendData.managerPermission = sendData.managerPermArr.toString()
-          this.$api.post(sendUrl, JSON.stringify(sendData), res => {
+          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_PERMISSION_INSERT : this.$apiUrl.SYS_PERMISSION_UPDATE
+          this.$api.post(sendUrl, this.$qs.stringify(this.dataDialogForm), res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
@@ -302,6 +377,8 @@ export default {
                 duration: 0
               })
             }
+          }, {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
           })
         }
       })
@@ -309,17 +386,42 @@ export default {
     dataDialogClose () {
       this.dataDialogForm = {
         id: 0,
-        managerName: '',
-        managerPassword: '',
-        managerPermArr: ['select'],
-        managerStatus: 1
+        permissionName: '',
+        permissionBelongSubmenuName: '',
+        permissionType: 1,
+        permissionBtnVal: '',
+        permissionStatus: 1,
+        permissionSeq: 1,
+        permBtnGrpShow: false
       }
       this.$refs.dataDialogForm.clearValidate()
+    },
+    getAllMenuSub () {
+      this.$api.get(this.$apiUrl.SYS_MENUSUB_GETALL, null, res => {
+        if (res.code === 200) {
+          this.menuSubs = res.data
+        } else if (res.code === 500) {
+          this.$notify.error({
+            title: '错误',
+            message: res.msg,
+            duration: 0
+          })
+        }
+      })
+    }
+  },
+  watch: {
+    'dataDialogForm.permissionType' (val) {
+      this.dataDialogForm.permBtnGrpShow = val === 2
+      if (val === 1) {
+        this.dataDialogForm.permissionBtnVal = ''
+      }
     }
   },
   mounted () {
     this.getSysDict()
     this.getPage()
+    this.getAllMenuSub()
   }
 }
 </script>
@@ -377,10 +479,6 @@ export default {
 }
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
-  color: #f8f9fa;
-}
-/* el表单多选重写 */
-.data-dialog /deep/ .el-checkbox {
   color: #f8f9fa;
 }
 </style>

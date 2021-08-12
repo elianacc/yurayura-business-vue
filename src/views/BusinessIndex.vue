@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { Tooltip } from '@public/frame/bootstrap.bundle.min'
+import { Tooltip } from '@static/bootstrap.bundle.min'
 
 export default {
   name: 'BusinessIndex',

@@ -157,12 +157,6 @@
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
-              <button type="button"
-                      class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="!$storageUtil.getManagerMsg().managerPermission.includes('update')"
-                      @click="detailDialogOpen(scope.row.id)">
-                <i class="fa fa-file-text-o me-2"></i>详情
-              </button>
             </template>
           </el-table-column>
         </el-table>
@@ -184,8 +178,7 @@
                  hide-required-asterisk
                  inline-message
                  label-suffix=":"
-                 size="small"
-                 :disabled="isDetailDialog">
+                 size="small">
           <el-form-item label="番剧名"
                         prop="comicName"
                         label-width="10rem">
@@ -267,7 +260,6 @@
                         label-width="10rem">
             <el-tag v-for="tag in dataDialogForm.customTag"
                     :key="tag"
-                    :closable="!isDetailDialog"
                     effect="dark"
                     color="#007bff"
                     @close="customTagClose(tag)">
@@ -283,8 +275,7 @@
             </el-input>
             <el-button v-else
                        class="button-new-tag"
-                       @click="showCustomTagInput"
-                       v-show="!isDetailDialog">+ 新标签</el-button>
+                       @click="showCustomTagInput">+ 新标签</el-button>
           </el-form-item>
           <el-form-item label="图片"
                         label-width="10rem">
@@ -302,7 +293,7 @@
                      width="132"
                      height="174"
                      class="rounded">
-                <div class="cmImg-mask-content"><i class="el-icon-plus text-light"></i></div>
+                <div class="cmImg-mask-content"><i class="el-icon-upload2 text-light"></i></div>
               </div>
               <i class="el-icon-plus"
                  v-else></i>
@@ -332,8 +323,7 @@
                      @click="dataDialogVisible = false">取 消</el-button>
           <el-button type="primary"
                      icon="el-icon-check"
-                     @click="submitContent"
-                     v-show="!isDetailDialog">确 定</el-button>
+                     @click="submitContent">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -363,7 +353,6 @@ export default {
       multipleSelection: [],
       dataDialogTitle: '',
       dataDialogVisible: false,
-      isDetailDialog: false,
       dataDialogForm: {
         id: 0,
         comicName: '',
@@ -481,19 +470,12 @@ export default {
         })
       }
     },
-    detailDialogOpen (id) {
-      this.dataDialogTitle = '『详情窗口』'
-      this.isDetailDialog = true
-      this.dataDialogOpenAndSetVal(id)
-    },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
-      this.isDetailDialog = false
       this.dataDialogVisible = true
     },
     updateDialogOpen (id) {
       this.dataDialogTitle = '『修改窗口』'
-      this.isDetailDialog = false
       this.dataDialogOpenAndSetVal(id)
     },
     dataDialogOpenAndSetVal (id) {
@@ -784,17 +766,6 @@ export default {
 }
 .data-dialog /deep/ .el-upload--picture-card i {
   font-size: 30px;
-}
-/* el禁用表单重写 */
-.data-dialog /deep/ .el-input.is-disabled .el-input__inner {
-  color: #606266;
-}
-.data-dialog /deep/ .el-textarea.is-disabled .el-textarea__inner {
-  color: #606266;
-}
-.data-dialog /deep/ .el-radio__input.is-disabled .el-radio__inner,
-.data-dialog /deep/ .el-radio__input.is-disabled.is-checked .el-radio__inner {
-  background-color: #15202b;
 }
 
 /* 番剧上传图片遮罩 */

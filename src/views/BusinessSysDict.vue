@@ -373,8 +373,4 @@ export default {
 .data-dialog /deep/ .el-radio {
   color: #f8f9fa;
 }
-/* el禁用表单重写 */
-.data-dialog /deep/ .el-input.is-disabled .el-input__inner {
-  color: #606266;
-}
 </style>

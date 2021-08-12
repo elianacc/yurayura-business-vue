@@ -49,7 +49,7 @@
                 <span slot="title">首页</span>
               </el-menu-item>
               <el-submenu :index="submenu.menuName"
-                          v-for="submenu in sideMenuData"
+                          v-for="submenu in sideMenu"
                           :key="submenu.menuName">
                 <template slot="title">
                   <i :class="submenu.menuIconClass"></i>
@@ -59,6 +59,7 @@
                 <el-menu-item :index="item.menuIndex"
                               v-for="item in submenu.menuSubList"
                               :key="item.menuName"
+                              :route="{path:item.menuIndex,query:{menuName:item.menuName}}"
                               @click="addTab(item.menuTitle, item.menuName, item.menuIndex)">
                   <i :class="item.menuIconClass"
                      class="me-2"></i>{{item.menuTitle}}
@@ -160,7 +161,11 @@ export default {
             if (nextTab) {
               activeName = nextTab.name
               this.sideMenuDftActive = nextTab.index
-              this.$router.push(nextTab.index)
+              if (activeName == 'index') {
+                this.$router.push(nextTab.index)
+              } else {
+                this.$router.push({ path: nextTab.index, query: { menuName: nextTab.name } })
+              }
             } else {
               this.sideMenuDftActive = ''
               this.$router.push('/business')
@@ -186,15 +191,11 @@ export default {
     tabClick (target) {
       let nowTab = this.editableTabs.find(tab => tab.name === target.name)
       this.sideMenuDftActive = nowTab.index
-      this.$router.push(nowTab.index)
-    }
-  },
-  computed: {
-    sideMenuData () {
-      if (!this.$storageUtil.getManagerMsg().managerPermission.includes('sys')) {
-        return this.sideMenu.filter(subMenu => subMenu.menuName !== 'sys')
+      if (nowTab.name == 'index') {
+        this.$router.push(nowTab.index)
+      } else {
+        this.$router.push({ path: nowTab.index, query: { menuName: nowTab.name } })
       }
-      return this.sideMenu
     }
   },
   watch: {

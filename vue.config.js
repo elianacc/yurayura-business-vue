@@ -26,7 +26,7 @@ module.exports = {
       .set('@components', resolve('src/components'))
       .set('@views', resolve('src/views'))
       .set('@utils', resolve('src/utils'))
-      .set('@public', resolve('public'))
+      .set('@static', resolve('public/static'))
   },
   css: {
     extract: IS_PROD,

@@ -23,6 +23,8 @@ export default {
   SYS_MENU_UPDATE: '/api/sys/menu/update',
   // 查询系统子菜单（根据路径）
   SYS_MENUSUB_GETBYINDEX: '/api/sys/menuSub/getByIndex',
+  // 查询所有系统子菜单标识
+  SYS_MENUSUB_GETALL: '/api/sys/menuSub/getAll',
   // 删除系统子菜单（根据id）
   SYS_MENUSUB_DELETEBYID: '/api/sys/menuSub/deleteById',
   // 添加系统子菜单
@@ -35,6 +37,12 @@ export default {
   SYS_DICT_INSERT: '/api/sys/dict/insert',
   // 修改系统数据字典
   SYS_DICT_UPDATE: '/api/sys/dict/update',
+  // 分页查询系统权限
+  SYS_PERMISSION_GETPAGE: '/api/sys/permission/getPage',
+  // 添加系统权限
+  SYS_PERMISSION_INSERT: '/api/sys/permission/insert',
+  // 修改系统权限
+  SYS_PERMISSION_UPDATE: '/api/sys/permission/update',
   // 分页查询番剧
   COMIC_GETPAGE: '/api/comic/getPage',
   // 添加番剧
