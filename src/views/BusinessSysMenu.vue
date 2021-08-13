@@ -6,7 +6,7 @@
         <div class="btn-group">
           <button type="button"
                   class="btn btn-primary font-size-14"
-                  v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
+                  v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`)"
                   @click="insertMainMenuDialogOpen">
             <i class="fa fa-plus-circle me-2"></i>添加主菜单
           </button>
@@ -60,19 +60,19 @@
               <div class="btn-group">
                 <button type="button"
                         class="btn btn-success btn-twitter font-size-14"
-                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys') && scope.row.menuType === 1"
+                        v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`) && scope.row.menuType === 1"
                         @click="insertSubMenuDialogOpen(scope.row.id)">
                   <i class="fa fa-plus me-2"></i>添加子菜单
                 </button>
                 <button type="button"
                         class="btn btn-info btn-twitter font-size-14 text-white"
-                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
+                        v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                         @click="updateDialogOpen(scope.row.menuType, scope.row.menuName, scope.row.menuPid)">
                   <i class="fa fa-pencil-square-o me-2"></i>修改
                 </button>
                 <button type="button"
                         class="btn btn-danger btn-twitter font-size-14"
-                        v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
+                        v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_delete`)"
                         @click="deleteById(scope.row.id, scope.row.menuType)">
                   <i class="fa fa-trash me-2"></i>删除
                 </button>

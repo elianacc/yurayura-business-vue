@@ -7,7 +7,7 @@
       <div class="col-2">
         <button type="button"
                 class="btn btn-primary font-size-14 me-2"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`)"
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle me-2"></i>添加
         </button>
@@ -55,9 +55,7 @@
           </el-table-column>
           <el-table-column label="权限"
                            width="200">
-            <template slot-scope="scope">
-              <span>{{scope.row.managerPermission | managerPermissionFilter}}</span>
-            </template>
+
           </el-table-column>
           <el-table-column label="创建时间"
                            width="200"
@@ -79,7 +77,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('sys')"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
@@ -123,14 +121,8 @@
             </el-input>
           </el-form-item>
           <el-form-item label="权限"
-                        label-width="10rem"
-                        prop="managerPermArr">
-            <el-checkbox-group v-model="dataDialogForm.managerPermArr">
-              <el-checkbox v-for="item in managerPermissionDict"
-                           :key="item.id"
-                           :label="item.dictVal"
-                           :disabled="item.dictVal === 'select'">{{item.dictName}}</el-checkbox>
-            </el-checkbox-group>
+                        label-width="10rem">
+
           </el-form-item>
           <el-form-item label="状态"
                         prop="managerStatus"
@@ -145,11 +137,6 @@
                 禁用
               </el-radio>
             </el-radio-group>
-          </el-form-item>
-          <el-form-item label="tip"
-                        label-width="10rem"
-                        v-if="dataDialogForm.id !== 0">
-            <span class="text-white">权限修改后，此管理员需重新登入后生效！</span>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -197,20 +184,16 @@ export default {
         id: 0,
         managerName: '',
         managerPassword: '',
-        managerPermArr: ['select'],
+        managerPermArr: [],
         managerStatus: 1
       },
       dataDialogFormRule: {
         managerName: [{ required: true, message: '管理员名不能为空', trigger: 'blur' }],
         managerPassword: [{ validator: checkPassword, trigger: 'blur' }]
-      },
-      managerPermissionDict: []
+      }
     }
   },
   methods: {
-    async getSysDict () {
-      this.managerPermissionDict = await this.$sysDictUtil.get('managerPermission')
-    },
     getPage () {
       let sendData = Object.assign({}, this.searchContent)
       sendData.pageNum = this.currentPageNum
@@ -263,7 +246,7 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-      this.dataDialogForm.managerPermArr = currentManager.managerPermission.split(',')
+
       this.dataDialogVisible = true
     },
     submitContent () {
@@ -274,7 +257,7 @@ export default {
           if (sendData.managerPassword) {
             sendData.managerPassword = Base64.encode(sendData.managerPassword)
           }
-          sendData.managerPermission = sendData.managerPermArr.toString()
+
           this.$api.post(sendUrl, JSON.stringify(sendData), res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
@@ -312,14 +295,13 @@ export default {
         id: 0,
         managerName: '',
         managerPassword: '',
-        managerPermArr: ['select'],
+        managerPermArr: [],
         managerStatus: 1
       }
       this.$refs.dataDialogForm.clearValidate()
     }
   },
   mounted () {
-    this.getSysDict()
     this.getPage()
   }
 }
@@ -378,10 +360,6 @@ export default {
 }
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
-  color: #f8f9fa;
-}
-/* el表单多选重写 */
-.data-dialog /deep/ .el-checkbox {
   color: #f8f9fa;
 }
 </style>

@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="containerShow">
     <!-- 操作按钮及数据筛选表单row -->
     <div class="row mt-4 r1">
 
       <div class="col-2">
         <button type="button"
                 class="btn btn-primary font-size-14 me-2"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('insert')"
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`)"
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle me-2"></i>添加
         </button>
@@ -14,7 +14,7 @@
                 class="btn btn-danger font-size-14"
                 style="position: relative; top: 0.03125rem;"
                 @click="deleteBatch"
-                v-if="$storageUtil.getManagerMsg().managerPermission.includes('delete')">
+                v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_deleteBatch`)">
           <i class="fa fa-trash me-2"></i>删除
         </button>
       </div>
@@ -153,7 +153,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
@@ -342,6 +342,7 @@ export default {
   },
   data () {
     return {
+      containerShow: true,
       selectForm: {
         comicName: '',
         comicStatus: '',
@@ -410,6 +411,8 @@ export default {
           }).then(() => {
             if (res.code === 401) {
               this.$router.push('/manager_login')
+            } else {
+              this.containerShow = false
             }
           })
         } else if (res.code === 500) {

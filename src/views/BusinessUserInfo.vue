@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="containerShow">
     <!-- 数据筛选表单row -->
     <div class="row mt-4 r1">
 
@@ -132,7 +132,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes('update')"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                       @click="updateStatusDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>调整状态
               </button>
@@ -193,6 +193,7 @@ export default {
   },
   data () {
     return {
+      containerShow: true,
       selectForm: {
         userNameKeyword: '',
         userSex: '',
@@ -230,6 +231,8 @@ export default {
           }).then(() => {
             if (res.code === 401) {
               this.$router.push('/manager_login')
+            } else {
+              this.containerShow = false
             }
           })
         } else if (res.code === 500) {

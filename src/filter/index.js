@@ -17,30 +17,6 @@ export default {
     arrCmLabel = arrCmLabel.filter(label => label !== '')
     return arrCmLabel.toString()
   },
-  managerPermissionFilter (value) {
-    let permArr = value.split(',')
-    let permNewArr = []
-    permArr.forEach(perm => {
-      switch (perm) {
-        case 'sys':
-          permNewArr.push('系统管理')
-          break
-        case 'insert':
-          permNewArr.push('添加')
-          break
-        case 'delete':
-          permNewArr.push('删除')
-          break
-        case 'update':
-          permNewArr.push('修改')
-          break
-        case 'select':
-          permNewArr.push('查询')
-          break
-      }
-    })
-    return permNewArr.toString()
-  },
   userStatusFilter (value) {
     let userStatus
     switch (value) {
