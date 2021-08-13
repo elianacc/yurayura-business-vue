@@ -97,7 +97,8 @@
     <div class="data-dialog">
       <el-dialog :title="dataDialogTitle"
                  :visible.sync="dataDialogVisible"
-                 @close="dataDialogClose">
+                 @close="dataDialogClose"
+                 v-dialogDrag>
         <el-form :model="dataDialogForm"
                  ref="dataDialogForm"
                  :rules="dataDialogFormRule"

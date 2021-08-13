@@ -87,7 +87,8 @@
     <div class="data-dialog">
       <el-dialog :title="dataDialogTitle"
                  :visible.sync="dataDialogVisible"
-                 @close="dataDialogClose">
+                 @close="dataDialogClose"
+                 v-dialogDrag>
         <el-form :model="dataDialogForm"
                  ref="dataDialogForm"
                  :rules="dataDialogFormRule"
@@ -153,8 +154,8 @@ export default {
       if (!value) {
         return callback(new Error('标识不能为空'))
       }
-      if (!/^[a-z]+$/.test(value)) {
-        return callback(new Error('标识只能含有小写字母'))
+      if (!/^[a-z][a-z_]*$/.test(value)) {
+        return callback(new Error('标识以小写字母开头，只能包含小写字母下划线'))
       }
       callback()
     }

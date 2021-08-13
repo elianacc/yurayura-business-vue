@@ -200,20 +200,21 @@ export default {
   },
   watch: {
     $route: {
+      deep: true,
       handler (to) {
-        if (to.path !== this.sideMenuDftActive) {
-          if (to.name === 'Business') {
-            this.sideMenuDftActive = ''
-            this.editableTabs = []
-          } else if (to.name === 'BusinessIndex') {
-            this.addTab('首页', 'index', '/business/index')
+        if (to.name === 'Business') {
+          this.sideMenuDftActive = ''
+          this.editableTabs = []
+        } else if (to.name === 'BusinessIndex') {
+          this.addTab('首页', 'index', '/business/index')
+        } else {
+          if (to.query.menuName === undefined) {
+            this.$router.replace('/Notfound')
           } else {
-            if (to.query.menuName === undefined) {
-              this.$router.replace('/Notfound')
-            } else {
-              let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-              let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
-              if (lastIndex === to.query.menuName) {
+            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+            let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
+            if (lastIndex === to.query.menuName) {
+              if (to.path !== this.sideMenuDftActive) {
                 this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
                   if (res.code === 200) {
                     let nowItem = res.data
@@ -228,11 +229,10 @@ export default {
                     })
                   }
                 })
-              } else {
-                this.$router.replace('/Notfound')
               }
+            } else {
+              this.$router.replace('/Notfound')
             }
-
           }
         }
       },

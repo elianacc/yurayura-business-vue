@@ -150,7 +150,8 @@
     <div class="up-status-dialog">
       <el-dialog :title="updateStatusDialogTitle"
                  :visible.sync="updateStatusDialogVisible"
-                 @close="updateStatusDialogClose">
+                 @close="updateStatusDialogClose"
+                 v-dialogDrag>
         <el-form :model="updateStatusDialogForm"
                  label-suffix=":"
                  size="small">

@@ -14,6 +14,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import storageUtil from '@utils/storageUtil'
 import sysDictUtil from '@utils/sysDictUtil'
 import commentUtil from '@utils/commentUtil'
+import '@utils/dialogDragUtil.js'
 
 Vue.config.productionTip = false
 
