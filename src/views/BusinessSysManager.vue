@@ -27,6 +27,20 @@
             <el-input v-model.trim="selectForm.managerName"
                       clearable></el-input>
           </el-form-item>
+          <el-form-item label="状态"
+                        prop="managerStatus"
+                        label-width="3rem">
+            <el-select v-model="selectForm.managerStatus"
+                       clearable
+                       placeholder="请选择">
+              <el-option value="1"
+                         label="启用">
+              </el-option>
+              <el-option value="0"
+                         label="禁用">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
@@ -122,7 +136,14 @@
           </el-form-item>
           <el-form-item label="权限"
                         label-width="10rem">
-
+            <el-tree :data="permissionAuthorTreeList"
+                     show-checkbox
+                     default-expand-all
+                     node-key="id"
+                     ref="permissionAuthorTree"
+                     highlight-current
+                     :props="permissionAuthorTreeProps">
+            </el-tree>
           </el-form-item>
           <el-form-item label="状态"
                         prop="managerStatus"
@@ -173,7 +194,8 @@ export default {
     return {
       containerShow: true,
       selectForm: {
-        managerName: ''
+        managerName: '',
+        managerStatus: ''
       },
       searchContent: {},
       pageInfo: {},
@@ -184,12 +206,16 @@ export default {
         id: 0,
         managerName: '',
         managerPassword: '',
-        managerPermArr: [],
         managerStatus: 1
       },
       dataDialogFormRule: {
         managerName: [{ required: true, message: '管理员名不能为空', trigger: 'blur' }],
         managerPassword: [{ validator: checkPassword, trigger: 'blur' }]
+      },
+      permissionAuthorTreeList: [],
+      permissionAuthorTreeProps: {
+        children: 'permissionList',
+        label: 'title'
       }
     }
   },
@@ -295,14 +321,27 @@ export default {
         id: 0,
         managerName: '',
         managerPassword: '',
-        managerPermArr: [],
         managerStatus: 1
       }
       this.$refs.dataDialogForm.clearValidate()
+    },
+    getPermissionAuthorTree () {
+      this.$api.get(this.$apiUrl.SYS_PERMISSION_GETPERMISSIONAUTHORTREE, null, res => {
+        if (res.code === 200) {
+          this.permissionAuthorTreeList = res.data
+        } else if (res.code === 500) {
+          this.$notify.error({
+            title: '错误',
+            message: res.msg,
+            duration: 0
+          })
+        }
+      })
     }
   },
   mounted () {
     this.getPage()
+    this.getPermissionAuthorTree()
   }
 }
 </script>
@@ -361,5 +400,15 @@ export default {
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
   color: #f8f9fa;
+}
+/* el表单树形控件重写 */
+.data-dialog /deep/ .el-tree,
+.data-dialog /deep/ .el-tree-node__content:hover,
+.data-dialog
+  /deep/
+  .el-tree--highlight-current
+  .el-tree-node.is-current
+  > .el-tree-node__content {
+  border-radius: 0.25rem;
 }
 </style>

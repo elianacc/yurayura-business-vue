@@ -11,10 +11,10 @@ export default {
   SYS_MANAGER_INSERT: '/api/sys/manager/insert',
   // 修改系统管理员
   SYS_MANAGER_UPDATE: '/api/sys/manager/update',
-  // 查询系统菜单列表(侧边导航使用)
-  SYS_MENU_GETSYSMENU: '/api/sys/menu/getSysMenu',
-  // 查询系统菜单列表
-  SYS_MENU_GETLIST: '/api/sys/menu/getList',
+  // 查询系统侧边菜单
+  SYS_MENU_GETSYSSIDEMENU: '/api/sys/menu/getSysSideMenu',
+  // 查询系统菜单树形列表
+  SYS_MENU_GETTREELIST: '/api/sys/menu/getTreeList',
   // 删除系统菜单（根据id）
   SYS_MENU_DELETEBYID: '/api/sys/menu/deleteById',
   // 添加系统菜单
@@ -23,7 +23,7 @@ export default {
   SYS_MENU_UPDATE: '/api/sys/menu/update',
   // 查询系统子菜单（根据路径）
   SYS_MENUSUB_GETBYINDEX: '/api/sys/menuSub/getByIndex',
-  // 查询所有系统子菜单标识
+  // 查询所有系统子菜单
   SYS_MENUSUB_GETALL: '/api/sys/menuSub/getAll',
   // 删除系统子菜单（根据id）
   SYS_MENUSUB_DELETEBYID: '/api/sys/menuSub/deleteById',
@@ -37,6 +37,8 @@ export default {
   SYS_DICT_INSERT: '/api/sys/dict/insert',
   // 修改系统数据字典
   SYS_DICT_UPDATE: '/api/sys/dict/update',
+  // 查询权限授权树
+  SYS_PERMISSION_GETPERMISSIONAUTHORTREE: '/api/sys/permission/getPermissionAuthorTree',
   // 分页查询系统权限
   SYS_PERMISSION_GETPAGE: '/api/sys/permission/getPage',
   // 添加系统权限

@@ -52,10 +52,11 @@
             <el-select v-model="selectForm.comicShelfStatus"
                        clearable
                        placeholder="请选择">
-              <el-option v-for="item in comicShelfStatusDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
+              <el-option value="1"
+                         label="上架">
+              </el-option>
+              <el-option value="0"
+                         label="下架">
               </el-option>
             </el-select>
           </el-form-item>
@@ -219,10 +220,12 @@
                         prop="comicStatus"
                         label-width="10rem">
             <el-radio-group v-model="dataDialogForm.comicStatus">
-              <el-radio v-for="item in comicUpdtStatusDict"
-                        :label="parseInt(item.dictVal)"
-                        :key="item.id"
-                        border>{{item.dictName}}</el-radio>
+              <el-radio :label="0"
+                        border>已完结
+              </el-radio>
+              <el-radio :label="8"
+                        border>更新中
+              </el-radio>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="更新时间"
@@ -310,10 +313,10 @@
                         prop="comicShelfStatus"
                         label-width="10rem">
             <el-radio-group v-model="dataDialogForm.comicShelfStatus">
-              <el-radio v-for="item in comicShelfStatusDict"
-                        :label="parseInt(item.dictVal)"
-                        :key="item.id"
-                        border>{{item.dictName}}</el-radio>
+              <el-radio :label="1"
+                        border>上架</el-radio>
+              <el-radio :label="0"
+                        border>下架</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-form>
@@ -380,17 +383,13 @@ export default {
       },
       comicLabelDict: [],
       comicStatusDict: [],
-      comicUpdtTimeDict: [],
-      comicUpdtStatusDict: [],
-      comicShelfStatusDict: []
+      comicUpdtTimeDict: []
     }
   },
   methods: {
     async getSysDict () {
       this.comicStatusDict = await this.$sysDictUtil.get('comicStatus')
-      this.comicShelfStatusDict = await this.$sysDictUtil.get('comicShelfStatus')
       this.comicLabelDict = await this.$sysDictUtil.get('comicLabel')
-      this.comicUpdtStatusDict = await this.$sysDictUtil.get('comicUpdtStatus')
       this.comicUpdtTimeDict = await this.$sysDictUtil.get('comicUpdtTime')
     },
     tbSelectionChange (val) {

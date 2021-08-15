@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     getSideMenu () {
-      this.$api.get(this.$apiUrl.SYS_MENU_GETSYSMENU, null, res => {
+      this.$api.get(this.$apiUrl.SYS_MENU_GETSYSSIDEMENU, null, res => {
         if (res.code === 200) {
           this.sideMenu = res.data
         } else if (res.code === 500) {

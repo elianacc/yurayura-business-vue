@@ -183,8 +183,8 @@ export default {
     }
   },
   methods: {
-    getList () {
-      this.$api.get(this.$apiUrl.SYS_MENU_GETLIST, null, res => {
+    getTreeList () {
+      this.$api.get(this.$apiUrl.SYS_MENU_GETTREELIST, null, res => {
         if (res.code === 200) {
           this.dataList = res.data
         } else if (res.code === 401 || res.code === 405) {
@@ -319,7 +319,7 @@ export default {
     }
   },
   mounted () {
-    this.getList()
+    this.getTreeList()
   }
 }
 </script>
