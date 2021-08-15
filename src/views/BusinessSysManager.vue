@@ -283,8 +283,9 @@ export default {
           if (sendData.managerPassword) {
             sendData.managerPassword = Base64.encode(sendData.managerPassword)
           }
-
-          this.$api.post(sendUrl, JSON.stringify(sendData), res => {
+          let checkPermIdArr = this.$refs.permissionAuthorTree.getCheckedKeys().filter(permId => permId % 1 == 0)
+          sendData.permissionIdArrStr = checkPermIdArr.toString()
+          this.$api.post(sendUrl, this.$qs.stringify(sendData), res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
@@ -312,6 +313,8 @@ export default {
                 duration: 0
               })
             }
+          }, {
+            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
           })
         }
       })
