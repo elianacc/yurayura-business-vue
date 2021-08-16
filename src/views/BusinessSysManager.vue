@@ -405,6 +405,10 @@ export default {
   color: #f8f9fa;
 }
 /* el表单树形控件重写 */
+.data-dialog /deep/ .el-tree {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
 .data-dialog /deep/ .el-tree,
 .data-dialog /deep/ .el-tree-node__content:hover,
 .data-dialog

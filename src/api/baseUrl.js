@@ -5,6 +5,8 @@ export default {
   SYS_MANAGER_LOGIN: '/api/sys/manager/login',
   // 系统管理员注销
   SYS_MANAGER_LOGOUT: '/api/sys/manager/logout',
+  // 获取当前登入管理员信息
+  SYS_MANAGER_GETCURRENTMANAGERMSG: '/api/sys/manager/getCurrentManagerMsg',
   // 分页查询系统管理员
   SYS_MANAGER_GETPAGE: '/api/sys/manager/getPage',
   // 添加系统管理员
