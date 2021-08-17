@@ -68,8 +68,8 @@
                            prop="managerName">
           </el-table-column>
           <el-table-column label="权限"
-                           width="200">
-
+                           width="400"
+                           prop="permissionNamesStr">
           </el-table-column>
           <el-table-column label="创建时间"
                            width="200"
@@ -272,7 +272,7 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-
+      this.$refs.permissionAuthorTree.setCheckedKeys(currentManager.permissionIdsStr.split(','))
       this.dataDialogVisible = true
     },
     submitContent () {
@@ -327,6 +327,7 @@ export default {
         managerStatus: 1
       }
       this.$refs.dataDialogForm.clearValidate()
+      this.$refs.permissionAuthorTree.setCheckedKeys([])
     },
     getPermissionAuthorTree () {
       this.$api.get(this.$apiUrl.SYS_PERMISSION_GETPERMISSIONAUTHORTREE, null, res => {
