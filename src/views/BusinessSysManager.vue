@@ -272,7 +272,9 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-      this.$refs.permissionAuthorTree.setCheckedKeys(currentManager.permissionIdsStr.split(','))
+      this.$nextTick(() => {
+        this.$refs.permissionAuthorTree.setCheckedKeys(currentManager.permissionIdsStr.split(','))
+      })
       this.dataDialogVisible = true
     },
     submitContent () {
