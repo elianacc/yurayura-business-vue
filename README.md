@@ -4,7 +4,7 @@
 
 ## 简介
 
-> YuraYura-Business-Vue为YuraYura后台管理的前端部分，为使用者提供一个良好交互的界面及相关的管理操作
+> YuraYura-Business-Vue是项目B端管理页面展示部分，整体上采用Vue CLI 4的技术实现了单页（SPA）应用
 
 ## 安装
 
