@@ -223,6 +223,11 @@
                              v-model="dataDialogForm.permissionSeq"
                              class="w-50"></el-input-number>
           </el-form-item>
+          <el-form-item label="tip"
+                        label-width="10rem"
+                        v-if="dataDialogForm.id !== 0">
+            <span class="text-white">权限禁用后，拥有此权限的管理员将失去此权限，需要时需启用此权限，重新授权！</span>
+          </el-form-item>
         </el-form>
         <div slot="footer"
              class="dialog-footer">
