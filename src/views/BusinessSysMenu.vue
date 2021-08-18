@@ -54,8 +54,15 @@
                            width="200"
                            prop="menuSeq">
           </el-table-column>
+          <el-table-column label="状态"
+                           width="200">
+            <template slot-scope="scope">
+              <span v-if="scope.row.menuStatus === 1">启用</span>
+              <span v-else>禁用</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作"
-                           width="400">
+                           width="300">
             <template slot-scope="scope">
               <div class="btn-group">
                 <button type="button"
@@ -69,12 +76,6 @@
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                         @click="updateDialogOpen(scope.row.menuType, scope.row.menuName, scope.row.menuPid)">
                   <i class="fa fa-pencil-square-o me-2"></i>修改
-                </button>
-                <button type="button"
-                        class="btn btn-danger btn-twitter font-size-14"
-                        v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_delete`)"
-                        @click="deleteById(scope.row.id, scope.row.menuType)">
-                  <i class="fa fa-trash me-2"></i>删除
                 </button>
               </div>
             </template>
@@ -130,6 +131,20 @@
                       class="w-75"
                       disabled></el-input>
           </el-form-item>
+          <el-form-item label="状态"
+                        prop="menuStatus"
+                        label-width="10rem">
+            <el-radio-group v-model="dataDialogForm.menuStatus">
+              <el-radio :label="1"
+                        border>
+                启用
+              </el-radio>
+              <el-radio :label="0"
+                        border>
+                禁用
+              </el-radio>
+            </el-radio-group>
+          </el-form-item>
         </el-form>
         <div slot="footer"
              class="dialog-footer">
@@ -172,7 +187,8 @@ export default {
         menuIconClass: '',
         menuSeq: 1,
         menuIndex: '/business',
-        menuPid: 0
+        menuPid: 0,
+        menuStatus: 1
       },
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
@@ -206,37 +222,6 @@ export default {
         }
       })
     },
-    deleteById (id, menuType) {
-      let sendUrl = menuType === 1 ? this.$apiUrl.SYS_MENU_DELETEBYID : this.$apiUrl.SYS_MENUSUB_DELETEBYID
-      let confirmMsg = menuType === 1 ? '删除一级菜单会连同删除对应二级菜单，确定要删除吗？' : '确定要删除此二级菜单吗？'
-      this.$confirm(confirmMsg, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.$api.get(sendUrl, { id }, res => {
-          if (res.code === 200) {
-            location.reload()
-          } else if (res.code === 102) {
-            this.$message.error(res.msg)
-          } else if (res.code === 401 || res.code === 405) {
-            this.$alert(res.msg, '提示', {
-              confirmButtonText: '确定'
-            }).then(() => {
-              if (res.code === 401) {
-                this.$router.push('/manager_login')
-              }
-            })
-          } else if (res.code === 500) {
-            this.$notify.error({
-              title: '错误',
-              message: res.msg,
-              duration: 0
-            })
-          }
-        })
-      })
-    },
     insertMainMenuDialogOpen () {
       this.dataDialogTitle = '『添加主菜单窗口』'
       this.isMainMenuDialog = true
@@ -264,6 +249,7 @@ export default {
       this.dataDialogVisible = true
     },
     dataDialogClose () {
+      this.getTreeList()
       this.dataDialogForm = {
         id: 0,
         menuTitle: '',
@@ -271,7 +257,8 @@ export default {
         menuIconClass: '',
         menuSeq: 1,
         menuIndex: '/business',
-        menuPid: 0
+        menuPid: 0,
+        menuStatus: 1
       }
       this.$refs.dataDialogForm.clearValidate()
     },
@@ -371,6 +358,10 @@ export default {
 /* data-dialog表单 */
 /* el表单标签重写（颜色修改） */
 .data-dialog /deep/ .el-form-item__label {
+  color: #f8f9fa;
+}
+/* el表单单选重写 */
+.data-dialog /deep/ .el-radio {
   color: #f8f9fa;
 }
 </style>

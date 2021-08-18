@@ -302,6 +302,7 @@ export default {
       })
     },
     dataDialogClose () {
+      this.getPage()
       this.dataDialogForm = {
         id: 0,
         dictCode: '',

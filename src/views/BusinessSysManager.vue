@@ -262,10 +262,12 @@ export default {
       this.getPage()
     },
     insertDialogOpen () {
+      this.getPermissionAuthorTree()
       this.dataDialogTitle = '『添加窗口』'
       this.dataDialogVisible = true
     },
     updateDialogOpen (id) {
+      this.getPermissionAuthorTree()
       this.dataDialogTitle = '『修改窗口』'
       this.dataDialogOpenAndSetVal(id)
     },
@@ -300,6 +302,12 @@ export default {
               this.$message.error(res.msg)
             } else if (res.code === 103) {
               console.log(res.msg)
+            } else if (res.code === 104) {
+              this.$alert(res.msg, '提示', {
+                confirmButtonText: '确定'
+              }).then(() => {
+                this.getPermissionAuthorTree()
+              })
             } else if (res.code === 401 || res.code === 405) {
               this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'
@@ -322,6 +330,7 @@ export default {
       })
     },
     dataDialogClose () {
+      this.getPage()
       this.dataDialogForm = {
         id: 0,
         managerName: '',
@@ -347,7 +356,6 @@ export default {
   },
   mounted () {
     this.getPage()
-    this.getPermissionAuthorTree()
   }
 }
 </script>

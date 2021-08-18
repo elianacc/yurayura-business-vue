@@ -17,8 +17,6 @@ export default {
   SYS_MENU_GETSYSSIDEMENU: '/api/sys/menu/getSysSideMenu',
   // 查询系统菜单树形列表
   SYS_MENU_GETTREELIST: '/api/sys/menu/getTreeList',
-  // 删除系统菜单（根据id）
-  SYS_MENU_DELETEBYID: '/api/sys/menu/deleteById',
   // 添加系统菜单
   SYS_MENU_INSERT: '/api/sys/menu/insert',
   // 修改系统菜单
@@ -27,8 +25,6 @@ export default {
   SYS_MENUSUB_GETBYINDEX: '/api/sys/menuSub/getByIndex',
   // 查询所有系统子菜单
   SYS_MENUSUB_GETALL: '/api/sys/menuSub/getAll',
-  // 删除系统子菜单（根据id）
-  SYS_MENUSUB_DELETEBYID: '/api/sys/menuSub/deleteById',
   // 添加系统子菜单
   SYS_MENUSUB_INSERT: '/api/sys/menuSub/insert',
   // 修改系统子菜单

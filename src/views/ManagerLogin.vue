@@ -98,14 +98,14 @@ export default {
   },
   methods: {
     loginBusiness () {
-      const loading = this.$loading({
-        lock: true,
-        text: '登入中...',
-        spinner: 'el-icon-loading',
-        background: '#0d1117'
-      })
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: '登入中...',
+            spinner: 'el-icon-loading',
+            background: '#0d1117'
+          })
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
           delete this.loginForm.verifyImage
           this.$api.post(this.$apiUrl.SYS_MANAGER_LOGIN, JSON.stringify(this.loginForm), res => {

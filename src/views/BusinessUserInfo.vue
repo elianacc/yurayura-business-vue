@@ -298,6 +298,7 @@ export default {
       })
     },
     updateStatusDialogClose () {
+      this.getPage()
       this.updateStatusDialogForm = {
         id: 0,
         userStatus: '0'
