@@ -157,7 +157,9 @@
                         prop="permissionName"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.permissionName"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      maxlength="20"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="所属子菜单"
                         prop="permissionBelongSubmenuName"
@@ -220,6 +222,8 @@
                         prop="permissionSeq"
                         label-width="10rem">
             <el-input-number :min="1"
+                             :max="10000"
+                             @blur="dataDialogForm.permissionSeq = dataDialogForm.permissionSeq || 1"
                              v-model="dataDialogForm.permissionSeq"
                              class="w-50"></el-input-number>
           </el-form-item>

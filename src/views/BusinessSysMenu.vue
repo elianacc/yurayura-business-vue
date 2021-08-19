@@ -101,25 +101,33 @@
                         prop="menuTitle"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.menuTitle"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      maxlength="20"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="标识"
                         prop="menuName"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.menuName"
                       class="w-75"
+                      maxlength="20"
+                      show-word-limit
                       :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="图标样式"
                         prop="menuIconClass"
                         label-width="10rem">
             <el-input v-model="dataDialogForm.menuIconClass"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      maxlength="30"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="序号"
                         prop="menuSeq"
                         label-width="10rem">
             <el-input-number :min="1"
+                             :max="10000"
+                             @blur="dataDialogForm.menuSeq = dataDialogForm.menuSeq || 1"
                              v-model="dataDialogForm.menuSeq"
                              class="w-50"></el-input-number>
           </el-form-item>
@@ -193,8 +201,7 @@ export default {
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         menuName: [{ validator: checkMenuName, trigger: 'blur' }],
-        menuIconClass: [{ required: true, message: '图标样式不能为空', trigger: 'blur' }],
-        menuSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }]
+        menuIconClass: [{ required: true, message: '图标样式不能为空', trigger: 'blur' }]
       }
     }
   },

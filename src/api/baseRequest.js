@@ -10,7 +10,7 @@ function apiAxios (method, url, params, success, header) {
   }).then(res => {
     success(res.data)
   }).catch(err => {
-    console.log('错误:' + err.response)
+    console.log('错误:' + err.message)
   })
 }
 

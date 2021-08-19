@@ -145,7 +145,7 @@
               <span>{{scope.row.comicLabel | cmLabelFilter}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="时间"
+          <el-table-column label="放送时间"
                            width="200"
                            prop="comicTime">
           </el-table-column>
@@ -185,9 +185,11 @@
                         prop="comicName"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.comicName"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      maxlength="30"
+                      show-word-limit></el-input>
           </el-form-item>
-          <el-form-item label="时间"
+          <el-form-item label="放送时间"
                         prop="comicTime"
                         label-width="10rem">
             <el-date-picker type="date"
@@ -202,6 +204,7 @@
                              :precision="1"
                              :step="0.1"
                              :max="10"
+                             @blur="dataDialogForm.comicScore = dataDialogForm.comicScore || 1.1"
                              v-model="dataDialogForm.comicScore"
                              class="w-50">
             </el-input-number>
@@ -247,6 +250,8 @@
                         prop="comicCurrentEpisodes"
                         label-width="10rem">
             <el-input-number :min="1"
+                             :max="10000"
+                             @blur="dataDialogForm.comicCurrentEpisodes = dataDialogForm.comicCurrentEpisodes || 1"
                              v-model="dataDialogForm.comicCurrentEpisodes"
                              class="w-50"></el-input-number>
           </el-form-item>
@@ -379,7 +384,8 @@ export default {
         comicShelfStatus: 1
       },
       dataDialogFormRule: {
-        comicName: [{ required: true, message: '番剧名不能为空', trigger: 'blur' }]
+        comicName: [{ required: true, message: '番剧名不能为空', trigger: 'blur' }],
+        comicTime: [{ required: true, message: '放送时间不能为空', trigger: 'blur' }]
       },
       comicLabelDict: [],
       comicStatusDict: [],

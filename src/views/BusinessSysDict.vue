@@ -122,19 +122,25 @@
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.dictCode"
                       class="w-75"
+                      maxlength="20"
+                      show-word-limit
                       :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="字典名"
                         prop="dictName"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.dictName"
-                      class="w-75"></el-input>
+                      class="w-75"
+                      maxlength="20"
+                      show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="字典值"
                         prop="dictVal"
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.dictVal"
                       class="w-75"
+                      maxlength="20"
+                      show-word-limit
                       :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="状态"
@@ -155,6 +161,8 @@
                         prop="dictSeq"
                         label-width="10rem">
             <el-input-number :min="1"
+                             :max="10000"
+                             @blur="dataDialogForm.dictSeq = dataDialogForm.dictSeq || 1"
                              v-model="dataDialogForm.dictSeq"
                              class="w-50"></el-input-number>
           </el-form-item>
@@ -183,6 +191,15 @@ export default {
     BusinessPagination
   },
   data () {
+    let checkDictCode = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error('字典编码不能为空'))
+      }
+      if (!/^[A-Za-z]+$/.test(value)) {
+        return callback(new Error('字典编码只能包含字母'))
+      }
+      callback()
+    }
     return {
       containerShow: true,
       selectForm: {
@@ -203,10 +220,9 @@ export default {
         dictSeq: 1
       },
       dataDialogFormRule: {
-        dictCode: [{ required: true, message: '字典编码不能为空', trigger: 'blur' }],
+        dictCode: [{ validator: checkDictCode, trigger: 'blur' }],
         dictName: [{ required: true, message: '字典名不能为空', trigger: 'blur' }],
-        dictVal: [{ required: true, message: '字典值不能为空', trigger: 'blur' }],
-        dictSeq: [{ required: true, message: '序号不能为空', trigger: 'blur' }]
+        dictVal: [{ required: true, message: '字典值不能为空', trigger: 'blur' }]
       }
     }
   },

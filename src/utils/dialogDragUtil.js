@@ -48,8 +48,6 @@ Vue.directive('dialogDrag', {
         // 移动当前元素
         dragDom.style.left = `${l + styL}px`;
         dragDom.style.top = `${t + styT}px`;
-        // 将此时的位置传出去
-        binding.value({ x: e.pageX, y: e.pageY })
       };
 
       document.onmouseup = function (e) {

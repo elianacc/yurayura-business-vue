@@ -123,6 +123,8 @@
                         label-width="10rem">
             <el-input v-model.trim="dataDialogForm.managerName"
                       class="w-75"
+                      maxlength="20"
+                      show-word-limit
                       :disabled="dataDialogForm.id !== 0"></el-input>
           </el-form-item>
           <el-form-item label="密码"
