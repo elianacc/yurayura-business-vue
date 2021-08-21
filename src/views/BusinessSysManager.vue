@@ -277,7 +277,9 @@ export default {
       let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
       this.$nextTick(() => {
-        this.$refs.permissionAuthorTree.setCheckedKeys(currentManager.permissionIdsStr.split(','))
+        if (currentManager.permissionIdsStr) {
+          this.$refs.permissionAuthorTree.setCheckedKeys(currentManager.permissionIdsStr.split(','))
+        }
       })
       this.dataDialogVisible = true
     },
@@ -304,12 +306,6 @@ export default {
               this.$message.error(res.msg)
             } else if (res.code === 103) {
               console.log(res.msg)
-            } else if (res.code === 104) {
-              this.$alert(res.msg, '提示', {
-                confirmButtonText: '确定'
-              }).then(() => {
-                this.getPermissionAuthorTree()
-              })
             } else if (res.code === 401 || res.code === 405) {
               this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'

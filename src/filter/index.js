@@ -44,7 +44,7 @@ export default {
   permissionBelongFilter (permissionBelongSubmenuName, menuSubs) {
     let permissionBelong
     menuSubs.forEach(menuSub => {
-      if (menuSub.menuName == permissionBelongSubmenuName) {
+      if (menuSub.menuName === permissionBelongSubmenuName) {
         permissionBelong = menuSub.menuTitle
       }
     })

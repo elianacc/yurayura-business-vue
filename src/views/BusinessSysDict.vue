@@ -195,8 +195,8 @@ export default {
       if (!value) {
         return callback(new Error('字典编码不能为空'))
       }
-      if (!/^[A-Za-z]+$/.test(value)) {
-        return callback(new Error('字典编码只能包含字母'))
+      if (!/^[a-z][A-Za-z]*$/.test(value)) {
+        return callback(new Error('字典编码只能包含字母，以小写字母开头'))
       }
       callback()
     }

@@ -122,7 +122,7 @@
           <el-table-column label="番剧名"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.comicName}}<span v-show="scope.row.comicShelfStatus == 0">(已下架)</span></span>
+              <span>{{scope.row.comicName}}<span v-show="scope.row.comicShelfStatus === 0">(已下架)</span></span>
             </template>
           </el-table-column>
           <el-table-column label="评分"

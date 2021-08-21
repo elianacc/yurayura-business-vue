@@ -33,7 +33,7 @@
       <div :class="sideMenuIsCollapse? 'col-sidemenu-collapse': 'col-sidemenu-uncollapse'"
            class="c1">
         <el-menu :default-active="sideMenuDftActive"
-                 :default-openeds="['sys','comic','user']"
+                 :default-openeds="sideMenu.map(menu => menu.menuName)"
                  background-color="#192734"
                  text-color="#adb5bd"
                  active-text-color="#409eff"

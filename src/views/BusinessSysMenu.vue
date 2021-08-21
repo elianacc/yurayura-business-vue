@@ -178,7 +178,7 @@ export default {
         return callback(new Error('标识不能为空'))
       }
       if (!/^[a-z][a-z_]*$/.test(value)) {
-        return callback(new Error('标识以小写字母开头，只能包含小写字母下划线'))
+        return callback(new Error('标识只能包含小写字母下划线，以小写字母开头'))
       }
       callback()
     }

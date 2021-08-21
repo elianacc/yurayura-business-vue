@@ -167,7 +167,8 @@
             <el-select v-model="dataDialogForm.permissionBelongSubmenuName"
                        clearable
                        placeholder="----请选择所属子菜单----"
-                       class="w-50">
+                       class="w-50"
+                       :disabled="dataDialogForm.id !== 0">
               <el-option v-for="item in menuSubs"
                          :key="item.id"
                          :value="item.menuName"
@@ -178,7 +179,8 @@
           <el-form-item label="权限类型"
                         prop="permissionType"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.permissionType">
+            <el-radio-group v-model="dataDialogForm.permissionType"
+                            :disabled="dataDialogForm.id !== 0">
               <el-radio :label="1"
                         border>
                 菜单
@@ -196,7 +198,8 @@
             <el-select v-model="dataDialogForm.permissionBtnVal"
                        clearable
                        placeholder="----请选择权限按钮----"
-                       class="w-50">
+                       class="w-50"
+                       :disabled="dataDialogForm.id !== 0">
               <el-option v-for="item in permissionBtnDict"
                          :key="item.id"
                          :value="item.dictVal"
@@ -258,7 +261,7 @@ export default {
   },
   data () {
     let checkPermissionBtnVal = (rule, value, callback) => {
-      if (this.dataDialogForm.permissionType == 2 && !value) {
+      if (this.dataDialogForm.permissionType === 2 && !value) {
         return callback(new Error('权限按钮不能为空'))
       }
       callback()
@@ -351,7 +354,7 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let currentPerm = this.pageInfo.list.find(perm => perm.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentPerm[key])
-      if (currentPerm.permissionType == 2) {
+      if (currentPerm.permissionType === 2) {
         let permCode = currentPerm.permissionCode
         this.dataDialogForm.permissionBtnVal = permCode.substring(permCode.lastIndexOf('_') + 1, permCode.length)
       }
@@ -493,5 +496,10 @@ export default {
 /* el表单单选重写 */
 .data-dialog /deep/ .el-radio {
   color: #f8f9fa;
+}
+/* el禁用表单重写 */
+.data-dialog /deep/ .el-radio__input.is-disabled .el-radio__inner,
+.data-dialog /deep/ .el-radio__input.is-disabled.is-checked .el-radio__inner {
+  background-color: #15202b;
 }
 </style>
