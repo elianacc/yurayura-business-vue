@@ -8,7 +8,7 @@
                 class="btn btn-primary font-size-14 me-2"
                 v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`)"
                 @click="insertDialogOpen">
-          <i class="fa fa-plus-circle me-2"></i>添加
+          <i class="fa fa-plus-circle me-2"></i>添加按钮权限
         </button>
       </div>
 
@@ -178,9 +178,10 @@
           </el-form-item>
           <el-form-item label="权限类型"
                         prop="permissionType"
-                        label-width="10rem">
+                        label-width="10rem"
+                        v-if="dataDialogForm.id !== 0">
             <el-radio-group v-model="dataDialogForm.permissionType"
-                            :disabled="dataDialogForm.id !== 0">
+                            disabled>
               <el-radio :label="1"
                         border>
                 菜单
@@ -344,8 +345,9 @@ export default {
       this.getPage()
     },
     insertDialogOpen () {
-      this.dataDialogTitle = '『添加窗口』'
+      this.dataDialogTitle = '『添加按钮权限窗口』'
       this.dataDialogVisible = true
+      this.dataDialogForm.permissionType = 2
     },
     updateDialogOpen (id) {
       this.dataDialogTitle = '『修改窗口』'
@@ -429,9 +431,6 @@ export default {
   watch: {
     'dataDialogForm.permissionType' (val) {
       this.dataDialogForm.permBtnGrpShow = val === 2
-      if (val === 1) {
-        this.dataDialogForm.permissionBtnVal = ''
-      }
     }
   },
   mounted () {

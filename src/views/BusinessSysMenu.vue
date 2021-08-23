@@ -57,8 +57,8 @@
           <el-table-column label="状态"
                            width="200">
             <template slot-scope="scope">
-              <span v-if="scope.row.menuStatus === 1">启用</span>
-              <span v-else>禁用</span>
+              <span v-if="scope.row.menuStatus === 1">显示</span>
+              <span v-else>隐藏</span>
             </template>
           </el-table-column>
           <el-table-column label="操作"
@@ -145,11 +145,11 @@
             <el-radio-group v-model="dataDialogForm.menuStatus">
               <el-radio :label="1"
                         border>
-                启用
+                显示
               </el-radio>
               <el-radio :label="0"
                         border>
-                禁用
+                隐藏
               </el-radio>
             </el-radio-group>
           </el-form-item>
