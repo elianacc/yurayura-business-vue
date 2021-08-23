@@ -348,9 +348,17 @@ export default {
 .r2 .c1 /deep/ .el-table thead {
   color: #f8f9fa;
 }
-/* el树形表格折叠箭头重写（颜色改变） */
+/* el树形表格折叠箭头重写*/
 .r2 .c1 /deep/ .el-icon-arrow-right {
   color: #f8f9fa;
+}
+.r2
+  .c1
+  /deep/
+  .el-table
+  [class*="el-table__row--level"]
+  .el-table__expand-icon {
+  right: 30px;
 }
 
 /* el对话框重写 */
