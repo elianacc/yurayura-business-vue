@@ -366,7 +366,7 @@ export default {
 /* el对话框重写 */
 .data-dialog /deep/ .el-dialog,
 .data-dialog /deep/ .el-pager li {
-  background: #15202b;
+  background: #192734;
   border-radius: 0.5rem;
 }
 .data-dialog /deep/ .el-dialog__title {

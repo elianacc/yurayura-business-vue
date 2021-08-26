@@ -354,7 +354,7 @@ export default {
 /* el对话框重写 */
 .up-status-dialog /deep/ .el-dialog,
 .up-status-dialog /deep/ .el-pager li {
-  background: #15202b;
+  background: #192734;
   border-radius: 0.5rem;
 }
 .up-status-dialog /deep/ .el-dialog__title {
