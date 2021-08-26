@@ -91,7 +91,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white"
-                      v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
+                      v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`) && scope.row.managerName !== 'admin'"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
@@ -399,6 +399,7 @@ export default {
 .data-dialog /deep/ .el-dialog,
 .data-dialog /deep/ .el-pager li {
   background: #15202b;
+  border-radius: 0.5rem;
 }
 .data-dialog /deep/ .el-dialog__title {
   color: #f8f9fa;

@@ -729,6 +729,7 @@ export default {
 .data-dialog /deep/ .el-dialog,
 .data-dialog /deep/ .el-pager li {
   background: #15202b;
+  border-radius: 0.5rem;
 }
 .data-dialog /deep/ .el-dialog__title {
   color: #f8f9fa;

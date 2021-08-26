@@ -353,6 +353,7 @@ export default {
 .up-status-dialog /deep/ .el-dialog,
 .up-status-dialog /deep/ .el-pager li {
   background: #15202b;
+  border-radius: 0.5rem;
 }
 .up-status-dialog /deep/ .el-dialog__title {
   color: #f8f9fa;
