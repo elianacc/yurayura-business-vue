@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-5 custom-pagination">
     <div class="col-4">
-      <span class="badge badge-dark bg-twitter-content font-size-16"
+      <span class="badge badge-dark font-size-16"
             v-show="pageInfo.pages">
         共{{pageInfo.pages}}页/{{pageInfo.total}}个
       </span>
@@ -35,6 +35,11 @@ export default {
 </script>
 
 <style scoped>
+/* bs5徽章重写 */
+.custom-pagination /deep/ .badge-dark {
+  background-color: #192734;
+}
+
 /* el分页重写 */
 .custom-pagination /deep/ .el-pagination.is-background .btn-next,
 .custom-pagination /deep/ .el-pagination.is-background .btn-prev,

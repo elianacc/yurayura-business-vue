@@ -680,6 +680,8 @@ export default {
 }
 .r2 .c1 /deep/ .el-table {
   color: #f8f9fa;
+  border: 1px solid #38444d;
+  border-radius: 1rem;
 }
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th {

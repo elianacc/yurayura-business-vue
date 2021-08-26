@@ -44,18 +44,18 @@
                            prop="menuIconClass">
           </el-table-column>
           <el-table-column label="类型"
-                           width="200">
+                           width="100">
             <template slot-scope="scope">
               <span v-if="scope.row.menuType === 1">一级菜单</span>
               <span v-else>二级菜单</span>
             </template>
           </el-table-column>
           <el-table-column label="序号"
-                           width="200"
+                           width="100"
                            prop="menuSeq">
           </el-table-column>
           <el-table-column label="状态"
-                           width="200">
+                           width="100">
             <template slot-scope="scope">
               <span v-if="scope.row.menuStatus === 1">显示</span>
               <span v-else>隐藏</span>
@@ -340,6 +340,8 @@ export default {
 }
 .r2 .c1 /deep/ .el-table {
   color: #f8f9fa;
+  border: 1px solid #38444d;
+  border-radius: 1rem;
 }
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th {
@@ -358,7 +360,7 @@ export default {
   .el-table
   [class*="el-table__row--level"]
   .el-table__expand-icon {
-  right: 30px;
+  right: 25px;
 }
 
 /* el对话框重写 */

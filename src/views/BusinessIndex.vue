@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="jumbotron bg-twitter-content">
+    <div class="jumbotron">
       <h1 class="display-4 text-center text-white">Hello, {{$storageUtil.getManagerMsg().managerName}}!</h1>
       <p class="lead text-center text-white">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4 bg-secondary">
@@ -39,6 +39,7 @@ export default {
   padding: 4rem 2rem;
   margin-bottom: 2rem;
   border-radius: 0.3rem;
+  background-color: #15202b;
 }
 
 .github-btn-p {

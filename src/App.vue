@@ -13,7 +13,7 @@ export default {
 <style>
 /* 全局背景及禁用y轴滚动设置 */
 body {
-  background: #0d1117 !important;
+  background: #15202b !important;
   overflow-y: hidden;
 }
 </style>
