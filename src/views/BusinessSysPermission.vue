@@ -125,7 +125,7 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-info btn-twitter font-size-14 text-white"
+                      class="btn btn-info btn-twitter font-size-14 text-white shadow"
                       v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改

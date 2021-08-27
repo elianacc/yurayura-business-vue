@@ -21,7 +21,7 @@
     <!-- 管理员登入表单row -->
     <div class="row mt-3">
       <div class="col-4 offset-4">
-        <div class="card shadow">
+        <div class="card shadow-lg">
           <div class="card-body">
             <el-form :model="loginForm"
                      :rules="loginRules"

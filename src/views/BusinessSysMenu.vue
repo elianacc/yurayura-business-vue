@@ -64,7 +64,7 @@
           <el-table-column label="操作"
                            width="300">
             <template slot-scope="scope">
-              <div class="btn-group">
+              <div class="btn-group shadow">
                 <button type="button"
                         class="btn btn-success btn-twitter font-size-14"
                         v-if="$storageUtil.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`) && scope.row.menuType === 1"

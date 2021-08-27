@@ -449,7 +449,7 @@ nav .ms-uncollapse-span {
 }
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header {
   border-bottom: none;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   background-color: #192734;
 }
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__item.is-active {

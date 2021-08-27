@@ -1,7 +1,7 @@
 <template>
   <div class="row mt-5 custom-pagination">
     <div class="col-4">
-      <span class="badge badge-dark font-size-16"
+      <span class="badge badge-dark font-size-16 shadow"
             v-show="pageInfo.pages">
         共{{pageInfo.pages}}页/{{pageInfo.total}}个
       </span>
@@ -45,6 +45,7 @@ export default {
 .custom-pagination /deep/ .el-pagination.is-background .btn-prev,
 .custom-pagination /deep/ .el-pagination.is-background .el-pager li {
   background-color: #192734;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 .custom-pagination /deep/ .el-pagination.is-background .btn-next.disabled,
 .custom-pagination /deep/ .el-pagination.is-background .btn-next:disabled,
@@ -52,6 +53,7 @@ export default {
 .custom-pagination /deep/ .el-pagination.is-background .btn-prev:disabled,
 .custom-pagination /deep/ .el-pagination.is-background .el-pager li.disabled {
   color: #606266;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 .custom-pagination /deep/ .el-pagination.is-background .btn-next,
 .custom-pagination /deep/ .el-pagination.is-background .btn-prev,
