@@ -342,6 +342,7 @@ export default {
   color: #f8f9fa;
   border: 1px solid #38444d;
   border-radius: 1rem;
+  padding-bottom: 1px;
 }
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th {
