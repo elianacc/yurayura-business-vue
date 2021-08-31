@@ -291,7 +291,7 @@ export default {
           if (sendData.managerPassword) {
             sendData.managerPassword = Base64.encode(sendData.managerPassword)
           }
-          let checkPermIdArr = this.$refs.permissionAuthorTree.getCheckedKeys().filter(permId => permId % 1 == 0)
+          let checkPermIdArr = this.$refs.permissionAuthorTree.getCheckedKeys().filter(permId => permId % 1 === 0)
           sendData.permissionIdArrStr = checkPermIdArr.toString()
           this.$api.post(sendUrl, this.$qs.stringify(sendData), res => {
             if (res.code === 200) {

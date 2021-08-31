@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import axios from 'axios'
+import api from '@api/baseRequest'
+import apiUrl from '@api/baseUrl'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
 import BusinessIndex from '@views/BusinessIndex.vue'
@@ -90,12 +91,8 @@ const router = new Router({
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
-    axios({
-      method: 'get',
-      url: '/api/sys/manager/judgeAuthen',
-      responseType: 'json'
-    }).then(res => {
-      if (res.data.code === 200) {
+    api.get(apiUrl.SYS_MANAGER_JUDGEAUTHEN, null, res => {
+      if (res.code === 200) {
         next()
       } else {
         next('/manager_login')

@@ -13,6 +13,8 @@ export default {
   SYS_MANAGER_INSERT: '/api/sys/manager/insert',
   // 修改系统管理员
   SYS_MANAGER_UPDATE: '/api/sys/manager/update',
+  // 判断系统管理员认证状态
+  SYS_MANAGER_JUDGEAUTHEN: '/api/sys/manager/judgeAuthen',
   // 查询系统侧边菜单
   SYS_MENU_GETSYSSIDEMENU: '/api/sys/menu/getSysSideMenu',
   // 查询系统菜单树形列表
@@ -35,6 +37,8 @@ export default {
   SYS_DICT_INSERT: '/api/sys/dict/insert',
   // 修改系统数据字典
   SYS_DICT_UPDATE: '/api/sys/dict/update',
+  // 查询系统数据字典（根据字典编码）
+  SYS_DICT_GETBYDICTCODE: '/api/sys/dict/getByDictCode',
   // 查询权限授权树
   SYS_PERMISSION_GETPERMISSIONAUTHORTREE: '/api/sys/permission/getPermissionAuthorTree',
   // 分页查询系统权限
