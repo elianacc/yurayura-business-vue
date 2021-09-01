@@ -110,10 +110,10 @@ export default {
           delete this.loginForm.verifyImage
           this.$api.post(this.$apiUrl.SYS_MANAGER_LOGIN, JSON.stringify(this.loginForm), res => {
             if (res.code === 200) {
-              this.$storageUtil.setManagerMsg(res.data)
-              this.$storageUtil.deleteSideMenuDftActive()
-              this.$storageUtil.deleteEditableTabs()
-              this.$storageUtil.deleteEditableTabsValue()
+              this.$storage.setManagerMsg(res.data)
+              this.$storage.deleteSideMenuDftActive()
+              this.$storage.deleteEditableTabs()
+              this.$storage.deleteEditableTabsValue()
               setTimeout(() => {
                 loading.close()
                 this.$router.replace('/business/index')

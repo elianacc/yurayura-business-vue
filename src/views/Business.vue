@@ -8,7 +8,7 @@
              width="40"
              height="40"
              class="rounded" />
-        <span class="ms-3">{{$storageUtil.getManagerMsg().managerName}}</span>
+        <span class="ms-3">{{$storage.getManagerMsg().managerName}}</span>
         <span :class="sideMenuIsCollapse? 'ms-3' : 'ms-uncollapse-span'"
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
@@ -112,10 +112,10 @@ export default {
   data () {
     return {
       sideMenuIsCollapse: false,
-      sideMenuDftActive: this.$storageUtil.getSideMenuDftActive(),
+      sideMenuDftActive: this.$storage.getSideMenuDftActive(),
       sideMenu: [],
-      editableTabsValue: this.$storageUtil.getEditableTabsValue(),
-      editableTabs: this.$storageUtil.getEditableTabs()
+      editableTabsValue: this.$storage.getEditableTabsValue(),
+      editableTabs: this.$storage.getEditableTabs()
     }
   },
   methods: {
@@ -241,14 +241,14 @@ export default {
     editableTabs: {
       deep: true,
       handler (tabs) {
-        this.$storageUtil.setEditableTabs(tabs)
+        this.$storage.setEditableTabs(tabs)
       }
     },
     editableTabsValue (val) {
-      this.$storageUtil.setEditableTabsValue(val)
+      this.$storage.setEditableTabsValue(val)
     },
     sideMenuDftActive (val) {
-      this.$storageUtil.setSideMenuDftActive(val)
+      this.$storage.setSideMenuDftActive(val)
     }
   },
   mounted () {
