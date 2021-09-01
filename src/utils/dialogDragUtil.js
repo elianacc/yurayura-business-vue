@@ -1,6 +1,4 @@
-/* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-empty */
 import Vue from 'vue'
 Vue.directive('dialogDrag', {
   bind (el, binding, vnode, oldVnode) {
@@ -35,8 +33,8 @@ Vue.directive('dialogDrag', {
       let styL, styT;
       // 注意在ie中 第一次获取到的值为组件自带50% 移动之后赋值为px
       if (sty.left.includes('%')) {
-        styL = +document.body.clientWidth * (+sty.left.replace(/\%/g, '') / 100);
-        styT = +document.body.clientHeight * (+sty.top.replace(/\%/g, '') / 100);
+        styL = +document.body.clientWidth * (+sty.left.replace(/\\%/g, '') / 100);
+        styT = +document.body.clientHeight * (+sty.top.replace(/\\%/g, '') / 100);
       } else {
         styL = +sty.left.replace(/\px/g, '');
         styT = +sty.top.replace(/\px/g, '');
@@ -138,8 +136,7 @@ Vue.directive('dialogDrag', {
         if (clientX > EloffsetLeft + elW - 10 && clientX < EloffsetLeft + elW) {
           // 往左拖拽
           if (clientX > e.clientX) {
-            if (dragDom.clientWidth < minWidth) {
-            } else {
+            if (dragDom.clientWidth >= minWidth) {
               dragDom.style.width = elW - (clientX - e.clientX) * 2 + 'px';
             }
           }
@@ -182,8 +179,7 @@ Vue.directive('dialogDrag', {
           }
           // 往右拖拽
           if (clientX < e.clientX) {
-            if (dragDom.clientWidth < minWidth) {
-            } else {
+            if (dragDom.clientWidth >= minWidth) {
               dragDom.style.width = elW - (e.clientX - clientX) * 2 + 'px';
             }
           }
@@ -218,8 +214,7 @@ Vue.directive('dialogDrag', {
         if (ELscrollTop + clientY > EloffsetTop + elH - 20 && ELscrollTop + clientY < EloffsetTop + elH) {
           // 往上拖拽
           if (clientY > e.clientY) {
-            if (dragDom.clientHeight < minHeight) {
-            } else {
+            if (dragDom.clientHeight >= minHeight) {
               dragDom.style.height = elH - (clientY - e.clientY) * 2 + 'px';
             }
           }
