@@ -11,10 +11,10 @@ import '@static/font-awesome.css'
 import '@static/bootstrap-extend.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import storageUtil from '@utils/storageUtil'
-import sysDictUtil from '@utils/sysDictUtil'
-import commonUtil from '@utils/commonUtil'
-import '@utils/dialogDragUtil.js'
+import storage from '@utils/storage'
+import sysDict from '@utils/sysDict'
+import common from '@utils/common'
+import '@utils/dialogDrag.js'
 
 Vue.config.productionTip = false
 
@@ -30,9 +30,9 @@ axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type':
 Vue.prototype.$qs = qs
 Vue.prototype.$api = api
 Vue.prototype.$apiUrl = apiUrl
-Vue.prototype.$storage = storageUtil
-Vue.prototype.$sysDict = sysDictUtil
-Vue.prototype.$common = commonUtil
+Vue.prototype.$storage = storage
+Vue.prototype.$sysDict = sysDict
+Vue.prototype.$common = common
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {
