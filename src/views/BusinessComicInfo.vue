@@ -402,7 +402,7 @@ export default {
       this.multipleSelection = val
     },
     getPage () {
-      let sendData = Object.assign({}, this.searchContent)
+      let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$api.post(this.$apiUrl.COMIC_GETPAGE, JSON.stringify(sendData), res => {
@@ -430,7 +430,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = Object.assign({}, this.selectForm)
+      this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
       this.getPage()
     },
@@ -547,7 +547,7 @@ export default {
           Object.keys(this.dataDialogForm).forEach(key => {
             sendData.append(key, this.dataDialogForm[key])
           })
-          let comicLabelArr = this.diaLogComicLabel.slice(0)
+          let comicLabelArr = [...this.diaLogComicLabel]
           for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
             comicLabelArr.push('')
           }

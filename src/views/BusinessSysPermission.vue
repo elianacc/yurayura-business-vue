@@ -304,7 +304,7 @@ export default {
       this.permissionBtnDict = await this.$sysDict.get('permissionBtn')
     },
     getPage () {
-      let sendData = Object.assign({}, this.searchContent)
+      let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$api.post(this.$apiUrl.SYS_PERMISSION_GETPAGE, JSON.stringify(sendData), res => {
@@ -332,7 +332,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = Object.assign({}, this.selectForm)
+      this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
       this.getPage()
     },

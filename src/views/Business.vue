@@ -152,7 +152,7 @@ export default {
       })
     },
     removeTab (targetName) {
-      let tabs = this.editableTabs.slice(0)
+      let tabs = [...this.editableTabs]
       let activeName = this.editableTabsValue
       if (activeName === targetName) {
         tabs.forEach((tab, index) => {

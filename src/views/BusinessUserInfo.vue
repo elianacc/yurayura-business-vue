@@ -217,7 +217,7 @@ export default {
       this.userStatusDict = await this.$sysDict.get('userStatus')
     },
     getPage () {
-      let sendData = Object.assign({}, this.searchContent)
+      let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$api.post(this.$apiUrl.USER_GETPAGE, JSON.stringify(sendData), res => {
@@ -245,7 +245,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = Object.assign({}, this.selectForm)
+      this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
       this.getPage()
     },

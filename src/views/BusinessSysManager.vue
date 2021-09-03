@@ -223,7 +223,7 @@ export default {
   },
   methods: {
     getPage () {
-      let sendData = Object.assign({}, this.searchContent)
+      let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
       this.$api.post(this.$apiUrl.SYS_MANAGER_GETPAGE, JSON.stringify(sendData), res => {
@@ -251,7 +251,7 @@ export default {
       })
     },
     selectContent () {
-      this.searchContent = Object.assign({}, this.selectForm)
+      this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
       this.getPage()
     },
@@ -287,7 +287,7 @@ export default {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
           let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MANAGER_INSERT : this.$apiUrl.SYS_MANAGER_UPDATE
-          let sendData = Object.assign({}, this.dataDialogForm)
+          let sendData = { ...this.dataDialogForm }
           if (sendData.managerPassword) {
             sendData.managerPassword = Base64.encode(sendData.managerPassword)
           }
