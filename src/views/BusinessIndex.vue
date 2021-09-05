@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="jumbotron">
-      <h1 class="display-4 text-center text-white">Hello, {{$storage.getManagerMsg().managerName}}!</h1>
+      <h1 class="display-4 text-center text-white">Hello, {{$store.getters['manager/managerName']}}!</h1>
       <p class="lead text-center text-white">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4 bg-secondary">
       <p class="text-center text-white">YuraYura是一个兴趣使然的项目</p>

@@ -8,7 +8,7 @@
              width="40"
              height="40"
              class="rounded" />
-        <span class="ms-3">{{$storage.getManagerMsg().managerName}}</span>
+        <span class="ms-3">{{$store.getters['manager/managerName']}}</span>
         <span :class="sideMenuIsCollapse? 'ms-3' : 'ms-uncollapse-span'"
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
@@ -112,10 +112,10 @@ export default {
   data () {
     return {
       sideMenuIsCollapse: false,
-      sideMenuDftActive: this.$storage.getSideMenuDftActive(),
+      sideMenuDftActive: this.$store.getters['menutab/sideMenuDftActive'],
       sideMenu: [],
-      editableTabsValue: this.$storage.getEditableTabsValue(),
-      editableTabs: this.$storage.getEditableTabs()
+      editableTabsValue: this.$store.getters['menutab/editableTabsValue'],
+      editableTabs: this.$store.getters['menutab/editableTabs']
     }
   },
   methods: {
@@ -140,6 +140,7 @@ export default {
       }).then(() => {
         this.$api.get(this.$apiUrl.SYS_MANAGER_LOGOUT, null, res => {
           if (res.code === 200) {
+            this.$store.commit('manager/CLEAR_MANAGER_MSG')
             this.$router.push('/manager_login')
           } else if (res.code === 500) {
             this.$notify.error({
@@ -241,14 +242,14 @@ export default {
     editableTabs: {
       deep: true,
       handler (tabs) {
-        this.$storage.setEditableTabs(tabs)
+        this.$store.commit('menutab/SET_EDITABLE_TABS', tabs)
       }
     },
     editableTabsValue (val) {
-      this.$storage.setEditableTabsValue(val)
+      this.$store.commit('menutab/SET_EDITABLE_TABS_VALUE', val)
     },
     sideMenuDftActive (val) {
-      this.$storage.setSideMenuDftActive(val)
+      this.$store.commit('menutab/SET_SIDE_MENU_DFT_ACTIVE', val)
     }
   },
   mounted () {

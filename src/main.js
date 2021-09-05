@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from './store'
 import router from './router'
 import filter from './filter'
 import axios from 'axios'
@@ -11,7 +12,6 @@ import '@static/font-awesome.css'
 import '@static/bootstrap-extend.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import storage from '@utils/storage'
 import sysDict from '@utils/sysDict'
 import common from '@utils/common'
 import '@utils/dialogDrag.js'
@@ -30,7 +30,6 @@ axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type':
 Vue.prototype.$qs = qs
 Vue.prototype.$api = api
 Vue.prototype.$apiUrl = apiUrl
-Vue.prototype.$storage = storage
 Vue.prototype.$sysDict = sysDict
 Vue.prototype.$common = common
 
@@ -40,6 +39,7 @@ Object.keys(filter).forEach(key => {
 })
 
 new Vue({
+  store,
   router,
   render: h => h(App)
 }).$mount('#app')

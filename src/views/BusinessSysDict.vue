@@ -6,7 +6,7 @@
       <div class="col-2">
         <button type="button"
                 class="btn btn-primary font-size-14 me-2"
-                v-if="$storage.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_insert`)"
+                v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_insert`)"
                 @click="insertDialogOpen">
           <i class="fa fa-plus-circle me-2"></i>添加
         </button>
@@ -90,7 +90,7 @@
             <template slot-scope="scope">
               <button type="button"
                       class="btn btn-info btn-twitter font-size-14 text-white shadow"
-                      v-if="$storage.getManagerMsg().managerPermission.includes(`${$route.query.menuName}_update`)"
+                      v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改
               </button>
