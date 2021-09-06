@@ -14,7 +14,8 @@
     "js-base64": "^3.6.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.2",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "vuex-along": "^1.2.13"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

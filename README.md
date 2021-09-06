@@ -29,7 +29,8 @@ npm run build
 - ​    vue版本： vue2.x
 - ​    脚手架： vue-cli 4.x
 - ​    路由： vue-router
-- ​    多组件共享数据： vuex
+- ​    状态管理： vuex
+- ​    组件共享数据持久化： vuex-along
 - ​    第三方UI框架： Element-UI 2.x  +  Bootstrap5.x
 - ​    接口请求： axios
 - ​    icon库： font-awesome

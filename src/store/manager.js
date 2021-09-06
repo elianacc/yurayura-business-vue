@@ -10,7 +10,7 @@ export default {
       state.managerMsg.managerPermission = ''
     }
   },
-  state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')).manager : {
+  state: {
     managerMsg: {
       managerName: '',
       managerPermission: ''

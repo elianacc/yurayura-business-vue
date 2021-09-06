@@ -6,18 +6,7 @@
 
 <script>
 export default {
-  name: 'App',
-  mounted () {
-    window.addEventListener('unload', this.saveState)
-    window.addEventListener('load', () => {
-      sessionStorage.clear()
-    })
-  },
-  methods: {
-    saveState () {
-      sessionStorage.setItem('state', JSON.stringify(this.$store.state))
-    }
-  }
+  name: 'App'
 }
 </script>
 

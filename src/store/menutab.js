@@ -27,7 +27,7 @@ export default {
       state.editableTabsValue = ''
     },
   },
-  state: sessionStorage.getItem('state') ? JSON.parse(sessionStorage.getItem('state')).menutab : {
+  state: {
     sideMenuDftActive: '',
     editableTabs: [],
     editableTabsValue: ''
