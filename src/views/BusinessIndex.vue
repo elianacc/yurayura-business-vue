@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { Tooltip } from '@static/bootstrap.bundle.min'
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min'
 
 export default {
   name: 'BusinessIndex',
@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted () {
-    new Tooltip(this.$refs.getMoreLink)
+    new bootstrap.Tooltip(this.$refs.getMoreLink)
   }
 }
 </script>

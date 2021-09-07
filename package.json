@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "bootstrap": "^5.1.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.5",
     "js-base64": "^3.6.1",

@@ -1,5 +1,10 @@
 import axios from 'axios'
 
+// 解决和后端session不同步的问题，让axios请求带上cookie
+axios.defaults.withCredentials = true
+// axios默认添加ajax请求头标识
+axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json;charset=utf-8' }
+
 function apiAxios (method, url, params, success, header) {
   axios({
     method: method,
