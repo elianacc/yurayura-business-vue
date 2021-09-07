@@ -12,7 +12,7 @@ import '@utils/dialogDrag.js'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@static/bootstrap.nonAdaptive.min.css'
-import '@static/font-awesome.css'
+import '@static/font-awesome.min.css'
 import '@static/bootstrap-extend.css'
 
 Vue.config.productionTip = false
