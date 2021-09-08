@@ -567,8 +567,6 @@ export default {
               this.dataDialogVisible = false
             } else if (res.code === 102) {
               this.$message.error(res.msg)
-            } else if (res.code === 103) {
-              console.log(res.msg)
             } else if (res.code === 401 || res.code === 405) {
               this.$alert(res.msg, '提示', {
                 confirmButtonText: '确定'

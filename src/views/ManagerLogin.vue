@@ -121,8 +121,6 @@ export default {
               this.$refs.loginForm.resetFields()
               loading.close()
               this.$message.error(res.msg)
-            } else if (res.code === 103) {
-              console.log(res.msg)
             } else if (res.code === 500) {
               loading.close()
               this.$notify.error({
