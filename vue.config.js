@@ -8,7 +8,7 @@ module.exports = {
   outputDir: 'dist', // 'dist', 生产环境构建文件的目录
   assetsDir: '', // 相对于outputDir的静态资源(js、css、img、fonts)目录
   lintOnSave: false, // 是否在开发环境下通过 eslint-loader 在每次保存时 lint 代码
-  runtimeCompiler: true, // 是否使用包含运行时编译器的 Vue 构建版本
+  runtimeCompiler: false, // 是否使用包含运行时编译器的 Vue 构建版本
   productionSourceMap: !IS_PROD, // 生产环境的 source map
   parallel: require("os").cpus().length > 1, // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建
   chainWebpack: config => {
@@ -30,16 +30,7 @@ module.exports = {
   },
   css: {
     extract: IS_PROD,
-    requireModuleExtension: true,// 去掉文件名中的 .module
-    loaderOptions: {
-      // 给 less-loader 传递 Less.js 相关选项
-      less: {
-        // `globalVars` 定义全局对象，可加入全局变量
-        globalVars: {
-          primary: '#333'
-        }
-      }
-    }
+    requireModuleExtension: true // 去掉文件名中的 .module
   },
   devServer: {
     overlay: { // 让浏览器 overlay 同时显示警告和错误
