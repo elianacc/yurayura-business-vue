@@ -370,9 +370,9 @@ export default {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
-                this.clearSelectContent()
-              } else {
-                this.getPage()
+                this.$refs.selectForm.resetFields()
+                this.searchContent = { ...this.selectForm }
+                this.currentPageNum = 1
               }
               this.dataDialogVisible = false
             } else if (res.code === 102) {

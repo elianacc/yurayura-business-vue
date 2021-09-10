@@ -42,7 +42,7 @@
                  router
                  style="height: 100vh;">
           <el-scrollbar style="height: 100%;">
-            <div style="height: 1080px;">
+            <div style="height: 2160px;">
               <el-menu-item index="/business/index"
                             @click="addTab('首页', 'index', '/business/index')">
                 <i class="el-icon-s-home"></i>

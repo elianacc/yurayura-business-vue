@@ -272,7 +272,6 @@ export default {
       this.$api.post(sendUrl, this.$qs.stringify(this.updateStatusDialogForm), res => {
         if (res.code === 200) {
           this.$message.success(res.msg)
-          this.getPage()
           this.updateStatusDialogVisible = false
         } else if (res.code === 102) {
           this.$message.error(res.msg)
