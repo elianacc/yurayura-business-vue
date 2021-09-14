@@ -157,7 +157,7 @@ export default {
   margin-bottom: 0rem;
 }
 
-/* bs5标签重写（margin-bottom置为0） */
+/* bs5 label重写（margin-bottom置为0） */
 .card-body /deep/ label {
   margin-bottom: 0rem;
 }

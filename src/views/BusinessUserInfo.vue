@@ -303,29 +303,35 @@ export default {
       })
     },
     resetAvatar (id) {
-      this.$api.post(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
-        if (res.code === 200) {
-          this.$message.success(res.msg)
-          this.getPage()
-        } else if (res.code === 102) {
-          this.$message.error(res.msg)
-        } else if (res.code === 401 || res.code === 405) {
-          this.$alert(res.msg, '提示', {
-            confirmButtonText: '确定'
-          }).then(() => {
-            if (res.code === 401) {
-              this.$router.push('/manager_login')
-            }
-          })
-        } else if (res.code === 500) {
-          this.$notify.error({
-            title: '错误',
-            message: res.msg,
-            duration: 0
-          })
-        }
-      }, {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      this.$confirm('确定要重置头像吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
+          if (res.code === 200) {
+            this.$message.success(res.msg)
+            this.getPage()
+          } else if (res.code === 102) {
+            this.$message.error(res.msg)
+          } else if (res.code === 401 || res.code === 405) {
+            this.$alert(res.msg, '提示', {
+              confirmButtonText: '确定'
+            }).then(() => {
+              if (res.code === 401) {
+                this.$router.push('/manager_login')
+              }
+            })
+          } else if (res.code === 500) {
+            this.$notify.error({
+              title: '错误',
+              message: res.msg,
+              duration: 0
+            })
+          }
+        }, {
+          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+        })
       })
     },
     updateStatusDialogClose () {
