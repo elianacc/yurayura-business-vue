@@ -58,5 +58,7 @@ export default {
   // 分页查询用户
   USER_GETPAGE: '/api/user/getPage',
   // 修改状态（根据id）
-  USER_UPDATESTATUS: '/api/user/updateStatus'
+  USER_UPDATESTATUS: '/api/user/updateStatus',
+  // 重置为默认头像（根据id）
+  USER_UPDATEAVATARDEFAULT: '/api/user/updateAvatarDefault'
 }

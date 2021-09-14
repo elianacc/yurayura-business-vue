@@ -85,11 +85,11 @@
             </template>
           </el-table-column>
           <el-table-column label="用户名"
-                           width="150"
+                           width="120"
                            prop="userName">
           </el-table-column>
           <el-table-column label="昵称"
-                           width="150"
+                           width="120"
                            prop="userNickname">
           </el-table-column>
           <el-table-column label="性别"
@@ -128,14 +128,22 @@
                            prop="userRegTime">
           </el-table-column>
           <el-table-column label="操作"
-                           width="180">
+                           width="250">
             <template slot-scope="scope">
-              <button type="button"
-                      class="btn btn-info btn-twitter font-size-14 text-white shadow"
-                      v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
-                      @click="updateStatusDialogOpen(scope.row.id)">
-                <i class="fa fa-pencil-square-o me-2"></i>调整状态
-              </button>
+              <div class="btn-group shadow">
+                <button type="button"
+                        class="btn btn-info btn-twitter font-size-14 text-white"
+                        v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
+                        @click="updateStatusDialogOpen(scope.row.id)">
+                  <i class="fa fa-pencil-square-o me-2"></i>调整状态
+                </button>
+                <button type="button"
+                        class="btn btn-warning btn-twitter font-size-14 text-white"
+                        v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
+                        @click="resetAvatar(scope.row.id)">
+                  <i class="fa fa-retweet me-2"></i>重置头像
+                </button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -273,6 +281,32 @@ export default {
         if (res.code === 200) {
           this.$message.success(res.msg)
           this.updateStatusDialogVisible = false
+        } else if (res.code === 102) {
+          this.$message.error(res.msg)
+        } else if (res.code === 401 || res.code === 405) {
+          this.$alert(res.msg, '提示', {
+            confirmButtonText: '确定'
+          }).then(() => {
+            if (res.code === 401) {
+              this.$router.push('/manager_login')
+            }
+          })
+        } else if (res.code === 500) {
+          this.$notify.error({
+            title: '错误',
+            message: res.msg,
+            duration: 0
+          })
+        }
+      }, {
+        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+      })
+    },
+    resetAvatar (id) {
+      this.$api.post(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
+        if (res.code === 200) {
+          this.$message.success(res.msg)
+          this.getPage()
         } else if (res.code === 102) {
           this.$message.error(res.msg)
         } else if (res.code === 401 || res.code === 405) {
