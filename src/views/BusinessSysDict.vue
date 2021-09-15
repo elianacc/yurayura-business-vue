@@ -231,7 +231,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.post(this.$apiUrl.SYS_DICT_GETPAGE, JSON.stringify(sendData), res => {
+      this.$api.get(this.$apiUrl.SYS_DICT_GETPAGE, sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -284,8 +284,7 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_DICT_INSERT : this.$apiUrl.SYS_DICT_UPDATE
-          this.$api.post(sendUrl, JSON.stringify(this.dataDialogForm), res => {
+          let submitCallback = res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
@@ -311,7 +310,12 @@ export default {
                 duration: 0
               })
             }
-          })
+          }
+          if (this.dataDialogForm.id === 0) {
+            this.$api.post(this.$apiUrl.SYS_DICT_INSERT, JSON.stringify(this.dataDialogForm), submitCallback)
+          } else {
+            this.$api.put(this.$apiUrl.SYS_DICT_UPDATE, JSON.stringify(this.dataDialogForm), submitCallback)
+          }
         }
       })
     },

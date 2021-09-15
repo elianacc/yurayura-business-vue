@@ -307,7 +307,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.post(this.$apiUrl.SYS_PERMISSION_GETPAGE, JSON.stringify(sendData), res => {
+      this.$api.get(this.$apiUrl.SYS_PERMISSION_GETPAGE, sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -365,8 +365,7 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_PERMISSION_INSERT : this.$apiUrl.SYS_PERMISSION_UPDATE
-          this.$api.post(sendUrl, this.$qs.stringify(this.dataDialogForm), res => {
+          let submitCallback = res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
@@ -392,9 +391,16 @@ export default {
                 duration: 0
               })
             }
-          }, {
-            'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-          })
+          }
+          if (this.dataDialogForm.id === 0) {
+            this.$api.post(this.$apiUrl.SYS_PERMISSION_INSERT, this.$qs.stringify(this.dataDialogForm), submitCallback, {
+              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            })
+          } else {
+            this.$api.put(this.$apiUrl.SYS_PERMISSION_UPDATE, this.$qs.stringify(this.dataDialogForm), submitCallback, {
+              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            })
+          }
         }
       })
     },

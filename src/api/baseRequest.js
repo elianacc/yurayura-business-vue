@@ -1,4 +1,5 @@
 import axios from 'axios'
+import qs from 'qs'
 
 // 解决和后端session不同步的问题，让axios请求带上cookie
 axios.defaults.withCredentials = true
@@ -11,7 +12,13 @@ function apiAxios (method, url, params, success, header) {
     url: url,
     data: method === 'POST' || method === 'PUT' ? params : null,
     params: method === 'GET' || method === 'DELETE' ? params : null,
-    headers: header,
+    paramsSerializer: params => {
+      // 对get,delete请求进行序列化，解决get,delete无法传递数组参数的问题
+      if (method === 'GET' || method === 'DELETE') {
+        return qs.stringify(params, { arrayFormat: 'repeat' })
+      }
+    },
+    headers: header
   }).then(res => {
     success(res.data)
   }).catch(err => {

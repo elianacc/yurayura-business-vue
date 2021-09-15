@@ -405,7 +405,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.post(this.$apiUrl.COMIC_GETPAGE, JSON.stringify(sendData), res => {
+      this.$api.get(this.$apiUrl.COMIC_GETPAGE, sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -451,9 +451,8 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          let sendData = new FormData()
-          sendData.append('ids', this.multipleSelection.map(selt => selt.id))
-          this.$api.post(this.$apiUrl.COMIC_DELETEBATCHBYIDS, sendData, res => {
+          let sendData = { ids: this.multipleSelection.map(selt => selt.id) }
+          this.$api.delete(this.$apiUrl.COMIC_DELETEBATCHBYIDS, sendData, res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               this.multipleSelection = []
@@ -555,8 +554,7 @@ export default {
           if (!this.dataDialogForm.comicImgFile) {
             sendData.delete('comicImgFile')
           }
-          let sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.COMIC_INSERT : this.$apiUrl.COMIC_UPDATE
-          this.$api.post(sendUrl, sendData, res => {
+          let submitCallback = res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               if (this.dataDialogForm.id === 0) {
@@ -582,7 +580,12 @@ export default {
                 duration: 0
               })
             }
-          })
+          }
+          if (this.dataDialogForm.id === 0) {
+            this.$api.post(this.$apiUrl.COMIC_INSERT, sendData, submitCallback)
+          } else {
+            this.$api.put(this.$apiUrl.COMIC_UPDATE, sendData, submitCallback)
+          }
         }
       })
     },

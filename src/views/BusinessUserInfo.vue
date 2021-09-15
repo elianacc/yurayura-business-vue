@@ -228,7 +228,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.post(this.$apiUrl.USER_GETPAGE, JSON.stringify(sendData), res => {
+      this.$api.get(this.$apiUrl.USER_GETPAGE, sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -276,8 +276,7 @@ export default {
       this.updateStatusDialogVisible = true
     },
     submitContent () {
-      let sendUrl = this.$apiUrl.USER_UPDATESTATUS
-      this.$api.post(sendUrl, this.$qs.stringify(this.updateStatusDialogForm), res => {
+      this.$api.put(this.$apiUrl.USER_UPDATESTATUS, this.$qs.stringify(this.updateStatusDialogForm), res => {
         if (res.code === 200) {
           this.$message.success(res.msg)
           this.updateStatusDialogVisible = false
@@ -308,7 +307,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
+        this.$api.put(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
           if (res.code === 200) {
             this.$message.success(res.msg)
             this.getPage()

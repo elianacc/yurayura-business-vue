@@ -272,13 +272,7 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendUrl = ''
-          if (this.isMainMenuDialog) {
-            sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MENU_INSERT : this.$apiUrl.SYS_MENU_UPDATE
-          } else {
-            sendUrl = this.dataDialogForm.id === 0 ? this.$apiUrl.SYS_MENUSUB_INSERT : this.$apiUrl.SYS_MENUSUB_UPDATE
-          }
-          this.$api.post(sendUrl, JSON.stringify(this.dataDialogForm), res => {
+          let submitCallback = res => {
             if (res.code === 200) {
               location.reload()
             } else if (res.code === 102) {
@@ -298,7 +292,12 @@ export default {
                 duration: 0
               })
             }
-          })
+          }
+          if (this.dataDialogForm.id === 0) {
+            this.$api.post(this.isMainMenuDialog ? this.$apiUrl.SYS_MENU_INSERT : this.$apiUrl.SYS_MENUSUB_INSERT, JSON.stringify(this.dataDialogForm), submitCallback)
+          } else {
+            this.$api.put(this.isMainMenuDialog ? this.$apiUrl.SYS_MENU_UPDATE : this.$apiUrl.SYS_MENUSUB_UPDATE, JSON.stringify(this.dataDialogForm), submitCallback)
+          }
         }
       })
     }
