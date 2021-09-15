@@ -4,7 +4,7 @@
 
 ## 简介
 
-> YuraYura-Business-Vue是项目B端管理页面展示部分，整体上采用Vue CLI 4的技术实现了单页（SPA）应用
+> 本项目为网站B端管理页面展示部分，整体上采用Vue CLI 4的技术实现了单页（SPA）应用
 >
 > B端管理SpringBoot接口服务项目地址：https://github.com/elianacc/yurayura-business-service
 
