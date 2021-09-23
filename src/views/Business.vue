@@ -43,8 +43,7 @@
                  style="height: 100vh;">
           <el-scrollbar style="height: 100%;">
             <div style="height: 2160px;">
-              <el-menu-item index="/business/index"
-                            @click="addTab('首页', 'index', '/business/index')">
+              <el-menu-item index="/business/index">
                 <i class="el-icon-s-home"></i>
                 <span slot="title">首页</span>
               </el-menu-item>
@@ -168,14 +167,15 @@ export default {
                 this.$router.push({ path: nextTab.index, query: { menuName: nextTab.name } })
               }
             } else {
-              this.sideMenuDftActive = ''
               this.$router.push('/business')
             }
           }
         })
       }
-      this.editableTabsValue = activeName
-      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+      if (tabs.length !== 1) {
+        this.editableTabsValue = activeName
+        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
+      }
     },
     addTab (tabTitle, tabName, tabIndex) {
       let newTabName = tabName
@@ -199,32 +199,33 @@ export default {
       }
     },
     getCurrentManagerMsg () {
-      if (!this.$store.getters['manager/managerName']) {
-        this.$api.get(this.$apiUrl.SYS_MANAGER_GETCURRENTMANAGERMSG, null, res => {
-          if (res.code === 200) {
-            this.$store.commit('manager/SET_MANAGER_MSG', res.data)
-          }
-        })
-      }
+      this.$api.get(this.$apiUrl.SYS_MANAGER_GETCURRENTMANAGERMSG, null, res => {
+        if (res.code === 200) {
+          this.$store.commit('manager/SET_MANAGER_MSG', res.data)
+        }
+      })
     }
   },
   watch: {
     $route: {
       deep: true,
       handler (to) {
+        this.getCurrentManagerMsg()
         if (to.name === 'Business') {
           this.sideMenuDftActive = ''
+          this.editableTabsValue = ''
           this.editableTabs = []
-        } else if (to.name === 'BusinessIndex') {
-          this.addTab('首页', 'index', '/business/index')
         } else {
-          if (to.query.menuName === undefined) {
-            this.$router.replace('/Notfound')
-          } else {
-            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-            let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
-            if (lastIndex === to.query.menuName) {
-              if (to.path !== this.sideMenuDftActive) {
+          if (to.name === 'BusinessIndex' && to.path !== this.sideMenuDftActive) {
+            this.addTab('首页', 'index', '/business/index')
+          }
+          if (to.name !== 'BusinessIndex' && to.path !== this.sideMenuDftActive) {
+            if (to.query.menuName === undefined) {
+              this.$router.replace('/Notfound')
+            } else {
+              let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+              let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
+              if (lastIndex === to.query.menuName) {
                 this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
                   if (res.code === 200) {
                     let nowItem = res.data
@@ -239,9 +240,9 @@ export default {
                     })
                   }
                 })
+              } else {
+                this.$router.replace('/Notfound')
               }
-            } else {
-              this.$router.replace('/Notfound')
             }
           }
         }
@@ -262,7 +263,6 @@ export default {
     }
   },
   mounted () {
-    this.getCurrentManagerMsg()
     this.getSideMenu()
   }
 }
