@@ -110,7 +110,6 @@ export default {
           delete this.loginForm.verifyImage
           this.$api.post(this.$apiUrl.SYS_MANAGER_LOGIN, JSON.stringify(this.loginForm), res => {
             if (res.code === 200) {
-              this.$store.commit('manager/SET_MANAGER_MSG', res.data)
               this.$store.dispatch('menutab/resetMenuAndTab')
               setTimeout(() => {
                 loading.close()

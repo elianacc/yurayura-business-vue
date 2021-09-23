@@ -197,6 +197,15 @@ export default {
       } else {
         this.$router.push({ path: nowTab.index, query: { menuName: nowTab.name } })
       }
+    },
+    getCurrentManagerMsg () {
+      if (!this.$store.getters['manager/managerName']) {
+        this.$api.get(this.$apiUrl.SYS_MANAGER_GETCURRENTMANAGERMSG, null, res => {
+          if (res.code === 200) {
+            this.$store.commit('manager/SET_MANAGER_MSG', res.data)
+          }
+        })
+      }
     }
   },
   watch: {
@@ -253,6 +262,7 @@ export default {
     }
   },
   mounted () {
+    this.getCurrentManagerMsg()
     this.getSideMenu()
   }
 }
