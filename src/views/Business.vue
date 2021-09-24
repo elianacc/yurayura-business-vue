@@ -122,12 +122,6 @@ export default {
       this.$api.get(this.$apiUrl.SYS_MENU_GETSYSSIDEMENU, null, res => {
         if (res.code === 200) {
           this.sideMenu = res.data
-        } else if (res.code === 500) {
-          this.$notify.error({
-            title: '错误',
-            message: res.msg,
-            duration: 0
-          })
         }
       })
     },
@@ -141,12 +135,6 @@ export default {
           if (res.code === 200) {
             this.$store.commit('manager/CLEAR_MANAGER_MSG')
             this.$router.push('/manager_login')
-          } else if (res.code === 500) {
-            this.$notify.error({
-              title: '错误',
-              message: res.msg,
-              duration: 0
-            })
           }
         })
       })
@@ -232,12 +220,6 @@ export default {
                     this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
                   } else if (res.code === 102) {
                     this.$message.error(res.msg)
-                  } else if (res.code === 500) {
-                    this.$notify.error({
-                      title: '错误',
-                      message: res.msg,
-                      duration: 0
-                    })
                   }
                 })
               } else {

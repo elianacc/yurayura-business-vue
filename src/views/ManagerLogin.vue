@@ -120,13 +120,6 @@ export default {
               this.$refs.loginForm.resetFields()
               loading.close()
               this.$message.error(res.msg)
-            } else if (res.code === 500) {
-              loading.close()
-              this.$notify.error({
-                title: '错误',
-                message: res.msg,
-                duration: 0
-              })
             }
           })
         }
