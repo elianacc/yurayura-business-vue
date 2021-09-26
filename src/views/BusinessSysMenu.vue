@@ -1,5 +1,5 @@
 <template>
-  <div v-if="containerShow">
+  <div>
     <!-- 操作按钮row -->
     <div class="row mt-4 r1">
       <div class="col-2">
@@ -183,7 +183,6 @@ export default {
       callback()
     }
     return {
-      containerShow: true,
       dataList: [],
       dataDialogTitle: '',
       dataDialogVisible: false,

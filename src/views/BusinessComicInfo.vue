@@ -1,5 +1,5 @@
 <template>
-  <div v-if="containerShow">
+  <div>
     <!-- 操作按钮及数据筛选表单row -->
     <div class="row mt-4 r1">
 
@@ -350,7 +350,6 @@ export default {
   },
   data () {
     return {
-      containerShow: true,
       selectForm: {
         comicName: '',
         comicStatus: '',
