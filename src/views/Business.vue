@@ -58,8 +58,7 @@
                 <el-menu-item :index="item.menuIndex"
                               v-for="item in submenu.menuSubList"
                               :key="item.menuName"
-                              :route="{path:item.menuIndex,query:{menuName:item.menuName}}"
-                              @click="addTab(item.menuTitle, item.menuName, item.menuIndex)">
+                              :route="{path:item.menuIndex,query:{menuName:item.menuName}}">
                   <i :class="item.menuIconClass"
                      class="me-2"></i>{{item.menuTitle}}
                 </el-menu-item>
@@ -148,7 +147,6 @@ export default {
             let nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
               activeName = nextTab.name
-              this.sideMenuDftActive = nextTab.index
               if (activeName === 'index') {
                 this.$router.push(nextTab.index)
               } else {
@@ -160,10 +158,7 @@ export default {
           }
         })
       }
-      if (tabs.length !== 1) {
-        this.editableTabsValue = activeName
-        this.editableTabs = tabs.filter(tab => tab.name !== targetName)
-      }
+      this.editableTabs = tabs.filter(tab => tab.name !== targetName)
     },
     addTab (tabTitle, tabName, tabIndex) {
       let newTabName = tabName
@@ -179,7 +174,6 @@ export default {
     },
     tabClick (target) {
       let nowTab = this.editableTabs.find(tab => tab.name === target.name)
-      this.sideMenuDftActive = nowTab.index
       if (nowTab.name === 'index') {
         this.$router.push(nowTab.index)
       } else {
@@ -202,12 +196,11 @@ export default {
         if (to.name === 'Business') {
           this.sideMenuDftActive = ''
           this.editableTabsValue = ''
-          this.editableTabs = []
         } else {
-          if (to.name === 'BusinessIndex' && to.path !== this.sideMenuDftActive) {
+          if (to.name === 'BusinessIndex') {
             this.addTab('首页', 'index', '/business/index')
           }
-          if (to.name !== 'BusinessIndex' && to.path !== this.sideMenuDftActive) {
+          if (to.name !== 'BusinessIndex') {
             if (to.query.menuName === undefined) {
               this.$router.replace('/Notfound')
             } else {
