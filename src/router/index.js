@@ -11,7 +11,7 @@ import BusinessSysManager from '@views/BusinessSysManager.vue'
 import BusinessSysPermission from '@views/BusinessSysPermission.vue'
 import BusinessComicInfo from '@views/BusinessComicInfo.vue'
 import BusinessUserInfo from '@views/BusinessUserInfo.vue'
-import Notfound from '@components/Notfound.vue'
+import Notfound from '@views/Notfound.vue'
 
 Vue.use(Router)
 
