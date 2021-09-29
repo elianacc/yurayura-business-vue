@@ -184,6 +184,7 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
+import { getSysDictPage, insertSysDict, updateSysDict } from '@api/sysDict'
 
 export default {
   name: 'BusinessSysDict',
@@ -230,7 +231,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.get(this.$apiUrl.SYS_DICT_GETPAGE, sendData, res => {
+      getSysDictPage(sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -281,9 +282,9 @@ export default {
             }
           }
           if (this.dataDialogForm.id === 0) {
-            this.$api.post(this.$apiUrl.SYS_DICT_INSERT, JSON.stringify(this.dataDialogForm), submitCallback)
+            insertSysDict(this.dataDialogForm, submitCallback)
           } else {
-            this.$api.put(this.$apiUrl.SYS_DICT_UPDATE, JSON.stringify(this.dataDialogForm), submitCallback)
+            updateSysDict(this.dataDialogForm, submitCallback)
           }
         }
       })

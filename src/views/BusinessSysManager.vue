@@ -180,6 +180,8 @@
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
 import { Base64 } from 'js-base64'
+import { getSysManagerPage, insertSysManager, updateSysManager } from '@api/sysManager'
+import { getSysPermissionAuthorTree } from '@api/sysPermission'
 
 export default {
   name: 'BusinessSysManager',
@@ -225,7 +227,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.get(this.$apiUrl.SYS_MANAGER_GETPAGE, sendData, res => {
+      getSysManagerPage(sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -289,13 +291,9 @@ export default {
             }
           }
           if (this.dataDialogForm.id === 0) {
-            this.$api.post(this.$apiUrl.SYS_MANAGER_INSERT, this.$qs.stringify(sendData, { arrayFormat: 'repeat' }), submitCallback, {
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-            })
+            insertSysManager(sendData, submitCallback)
           } else {
-            this.$api.put(this.$apiUrl.SYS_MANAGER_UPDATE, this.$qs.stringify(sendData, { arrayFormat: 'repeat' }), submitCallback, {
-              'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
-            })
+            updateSysManager(sendData, submitCallback)
           }
         }
       })
@@ -312,7 +310,7 @@ export default {
       this.$refs.permissionAuthorTree.setCheckedKeys([])
     },
     getPermissionAuthorTree () {
-      this.$api.get(this.$apiUrl.SYS_PERMISSION_GETPERMISSIONAUTHORTREE, null, res => {
+      getSysPermissionAuthorTree(res => {
         if (res.code === 200) {
           this.permissionAuthorTreeList = res.data
         }

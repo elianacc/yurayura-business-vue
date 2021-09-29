@@ -105,6 +105,9 @@
 </template>
 
 <script>
+import { getSysSideMenu, getSysMenuSubByIndex } from '@api/sysMenu'
+import { sysManagerLogout, getCurrentSysManagerMsg } from '@api/sysManager'
+
 export default {
   name: 'Business',
   data () {
@@ -118,7 +121,7 @@ export default {
   },
   methods: {
     getSideMenu () {
-      this.$api.get(this.$apiUrl.SYS_MENU_GETSYSSIDEMENU, null, res => {
+      getSysSideMenu(res => {
         if (res.code === 200) {
           this.sideMenu = res.data
         }
@@ -130,7 +133,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.get(this.$apiUrl.SYS_MANAGER_LOGOUT, null, res => {
+        sysManagerLogout(res => {
           if (res.code === 200) {
             this.$store.commit('manager/CLEAR_MANAGER_MSG')
             this.$router.push('/manager_login')
@@ -181,7 +184,7 @@ export default {
       }
     },
     getCurrentManagerMsg () {
-      this.$api.get(this.$apiUrl.SYS_MANAGER_GETCURRENTMANAGERMSG, null, res => {
+      getCurrentSysManagerMsg(res => {
         if (res.code === 200) {
           this.$store.commit('manager/SET_MANAGER_MSG', res.data)
         }
@@ -207,7 +210,7 @@ export default {
               let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
               let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
               if (lastIndex === to.query.menuName) {
-                this.$api.get(this.$apiUrl.SYS_MENUSUB_GETBYINDEX, { index }, res => {
+                getSysMenuSubByIndex(index, res => {
                   if (res.code === 200) {
                     let nowItem = res.data
                     this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)

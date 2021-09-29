@@ -1,5 +1,4 @@
 import axios from 'axios'
-import apiUrl from '@api/baseUrl'
 
 export default {
   // 字典获取方法
@@ -7,7 +6,7 @@ export default {
     let dictData = ''
     await axios({
       method: 'get',
-      url: apiUrl.SYS_DICT_GETBYDICTCODE,
+      url: '/api/sys/dict/getByDictCode',
       params: { dictCode },
       responseType: 'json'
     }).then(res => {

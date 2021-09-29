@@ -193,6 +193,7 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
+import { getUserPage, updateUserStatus, updateUserAvatarDefault } from '@api/user'
 
 export default {
   name: 'BusinessUserInfo',
@@ -227,7 +228,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.get(this.$apiUrl.USER_GETPAGE, sendData, res => {
+      getUserPage(sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -259,15 +260,13 @@ export default {
       this.updateStatusDialogVisible = true
     },
     submitContent () {
-      this.$api.put(this.$apiUrl.USER_UPDATESTATUS, this.$qs.stringify(this.updateStatusDialogForm), res => {
+      updateUserStatus(this.updateStatusDialogForm, res => {
         if (res.code === 200) {
           this.$message.success(res.msg)
           this.updateStatusDialogVisible = false
         } else if (res.code === 102) {
           this.$message.error(res.msg)
         }
-      }, {
-        'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
       })
     },
     resetAvatar (id) {
@@ -276,15 +275,13 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.put(this.$apiUrl.USER_UPDATEAVATARDEFAULT, this.$qs.stringify({ id }), res => {
+        updateUserAvatarDefault(id, res => {
           if (res.code === 200) {
             this.$message.success(res.msg)
             this.getPage()
           } else if (res.code === 102) {
             this.$message.error(res.msg)
           }
-        }, {
-          'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         })
       })
     },

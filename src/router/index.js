@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import api from '@api/baseRequest'
-import apiUrl from '@api/baseUrl'
+import { judgeManagerAuthen } from '@api/sysManager'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
 import BusinessIndex from '@views/BusinessIndex.vue'
@@ -91,7 +90,7 @@ const router = new Router({
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
-    api.get(apiUrl.SYS_MANAGER_JUDGEAUTHEN, null, res => {
+    judgeManagerAuthen(res => {
       if (res.code === 200) {
         next()
       } else {
@@ -100,7 +99,7 @@ router.beforeEach((to, from, next) => {
     })
   } else {
     if (to.name !== 'Notfound') {
-      api.get(apiUrl.SYS_MANAGER_JUDGEAUTHEN, null, res => {
+      judgeManagerAuthen(res => {
         if (res.code === 200) {
           next('/business/index')
         } else {

@@ -342,6 +342,7 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
+import { getComicPage, insertComic, updateComic, deleteComicBatchByIds } from '@api/comic'
 
 export default {
   name: 'BusinessComicInfo',
@@ -404,7 +405,7 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.$api.get(this.$apiUrl.COMIC_GETPAGE, sendData, res => {
+      getComicPage(sendData, res => {
         if (res.code === 200) {
           this.pageInfo = res.data
         } else if (res.code === 102) {
@@ -434,8 +435,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          let sendData = { ids: this.multipleSelection.map(selt => selt.id) }
-          this.$api.delete(this.$apiUrl.COMIC_DELETEBATCHBYIDS, sendData, res => {
+          deleteComicBatchByIds(this.multipleSelection.map(selt => selt.id), res => {
             if (res.code === 200) {
               this.$message.success(res.msg)
               this.multipleSelection = []
@@ -511,17 +511,14 @@ export default {
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
-          let sendData = new FormData()
-          Object.keys(this.dataDialogForm).forEach(key => {
-            sendData.append(key, this.dataDialogForm[key])
-          })
+          let sendData = { ...this.dataDialogForm }
           let comicLabelArr = [...this.diaLogComicLabel]
           for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
             comicLabelArr.push('')
           }
-          sendData.append('comicLabel', comicLabelArr)
+          sendData.comicLabel = comicLabelArr
           if (!this.dataDialogForm.comicImgFile) {
-            sendData.delete('comicImgFile')
+            delete sendData.comicImgFile
           }
           let submitCallback = res => {
             if (res.code === 200) {
@@ -537,9 +534,9 @@ export default {
             }
           }
           if (this.dataDialogForm.id === 0) {
-            this.$api.post(this.$apiUrl.COMIC_INSERT, sendData, submitCallback)
+            insertComic(sendData, submitCallback)
           } else {
-            this.$api.put(this.$apiUrl.COMIC_UPDATE, sendData, submitCallback)
+            updateComic(sendData, submitCallback)
           }
         }
       })

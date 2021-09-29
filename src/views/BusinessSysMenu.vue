@@ -170,6 +170,8 @@
 </template>
 
 <script>
+import { getSysMenuTreeList, insertSysMenu, updateSysMenu, insertSysMenuSub, updateSysMenuSub } from '@api/sysMenu'
+
 export default {
   name: 'BusinessSysMenu',
   data () {
@@ -206,7 +208,7 @@ export default {
   },
   methods: {
     getTreeList () {
-      this.$api.get(this.$apiUrl.SYS_MENU_GETTREELIST, null, res => {
+      getSysMenuTreeList(res => {
         if (res.code === 200) {
           this.dataList = res.data
         }
@@ -263,9 +265,17 @@ export default {
             }
           }
           if (this.dataDialogForm.id === 0) {
-            this.$api.post(this.isMainMenuDialog ? this.$apiUrl.SYS_MENU_INSERT : this.$apiUrl.SYS_MENUSUB_INSERT, JSON.stringify(this.dataDialogForm), submitCallback)
+            if (this.isMainMenuDialog) {
+              insertSysMenu(this.dataDialogForm, submitCallback)
+            } else {
+              insertSysMenuSub(this.dataDialogForm, submitCallback)
+            }
           } else {
-            this.$api.put(this.isMainMenuDialog ? this.$apiUrl.SYS_MENU_UPDATE : this.$apiUrl.SYS_MENUSUB_UPDATE, JSON.stringify(this.dataDialogForm), submitCallback)
+            if (this.isMainMenuDialog) {
+              updateSysMenu(this.dataDialogForm, submitCallback)
+            } else {
+              updateSysMenuSub(this.dataDialogForm, submitCallback)
+            }
           }
         }
       })
