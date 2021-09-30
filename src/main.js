@@ -3,9 +3,9 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import filter from './filter'
+import './directive'
 import sysDict from '@utils/sysDict'
 import common from '@utils/common'
-import '@utils/dialogDrag'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, CheckboxGroup, CheckboxButton, Upload,

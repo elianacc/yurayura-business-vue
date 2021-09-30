@@ -275,7 +275,7 @@
               {{tag}}
             </el-tag>
             <el-input class="input-new-tag"
-                      v-focus
+                      v-focusInput
                       v-if="dataDialogForm.customTagInputVisible"
                       v-model.trim="dataDialogForm.customTagInput"
                       ref="customTagInput"
@@ -585,16 +585,6 @@ export default {
         this.dataDialogForm.cmTag = labelArr.slice(0, labelArr.length - 4)
         let customTagArr = labelArr.slice(labelArr.length - 4, labelArr.length)
         this.dataDialogForm.customTag = customTagArr.filter(tag => tag !== '')
-      }
-    }
-  },
-  directives: {
-    // 注册一个局部的自定义指令 v-focus
-    focus: {
-      // 指令的定义
-      inserted (el) {
-        // 聚焦元素
-        el.querySelector('input').focus()
       }
     }
   },
