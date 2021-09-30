@@ -343,6 +343,7 @@
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
 import { getComicPage, insertComic, updateComic, deleteComicBatchByIds } from '@api/comic'
+import { uploadImgIsCorrect } from '@utils/common'
 
 export default {
   name: 'BusinessComicInfo',
@@ -494,15 +495,13 @@ export default {
       this.$message.warning('只能上传一张图片')
     },
     cmImgUplChange (file) {
-      this.$common.imgVerificat(file.raw, 102400, res => {
-        if (res) {
-          this.$message.warning(res)
-          this.$refs.dialogComicImgUpl.clearFiles()
-        } else {
-          this.dataDialogForm.cmImgUplUrl = ''
-          this.dataDialogForm.comicImgFile = file.raw
-        }
-      })
+      let isCorrect = uploadImgIsCorrect(file.raw, 102400)
+      if (isCorrect) {
+        this.dataDialogForm.cmImgUplUrl = ''
+        this.dataDialogForm.comicImgFile = file.raw
+      } else {
+        this.$refs.dialogComicImgUpl.clearFiles()
+      }
     },
     cmImgUplDel () {
       this.dataDialogForm.cmImgUplUrl = this.dataDialogForm.cmImgUplUrlTmp

@@ -5,7 +5,6 @@ import router from './router'
 import filter from './filter'
 import './directive'
 import sysDict from '@utils/sysDict'
-import common from '@utils/common'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, CheckboxGroup, CheckboxButton, Upload,
@@ -62,7 +61,6 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification
 Vue.prototype.$sysDict = sysDict
-Vue.prototype.$common = common
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {
