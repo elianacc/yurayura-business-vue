@@ -107,6 +107,7 @@
 <script>
 import { getSysSideMenu, getSysMenuSubByIndex } from '@api/sysMenu'
 import { sysManagerLogout, getCurrentSysManagerMsg } from '@api/sysManager'
+import { getSysDictAll } from '@api/sysDict'
 
 export default {
   name: 'Business',
@@ -189,6 +190,17 @@ export default {
           this.$store.commit('manager/SET_MANAGER_MSG', res.data)
         }
       })
+    },
+    getAllDict () {
+      getSysDictAll(res => {
+        if (res.code === 200) {
+          this.$store.commit('dict/SET_DICT_LIST', res.data)
+        } else if (res.code === 102) {
+          this.$alert(res.msg, '提示', {
+            confirmButtonText: '确定'
+          })
+        }
+      })
     }
   },
   watch: {
@@ -212,6 +224,7 @@ export default {
               if (lastIndex === to.query.menuName) {
                 getSysMenuSubByIndex(index, res => {
                   if (res.code === 200) {
+                    this.getAllDict()
                     let nowItem = res.data
                     this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
                   } else if (res.code === 102) {

@@ -4,7 +4,7 @@ import store from './store'
 import router from './router'
 import filter from './filter'
 import './directive'
-import sysDict from '@utils/sysDict'
+import SysDictSelect from '@components/SysDictSelect.vue'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, CheckboxGroup, CheckboxButton, Upload,
@@ -19,6 +19,8 @@ import '@css/font-awesome.min.css'
 import '@css/bootstrap-extend.css'
 
 Vue.config.productionTip = false
+
+Vue.component('sys-dict-select', SysDictSelect)
 
 // Basic
 Vue.use(Col)
@@ -60,7 +62,6 @@ Vue.prototype.$message = Message
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification
-Vue.prototype.$sysDict = sysDict
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {

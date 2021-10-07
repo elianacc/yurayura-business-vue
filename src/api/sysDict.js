@@ -15,4 +15,9 @@ function updateSysDict (params, success) {
   request.put('/api/sys/dict/update', JSON.stringify(params), success)
 }
 
-export { getSysDictPage, insertSysDict, updateSysDict }
+// 查询所有系统数据字典
+function getSysDictAll (success) {
+  request.get('/api/sys/dict/getAll', null, success)
+}
+
+export { getSysDictPage, insertSysDict, updateSysDict, getSysDictAll }

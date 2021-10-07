@@ -36,15 +36,9 @@
           <el-form-item label="状态"
                         prop="comicStatus"
                         label-width="3rem">
-            <el-select v-model="selectForm.comicStatus"
-                       clearable
-                       placeholder="请选择">
-              <el-option v-for="item in comicStatusDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.comicStatus"
+                             dictCode="comicStatus">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="上架状态"
                         prop="comicShelfStatus"
@@ -63,20 +57,12 @@
           <el-form-item label="标签"
                         prop="comicTag"
                         label-width="3rem">
-            <el-select v-model="selectForm.comicTag"
-                       clearable
-                       multiple
-                       filterable
-                       allow-create
-                       default-first-option
-                       collapse-tags
-                       placeholder="请选择或输入标签">
-              <el-option v-for="item in comicLabelDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.comicTag"
+                             dictCode="comicLabel"
+                             placeholder="请选择或输入标签"
+                             isMultiple
+                             allowCreate>
+            </sys-dict-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -133,16 +119,16 @@
                            width="350"
                            prop="comicContent">
           </el-table-column>
-          <el-table-column label="状态"
+          <el-table-column label="当前状态"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.comicStatus | cmStatusFilter(scope.row.comicCurrentEpisodes, comicStatusDict)}}</span>
+              <span>{{scope.row.comicStatus | comicCurrentStatusFilter(scope.row.comicCurrentEpisodes)}}</span>
             </template>
           </el-table-column>
           <el-table-column label="标签"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.comicLabel | cmLabelFilter}}</span>
+              <span>{{scope.row.comicLabel | comicLabelShowFilter}}</span>
             </template>
           </el-table-column>
           <el-table-column label="放送时间"
@@ -235,16 +221,11 @@
                         prop="comicUdTime"
                         label-width="10rem"
                         v-show="dataDialogForm.cmUdTimeShow">
-            <el-select v-model="dataDialogForm.comicUdTime"
-                       clearable
-                       placeholder="----请选择更新时间----"
-                       class="w-50">
-              <el-option v-for="item in comicUpdtTimeDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="dataDialogForm.comicUdTime"
+                             dictCode="comicUpdtTime"
+                             placeholder="----请选择更新时间----"
+                             customClass="w-50">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="当前话数"
                         prop="comicCurrentEpisodes"
@@ -258,12 +239,11 @@
           <el-form-item label="标签"
                         prop="cmTag"
                         label-width="10rem">
-            <el-checkbox-group v-model="dataDialogForm.cmTag"
-                               fill="#007bff">
-              <el-checkbox-button v-for="item in comicLabelDict"
-                                  :label="item.dictVal"
-                                  :key="item.id"><i class="fa fa-paperclip me-2"></i>{{item.dictName}}</el-checkbox-button>
-            </el-checkbox-group>
+            <sys-dict-check-btn-grop v-model="dataDialogForm.cmTag"
+                                     dictCode="comicLabel"
+                                     fill="#007bff"
+                                     checkIconClass="fa fa-paperclip me-2">
+            </sys-dict-check-btn-grop>
           </el-form-item>
           <el-form-item label="自定义标签"
                         label-width="10rem">
@@ -342,13 +322,15 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
+import SysDictCheckBtnGrop from '@components/SysDictCheckBtnGrop.vue'
 import { getComicPage, insertComic, updateComic, deleteComicBatchByIds } from '@api/comic'
 import { uploadImgIsCorrect } from '@utils/common'
 
 export default {
   name: 'BusinessComicInfo',
   components: {
-    BusinessPagination
+    BusinessPagination,
+    SysDictCheckBtnGrop
   },
   data () {
     return {
@@ -387,18 +369,10 @@ export default {
       dataDialogFormRule: {
         comicName: [{ required: true, message: '番剧名不能为空', trigger: 'blur' }],
         comicTime: [{ required: true, message: '放送时间不能为空', trigger: 'blur' }]
-      },
-      comicLabelDict: [],
-      comicStatusDict: [],
-      comicUpdtTimeDict: []
+      }
     }
   },
   methods: {
-    async getSysDict () {
-      this.comicStatusDict = await this.$sysDict.get('comicStatus')
-      this.comicLabelDict = await this.$sysDict.get('comicLabel')
-      this.comicUpdtTimeDict = await this.$sysDict.get('comicUpdtTime')
-    },
     tbSelectionChange (val) {
       this.multipleSelection = val
     },
@@ -588,7 +562,6 @@ export default {
     }
   },
   mounted () {
-    this.getSysDict()
     this.getPage()
   }
 }

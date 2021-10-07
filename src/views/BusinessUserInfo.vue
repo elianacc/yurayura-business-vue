@@ -43,15 +43,9 @@
           <el-form-item label="状态"
                         prop="userStatus"
                         label-width="3rem">
-            <el-select v-model="selectForm.userStatus"
-                       clearable
-                       placeholder="请选择">
-              <el-option v-for="item in userStatusDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.userStatus"
+                             dictCode="userStatus">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -120,7 +114,7 @@
           <el-table-column label="状态"
                            width="150">
             <template slot-scope="scope">
-              {{scope.row.userStatus | userStatusFilter}}
+              {{scope.row.userStatus | sysDictFormatFilter('userStatus')}}
             </template>
           </el-table-column>
           <el-table-column label="注册时间"
@@ -165,15 +159,10 @@
                  size="small">
           <el-form-item label="状态"
                         label-width="10rem">
-            <el-select v-model="updateStatusDialogForm.userStatus"
-                       placeholder="请选择"
-                       class="w-75">
-              <el-option v-for="item in userStatusDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="updateStatusDialogForm.userStatus"
+                             dictCode="userStatus"
+                             customClass="w-75">
+            </sys-dict-select>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -216,14 +205,10 @@ export default {
       updateStatusDialogForm: {
         id: 0,
         userStatus: '0'
-      },
-      userStatusDict: []
+      }
     }
   },
   methods: {
-    async getSysDict () {
-      this.userStatusDict = await this.$sysDict.get('userStatus')
-    },
     getPage () {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
@@ -294,7 +279,6 @@ export default {
     }
   },
   mounted () {
-    this.getSysDict()
     this.getPage()
   }
 }

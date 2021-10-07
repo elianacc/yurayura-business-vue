@@ -196,17 +196,12 @@
                         prop="permissionBtnVal"
                         label-width="10rem"
                         v-show="dataDialogForm.permBtnGrpShow">
-            <el-select v-model="dataDialogForm.permissionBtnVal"
-                       clearable
-                       placeholder="----请选择权限按钮----"
-                       class="w-50"
-                       :disabled="dataDialogForm.id !== 0">
-              <el-option v-for="item in permissionBtnDict"
-                         :key="item.id"
-                         :value="item.dictVal"
-                         :label="item.dictName">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="dataDialogForm.permissionBtnVal"
+                             dictCode="permissionBtn"
+                             placeholder="----请选择权限按钮----"
+                             customClass="w-50"
+                             :disabled="dataDialogForm.id !== 0">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="状态"
                         prop="permissionStatus"
@@ -296,14 +291,10 @@ export default {
         permissionBelongSubmenuName: [{ required: true, message: '所属子菜单不能为空', trigger: 'blur' }],
         permissionBtnVal: [{ validator: checkPermissionBtnVal, trigger: 'blur' }]
       },
-      menuSubs: [],
-      permissionBtnDict: []
+      menuSubs: []
     }
   },
   methods: {
-    async getSysDict () {
-      this.permissionBtnDict = await this.$sysDict.get('permissionBtn')
-    },
     getPage () {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
@@ -399,7 +390,6 @@ export default {
     }
   },
   mounted () {
-    this.getSysDict()
     this.getPage()
     this.getAllMenuSub()
   }
