@@ -23,8 +23,7 @@
 export default {
   name: 'SysDictSelect',
   props: {
-    // eslint-disable-next-line vue/require-prop-type-constructor
-    value: { type: String | Array },
+    value: { type: [String, Array] },
     dictCode: String,
     placeholder: { type: String, default: '请选择' },
     isMultiple: { type: Boolean, default: false },
