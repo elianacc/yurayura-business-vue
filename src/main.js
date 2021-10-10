@@ -5,6 +5,7 @@ import router from './router'
 import filter from './filter'
 import './directive'
 import SysDictSelect from '@components/SysDictSelect.vue'
+import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, CheckboxGroup, CheckboxButton, Upload,
@@ -21,6 +22,7 @@ import '@css/bootstrap-extend.css'
 Vue.config.productionTip = false
 
 Vue.component('sys-dict-select', SysDictSelect)
+Vue.component('sys-dict-radio-group', SysDictRadioGroup)
 
 // Basic
 Vue.use(Col)

@@ -4,19 +4,19 @@
                        :fill="fill">
       <el-checkbox-button v-for="item in dictListByCode"
                           :label="item.dictVal"
-                          :key="item.id"><i :class="checkIconClass"></i>{{item.dictName}}</el-checkbox-button>
+                          :key="item.id"><i :class="iconClass"></i>{{item.dictName}}</el-checkbox-button>
     </el-checkbox-group>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SysDictCheckBtnGrop',
+  name: 'SysDictCheckboxBtnGroup',
   props: {
     value: Array,
     dictCode: String,
     fill: String,
-    checkIconClass: String
+    iconClass: String
   },
   data () {
     return {

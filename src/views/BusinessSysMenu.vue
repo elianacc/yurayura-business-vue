@@ -227,7 +227,7 @@ export default {
     },
     updateDialogOpen (menuType, menuName, menuPid) {
       this.dataDialogTitle = menuType === 1 ? '『修改主菜单窗口』' : '『修改子菜单窗口』'
-      this.isMainMenuDialog = menuType === 1 ? true : false
+      this.isMainMenuDialog = menuType === 1
       this.dataDialogOpenAndSetVal(menuType, menuName, menuPid)
     },
     dataDialogOpenAndSetVal (menuType, menuName, menuPid) {

@@ -43,16 +43,9 @@
           <el-form-item label="上架状态"
                         prop="comicShelfStatus"
                         label-width="5rem">
-            <el-select v-model="selectForm.comicShelfStatus"
-                       clearable
-                       placeholder="请选择">
-              <el-option value="1"
-                         label="上架">
-              </el-option>
-              <el-option value="0"
-                         label="下架">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.comicShelfStatus"
+                             dictCode="comicShelfStatus">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="标签"
                         prop="comicTag"
@@ -208,14 +201,9 @@
           <el-form-item label="状态"
                         prop="comicStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.comicStatus">
-              <el-radio :label="0"
-                        border>已完结
-              </el-radio>
-              <el-radio :label="8"
-                        border>更新中
-              </el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.comicStatus"
+                                  dictCode="comicUpdtStatus">
+            </sys-dict-radio-group>
           </el-form-item>
           <el-form-item label="更新时间"
                         prop="comicUdTime"
@@ -239,11 +227,11 @@
           <el-form-item label="标签"
                         prop="cmTag"
                         label-width="10rem">
-            <sys-dict-check-btn-grop v-model="dataDialogForm.cmTag"
-                                     dictCode="comicLabel"
-                                     fill="#007bff"
-                                     checkIconClass="fa fa-paperclip me-2">
-            </sys-dict-check-btn-grop>
+            <sys-dict-checkbox-btn-group v-model="dataDialogForm.cmTag"
+                                         dictCode="comicLabel"
+                                         fill="#007bff"
+                                         iconClass="fa fa-paperclip me-2">
+            </sys-dict-checkbox-btn-group>
           </el-form-item>
           <el-form-item label="自定义标签"
                         label-width="10rem">
@@ -297,12 +285,9 @@
           <el-form-item label="上架状态"
                         prop="comicShelfStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.comicShelfStatus">
-              <el-radio :label="1"
-                        border>上架</el-radio>
-              <el-radio :label="0"
-                        border>下架</el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.comicShelfStatus"
+                                  dictCode="comicShelfStatus">
+            </sys-dict-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer"
@@ -322,7 +307,7 @@
 
 <script>
 import BusinessPagination from '@components/BusinessPagination.vue'
-import SysDictCheckBtnGrop from '@components/SysDictCheckBtnGrop.vue'
+import SysDictCheckboxBtnGroup from '@components/SysDictCheckboxBtnGroup.vue'
 import { getComicPage, insertComic, updateComic, deleteComicBatchByIds } from '@api/comic'
 import { uploadImgIsCorrect } from '@utils/common'
 
@@ -330,7 +315,7 @@ export default {
   name: 'BusinessComicInfo',
   components: {
     BusinessPagination,
-    SysDictCheckBtnGrop
+    SysDictCheckboxBtnGroup
   },
   data () {
     return {
@@ -352,7 +337,7 @@ export default {
         comicScore: 1.0,
         comicTime: '',
         comicContent: '',
-        comicStatus: 0,
+        comicStatus: '0',
         comicUdTime: '',
         cmUdTimeShow: false,
         comicCurrentEpisodes: 1,
@@ -364,7 +349,7 @@ export default {
         cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
-        comicShelfStatus: 1
+        comicShelfStatus: '1'
       },
       dataDialogFormRule: {
         comicName: [{ required: true, message: '番剧名不能为空', trigger: 'blur' }],
@@ -435,12 +420,11 @@ export default {
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
       this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
       this.dataDialogForm.cmImgUplUrlTmp = currentComic.comicImageUrl
-      this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
-      this.dataDialogForm.cmUdTimeShow = currentComic.comicStatus !== 0 ? true : false
+      this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? '8' : '0'
+      this.dataDialogForm.cmUdTimeShow = currentComic.comicStatus !== 0
       this.dataDialogForm.comicUdTime = currentComic.comicStatus !== 0 && currentComic.comicStatus !== 8 ? currentComic.comicStatus.toString() : ''
       this.diaLogComicLabel = currentComic.comicLabel
-      this.dataDialogForm.customTagInputVisible = false
-      this.dataDialogForm.customTagInput = ''
+      this.dataDialogForm.comicShelfStatus = currentComic.comicShelfStatus.toString()
       this.dataDialogVisible = true
     },
     customTagClose (tag) {
@@ -522,7 +506,7 @@ export default {
         comicScore: 1.0,
         comicTime: '',
         comicContent: '',
-        comicStatus: 0,
+        comicStatus: '0',
         comicUdTime: '',
         cmUdTimeShow: false,
         comicCurrentEpisodes: 1,
@@ -534,7 +518,7 @@ export default {
         cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
-        comicShelfStatus: 1
+        comicShelfStatus: '1'
       }
       this.$refs.dataDialogForm.clearValidate()
       this.$refs.dialogComicImgUpl.clearFiles()
@@ -542,8 +526,8 @@ export default {
   },
   watch: {
     'dataDialogForm.comicStatus' (val) {
-      this.dataDialogForm.cmUdTimeShow = val === 8
-      if (val === 0) {
+      this.dataDialogForm.cmUdTimeShow = val === '8'
+      if (val === '0') {
         this.dataDialogForm.comicUdTime = ''
       }
     }
