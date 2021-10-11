@@ -1,8 +1,9 @@
 <template>
   <div>
-    <el-radio-group v-model="checkedVal">
+    <el-radio-group v-model="checkedVal"
+                    :disabled="disabled">
       <el-radio v-for="item in dictListByCode"
-                :label="item.dictVal"
+                :label="parseInt(item.dictVal)"
                 :key="item.id"
                 border>
         {{item.dictName}}
@@ -15,7 +16,7 @@
 export default {
   name: 'SysDictRadioGroup',
   props: {
-    value: String,
+    value: Number,
     dictCode: String,
     disabled: { type: Boolean, default: false }
   },

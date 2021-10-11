@@ -29,30 +29,16 @@
           <el-form-item label="权限类型"
                         prop="permissionType"
                         label-width="4.5rem">
-            <el-select v-model="selectForm.permissionType"
-                       clearable
-                       placeholder="请选择">
-              <el-option value="1"
-                         label="菜单">
-              </el-option>
-              <el-option value="2"
-                         label="按钮">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.permissionType"
+                             dictCode="permissionType">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="状态"
                         prop="permissionStatus"
                         label-width="3rem">
-            <el-select v-model="selectForm.permissionStatus"
-                       clearable
-                       placeholder="请选择">
-              <el-option value="1"
-                         label="启用">
-              </el-option>
-              <el-option value="0"
-                         label="禁用">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.permissionStatus"
+                             dictCode="enableStatus">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="所属子菜单"
                         prop="permissionBelongSubmenuName"
@@ -100,21 +86,19 @@
           <el-table-column label="所属子菜单"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.permissionBelongSubmenuName | permissionBelongFilter(menuSubs)}}</span>
+              {{scope.row.permissionBelongSubmenuName | permissionBelongFilter(menuSubs)}}
             </template>
           </el-table-column>
           <el-table-column label="权限类型"
                            width="200">
             <template slot-scope="scope">
-              <span v-if="scope.row.permissionType === 1">菜单</span>
-              <span v-else>按钮</span>
+              {{scope.row.permissionType | sysDictFormatFilter('permissionType')}}
             </template>
           </el-table-column>
           <el-table-column label="状态"
                            width="200">
             <template slot-scope="scope">
-              <span v-if="scope.row.permissionStatus === 1">启用</span>
-              <span v-else>禁用</span>
+              {{scope.row.permissionStatus | sysDictFormatFilter('enableStatus')}}
             </template>
           </el-table-column>
           <el-table-column label="序号"
@@ -180,17 +164,10 @@
                         prop="permissionType"
                         label-width="10rem"
                         v-if="dataDialogForm.id !== 0">
-            <el-radio-group v-model="dataDialogForm.permissionType"
-                            disabled>
-              <el-radio :label="1"
-                        border>
-                菜单
-              </el-radio>
-              <el-radio :label="2"
-                        border>
-                按钮
-              </el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.permissionType"
+                                  dictCode="permissionType"
+                                  disabled>
+            </sys-dict-radio-group>
           </el-form-item>
           <el-form-item label="权限按钮"
                         prop="permissionBtnVal"
@@ -206,16 +183,9 @@
           <el-form-item label="状态"
                         prop="permissionStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.permissionStatus">
-              <el-radio :label="1"
-                        border>
-                启用
-              </el-radio>
-              <el-radio :label="0"
-                        border>
-                禁用
-              </el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.permissionStatus"
+                                  dictCode="enableStatus">
+            </sys-dict-radio-group>
           </el-form-item>
           <el-form-item label="序号"
                         prop="permissionSeq"

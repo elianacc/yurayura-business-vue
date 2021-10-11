@@ -115,13 +115,13 @@
           <el-table-column label="当前状态"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.comicStatus | comicCurrentStatusFilter(scope.row.comicCurrentEpisodes)}}</span>
+              {{scope.row.comicStatus | comicCurrentStatusFilter(scope.row.comicCurrentEpisodes)}}
             </template>
           </el-table-column>
           <el-table-column label="标签"
                            width="200">
             <template slot-scope="scope">
-              <span>{{scope.row.comicLabel | comicLabelShowFilter}}</span>
+              {{scope.row.comicLabel | comicLabelShowFilter}}
             </template>
           </el-table-column>
           <el-table-column label="放送时间"
@@ -337,7 +337,7 @@ export default {
         comicScore: 1.0,
         comicTime: '',
         comicContent: '',
-        comicStatus: '0',
+        comicStatus: 0,
         comicUdTime: '',
         cmUdTimeShow: false,
         comicCurrentEpisodes: 1,
@@ -349,7 +349,7 @@ export default {
         cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
-        comicShelfStatus: '1'
+        comicShelfStatus: 1
       },
       dataDialogFormRule: {
         comicName: [{ required: true, message: '番剧名不能为空', trigger: 'blur' }],
@@ -420,11 +420,10 @@ export default {
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
       this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
       this.dataDialogForm.cmImgUplUrlTmp = currentComic.comicImageUrl
-      this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? '8' : '0'
+      this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
       this.dataDialogForm.cmUdTimeShow = currentComic.comicStatus !== 0
       this.dataDialogForm.comicUdTime = currentComic.comicStatus !== 0 && currentComic.comicStatus !== 8 ? currentComic.comicStatus.toString() : ''
       this.diaLogComicLabel = currentComic.comicLabel
-      this.dataDialogForm.comicShelfStatus = currentComic.comicShelfStatus.toString()
       this.dataDialogVisible = true
     },
     customTagClose (tag) {
@@ -506,7 +505,7 @@ export default {
         comicScore: 1.0,
         comicTime: '',
         comicContent: '',
-        comicStatus: '0',
+        comicStatus: 0,
         comicUdTime: '',
         cmUdTimeShow: false,
         comicCurrentEpisodes: 1,
@@ -518,7 +517,7 @@ export default {
         cmImgUplUrlTmp: '',
         comicImgFile: null,
         comicLink: '',
-        comicShelfStatus: '1'
+        comicShelfStatus: 1
       }
       this.$refs.dataDialogForm.clearValidate()
       this.$refs.dialogComicImgUpl.clearFiles()
@@ -526,8 +525,8 @@ export default {
   },
   watch: {
     'dataDialogForm.comicStatus' (val) {
-      this.dataDialogForm.cmUdTimeShow = val === '8'
-      if (val === '0') {
+      this.dataDialogForm.cmUdTimeShow = val === 8
+      if (val === 0) {
         this.dataDialogForm.comicUdTime = ''
       }
     }

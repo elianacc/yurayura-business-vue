@@ -29,16 +29,9 @@
           <el-form-item label="状态"
                         prop="dictStatus"
                         label-width="3rem">
-            <el-select v-model="selectForm.dictStatus"
-                       clearable
-                       placeholder="请选择">
-              <el-option value="1"
-                         label="启用">
-              </el-option>
-              <el-option value="0"
-                         label="禁用">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.dictStatus"
+                             dictCode="enableStatus">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -77,8 +70,7 @@
           <el-table-column label="状态"
                            width="200">
             <template slot-scope="scope">
-              <span v-if="scope.row.dictStatus === 1">启用</span>
-              <span v-else>禁用</span>
+              {{scope.row.dictStatus | sysDictFormatFilter('enableStatus')}}
             </template>
           </el-table-column>
           <el-table-column label="序号"
@@ -146,16 +138,9 @@
           <el-form-item label="状态"
                         prop="dictStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.dictStatus">
-              <el-radio :label="1"
-                        border>
-                启用
-              </el-radio>
-              <el-radio :label="0"
-                        border>
-                禁用
-              </el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.dictStatus"
+                                  dictCode="enableStatus">
+            </sys-dict-radio-group>
           </el-form-item>
           <el-form-item label="序号"
                         prop="dictSeq"

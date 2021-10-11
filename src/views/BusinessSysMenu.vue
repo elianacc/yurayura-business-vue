@@ -24,7 +24,7 @@
           <el-table-column label="标题"
                            width="200">
             <template slot-scope="scope">
-              <i class="fa fa-list-ul me-1"
+              <i class="fa fa-list-ul fa-lg me-1"
                  v-if="scope.row.menuType === 1"></i>
               <i class="fa fa-link me-1"
                  v-else></i>
@@ -46,8 +46,7 @@
           <el-table-column label="类型"
                            width="100">
             <template slot-scope="scope">
-              <span v-if="scope.row.menuType === 1">一级菜单</span>
-              <span v-else>二级菜单</span>
+              {{scope.row.menuType | sysDictFormatFilter('menuType')}}
             </template>
           </el-table-column>
           <el-table-column label="序号"
@@ -57,8 +56,7 @@
           <el-table-column label="状态"
                            width="100">
             <template slot-scope="scope">
-              <span v-if="scope.row.menuStatus === 1">显示</span>
-              <span v-else>隐藏</span>
+              {{scope.row.menuStatus | sysDictFormatFilter('menuStatus')}}
             </template>
           </el-table-column>
           <el-table-column label="操作"
@@ -142,16 +140,9 @@
           <el-form-item label="状态"
                         prop="menuStatus"
                         label-width="10rem">
-            <el-radio-group v-model="dataDialogForm.menuStatus">
-              <el-radio :label="1"
-                        border>
-                显示
-              </el-radio>
-              <el-radio :label="0"
-                        border>
-                隐藏
-              </el-radio>
-            </el-radio-group>
+            <sys-dict-radio-group v-model="dataDialogForm.menuStatus"
+                                  dictCode="menuStatus">
+            </sys-dict-radio-group>
           </el-form-item>
         </el-form>
         <div slot="footer"

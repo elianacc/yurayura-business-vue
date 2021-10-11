@@ -23,16 +23,9 @@
           <el-form-item label="性别"
                         prop="userSex"
                         label-width="3rem">
-            <el-select v-model="selectForm.userSex"
-                       clearable
-                       placeholder="请选择">
-              <el-option value="1"
-                         label="男">
-              </el-option>
-              <el-option value="0"
-                         label="女">
-              </el-option>
-            </el-select>
+            <sys-dict-select v-model="selectForm.userSex"
+                             dictCode="userSex">
+            </sys-dict-select>
           </el-form-item>
           <el-form-item label="手机号"
                         prop="userPhoneNumber"
@@ -89,8 +82,7 @@
           <el-table-column label="性别"
                            width="100">
             <template slot-scope="scope">
-              <span v-if="scope.row.userSex === 1">男</span>
-              <span v-else>女</span>
+              {{scope.row.userSex | sysDictFormatFilter('userSex')}}
             </template>
           </el-table-column>
           <el-table-column label="生日"
