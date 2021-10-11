@@ -119,13 +119,13 @@
               <div class="btn-group shadow">
                 <button type="button"
                         class="btn btn-info btn-twitter font-size-14 text-white"
-                        v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
+                        v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_update`)"
                         @click="updateStatusDialogOpen(scope.row.id)">
                   <i class="fa fa-pencil-square-o me-2"></i>调整状态
                 </button>
                 <button type="button"
                         class="btn btn-warning btn-twitter font-size-14 text-white"
-                        v-if="$store.getters['manager/managerPermission'].includes(`${$route.query.menuName}_update`)"
+                        v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_update`)"
                         @click="resetAvatar(scope.row.id)">
                   <i class="fa fa-retweet me-2"></i>重置头像
                 </button>

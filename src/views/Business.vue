@@ -57,8 +57,7 @@
 
                 <el-menu-item :index="item.menuIndex"
                               v-for="item in submenu.menuSubList"
-                              :key="item.menuName"
-                              :route="{path:item.menuIndex,query:{menuName:item.menuName}}">
+                              :key="item.menuName">
                   <i :class="item.menuIconClass"
                      class="me-2"></i>{{item.menuTitle}}
                 </el-menu-item>
@@ -150,12 +149,7 @@ export default {
           if (tab.name === targetName) {
             let nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
-              activeName = nextTab.name
-              if (activeName === 'index') {
-                this.$router.push(nextTab.index)
-              } else {
-                this.$router.push({ path: nextTab.index, query: { menuName: nextTab.name } })
-              }
+              this.$router.push(nextTab.index)
             } else {
               this.$router.push('/business')
             }
@@ -178,11 +172,7 @@ export default {
     },
     tabClick (target) {
       let nowTab = this.editableTabs.find(tab => tab.name === target.name)
-      if (nowTab.name === 'index') {
-        this.$router.push(nowTab.index)
-      } else {
-        this.$router.push({ path: nowTab.index, query: { menuName: nowTab.name } })
-      }
+      this.$router.push(nowTab.index)
     },
     getCurrentManagerMsg () {
       getCurrentSysManagerMsg(res => {
@@ -216,25 +206,16 @@ export default {
             this.addTab('首页', 'index', '/business/index')
           }
           if (to.name !== 'BusinessIndex') {
-            if (to.query.menuName === undefined) {
-              this.$router.replace('/Notfound')
-            } else {
-              let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-              let lastIndex = index.substring(index.lastIndexOf('/') + 1, index.length)
-              if (lastIndex === to.query.menuName) {
-                getSysMenuSubByIndex(index, res => {
-                  if (res.code === 200) {
-                    this.getAllDict()
-                    let nowItem = res.data
-                    this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
-                  } else if (res.code === 102) {
-                    this.$message.error(res.msg)
-                  }
-                })
-              } else {
-                this.$router.replace('/Notfound')
+            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
+            getSysMenuSubByIndex(index, res => {
+              if (res.code === 200) {
+                this.getAllDict()
+                let nowItem = res.data
+                this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+              } else if (res.code === 102) {
+                this.$message.error(res.msg)
               }
-            }
+            })
           }
         }
       },
