@@ -6,7 +6,7 @@
 
 > 本项目为网站B端页面展示部分，整体上采用Vue CLI 4的技术实现了单页（SPA）应用
 >
-> B端接口部分-SpringBoot接口服务项目地址：https://github.com/elianacc/yurayura-business-service
+> B端SpringBoot接口服务分布式项目地址：https://github.com/elianacc/yurayura-business
 
 ## 安装
 
