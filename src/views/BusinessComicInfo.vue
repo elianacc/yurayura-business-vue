@@ -239,6 +239,7 @@
                     :key="tag"
                     effect="dark"
                     color="#007bff"
+                    closable
                     @close="customTagClose(tag)">
               {{tag}}
             </el-tag>
