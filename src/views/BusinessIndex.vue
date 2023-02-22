@@ -4,8 +4,9 @@
       <h1 class="display-4 text-center text-white">Hello, {{$store.getters['manager/managerName']}}!</h1>
       <p class="lead text-center text-white">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4 bg-secondary">
-      <p class="text-center text-white">YuraYura是一个兴趣使然的项目</p>
-      <p class="lead github-btn-p text-center">
+      <p class="text-center text-white pb-5">当前时间： {{clock}}</p>
+      <p class="text-center text-white pb-3">YuraYura是一个兴趣使然的项目</p>
+      <p class="github-btn-p text-center">
         <a class="btn btn-primary btn-lg"
            ref="getMoreLink"
            :href="githubUrl"
@@ -25,10 +26,30 @@ export default {
   name: 'BusinessIndex',
   data () {
     return {
-      githubUrl: 'https://github.com/elianacc/yurayura-business-vue'
+      githubUrl: 'https://github.com/elianacc/yurayura-business-vue',
+      clock: ''
+    }
+  },
+  methods: {
+    updateTime () {
+      // 每秒钟更新一次时钟
+      setInterval(() => {
+        let now = new Date()
+        let year = now.getFullYear()
+        // 月份从0开始，所以需要加1
+        let month = now.getMonth() + 1
+        let date = now.getDate()
+        let hours = now.getHours().toString().padStart(2, '0')
+        let minutes = now.getMinutes().toString().padStart(2, '0')
+        let seconds = now.getSeconds().toString().padStart(2, '0')
+
+        // 在时钟中显示当前时间
+        this.clock = year + '年' + month + '月' + date + '日 ' + hours + ':' + minutes + ':' + seconds
+      }, 1000)
     }
   },
   mounted () {
+    this.updateTime()
     new bootstrap.Tooltip(this.$refs.getMoreLink)
   }
 }
@@ -44,6 +65,6 @@ export default {
 
 .github-btn-p {
   position: relative;
-  top: 2rem;
+  top: -1rem;
 }
 </style>
