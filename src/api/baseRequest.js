@@ -24,7 +24,7 @@ function apiAxios (method, url, params, success, warn, header) {
   }).then(res => {
     if (res.data.code === 200) {
       success(res.data)
-    } else if (res.data.code === 102) {
+    } else if (res.data.code === 403 || res.data.code === 400) {
       warn(res.data)
     } else if (res.data.code === 401 || res.data.code === 405) {
       MessageBox.alert(res.data.msg, '提示', {

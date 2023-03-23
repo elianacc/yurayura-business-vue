@@ -179,11 +179,11 @@
           <el-form-item label="评分"
                         prop="comicScore"
                         label-width="10rem">
-            <el-input-number :min="1.1"
+            <el-input-number :min="1.0"
                              :precision="1"
                              :step="0.1"
                              :max="10"
-                             @blur="dataDialogForm.comicScore = dataDialogForm.comicScore || 1.1"
+                             @blur="dataDialogForm.comicScore = dataDialogForm.comicScore || 1.0"
                              v-model="dataDialogForm.comicScore"
                              class="w-50">
             </el-input-number>
