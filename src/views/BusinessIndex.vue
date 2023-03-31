@@ -26,7 +26,7 @@ export default {
   name: 'BusinessIndex',
   data () {
     return {
-      githubUrl: 'https://github.com/elianacc/yurayura-business-vue',
+      githubUrl: 'https://github.com/elianacc/yurayura-business-vue/tree/yurayura-cloud-business-vue',
       clock: ''
     }
   },
