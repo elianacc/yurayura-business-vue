@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="jumbotron">
-      <h1 class="display-4 text-center text-white">Hello, {{$store.getters['manager/managerName']}}!</h1>
-      <p class="lead text-center text-white">欢迎进入Yura~Yura~后端管理页面</p>
+      <h1 class="display-4 text-center">Hello, {{$store.getters['manager/managerName']}}!</h1>
+      <p class="lead text-center">欢迎进入Yura~Yura~后端管理页面</p>
       <hr class="my-4 bg-secondary">
-      <p class="text-center text-white pb-5">当前时间： {{clock}}</p>
-      <p class="text-center text-white pb-3">YuraYura是一个兴趣使然的项目</p>
+      <p class="text-center pb-5">当前时间： {{clock}}</p>
+      <p class="text-center pb-3">YuraYura是一个兴趣使然的项目</p>
       <p class="github-btn-p text-center">
         <a class="btn btn-primary btn-lg"
            ref="getMoreLink"
@@ -60,7 +60,7 @@ export default {
   padding: 4rem 2rem;
   margin-bottom: 2rem;
   border-radius: 0.3rem;
-  background-color: #15202b;
+  /* background-color: #15202b; */
 }
 
 .github-btn-p {

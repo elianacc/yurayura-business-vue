@@ -1,20 +1,20 @@
 <template>
-  <div class="container">
+  <div class="container pt-4">
 
     <!-- 标图row -->
     <div class="row mt-5">
       <div class="col-2 offset-5">
         <img src="~@assets/github.png"
              class="mx-auto d-block"
-             width="50"
-             height="50" />
+             width="80"
+             height="80" />
       </div>
     </div>
 
     <!-- 标题row -->
     <div class="row mt-4">
       <div class="col-4 offset-4">
-        <h4 class="lead text-center text-white">Yura~yura后台登入</h4>
+        <h4 class="lead text-center">Yura~yura后台登入</h4>
       </div>
     </div>
 
@@ -105,7 +105,7 @@ export default {
             lock: true,
             text: '登入中...',
             spinner: 'el-icon-loading',
-            background: '#0d1117'
+            background: '#ffffff'
           })
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
           delete this.loginForm.verifyImage

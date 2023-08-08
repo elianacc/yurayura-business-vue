@@ -271,58 +271,15 @@ export default {
 </script>
 
 <style scoped>
-/* 查询表单 */
-/* el表单标签重写（颜色修改） */
-.r1 .c2 /deep/ .el-form-item__label {
-  color: #f8f9fa;
-}
-
 /* el表格重写 */
-.r2 .c1 /deep/ .el-table,
-.r2 .c1 /deep/ .el-table__expanded-cell {
-  background-color: #15202b;
-}
-.r2 .c1 /deep/ .el-table th,
-.r2 .c1 /deep/ .el-table tr {
-  background-color: #15202b;
-}
-.r2 .c1 /deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
-  background-color: #111a22;
-}
-.r2 .c1 /deep/ .el-table td,
-.r2 .c1 /deep/ .el-table th.is-leaf {
-  border-bottom: 1px solid #15202b;
-}
-.r2 .c1 /deep/ .el-table::before {
-  background: #15202b;
-}
-.r2 .c1 /deep/ .el-table {
-  color: #f8f9fa;
-  border: 1px solid #38444d;
-  border-radius: 1rem;
-  padding-bottom: 1px;
-}
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th {
   text-align: center;
-}
-.r2 .c1 /deep/ .el-table thead {
-  color: #f8f9fa;
 }
 
 /* el对话框重写 */
 .up-status-dialog /deep/ .el-dialog,
 .up-status-dialog /deep/ .el-pager li {
-  background: #192734;
   border-radius: 0.5rem;
-}
-.up-status-dialog /deep/ .el-dialog__title {
-  color: #f8f9fa;
-}
-
-/* data-dialog表单 */
-/* el表单标签重写（颜色修改） */
-.up-status-dialog /deep/ .el-form-item__label {
-  color: #f8f9fa;
 }
 </style>

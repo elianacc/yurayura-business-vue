@@ -244,6 +244,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
     flex: 0 0 16.77%;
@@ -252,6 +253,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
     flex: 0 0 91.666667%;
@@ -281,6 +283,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
     flex: 0 0 15.95%;
@@ -289,6 +292,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
     flex: 0 0 91.666667%;
@@ -318,6 +322,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
     flex: 0 0 13.7%;
@@ -326,6 +331,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
     flex: 0 0 91.666667%;
@@ -355,6 +361,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
     flex: 0 0 12%;
@@ -363,6 +370,7 @@ export default {
     width: 100%;
     padding-right: 15px;
     padding-left: 15px;
+    right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
     flex: 0 0 91.666667%;
@@ -423,7 +431,7 @@ nav .ms-uncollapse-span {
 }
 
 /* el标签页（选项卡）重写 */
-.r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__nav {
+/* .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__nav {
   border: none;
 }
 .r1 .c2 /deep/ .el-tabs--card > .el-tabs__header .el-tabs__item {
@@ -449,7 +457,7 @@ nav .ms-uncollapse-span {
 }
 .r1 .c2 /deep/ .el-tabs__item.is-active {
   color: #409eff;
-}
+} */
 
 /* 主内容底部留白 */
 .r1 .c2 .pb-12 {

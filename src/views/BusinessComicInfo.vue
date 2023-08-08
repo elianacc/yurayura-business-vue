@@ -545,43 +545,10 @@ export default {
 </script>
 
 <style scoped>
-/* 查询表单 */
-/* el表单标签重写（颜色修改） */
-.r1 .c2 /deep/ .el-form-item__label {
-  color: #f8f9fa;
-}
-
 /* el表格重写 */
-.r2 .c1 /deep/ .el-table,
-.r2 .c1 /deep/ .el-table__expanded-cell {
-  background-color: #15202b;
-}
-.r2 .c1 /deep/ .el-table th,
-.r2 .c1 /deep/ .el-table tr {
-  background-color: #15202b;
-}
-.r2 .c1 /deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
-  background-color: #111a22;
-}
-.r2 .c1 /deep/ .el-table td,
-.r2 .c1 /deep/ .el-table th.is-leaf {
-  border-bottom: 1px solid #15202b;
-}
-.r2 .c1 /deep/ .el-table::before {
-  background: #15202b;
-}
-.r2 .c1 /deep/ .el-table {
-  color: #f8f9fa;
-  border: 1px solid #38444d;
-  border-radius: 1rem;
-  padding-bottom: 1px;
-}
 .r2 .c1 /deep/ .el-table td,
 .r2 .c1 /deep/ .el-table th {
   text-align: center;
-}
-.r2 .c1 /deep/ .el-table thead {
-  color: #f8f9fa;
 }
 
 /* 番剧图片遮罩 */
@@ -623,43 +590,10 @@ export default {
 /* el对话框重写 */
 .data-dialog /deep/ .el-dialog,
 .data-dialog /deep/ .el-pager li {
-  background: #192734;
   border-radius: 0.5rem;
-}
-.data-dialog /deep/ .el-dialog__title {
-  color: #f8f9fa;
 }
 
 /* data-dialog表单 */
-/* el表单标签重写（颜色修改） */
-.data-dialog /deep/ .el-form-item__label {
-  color: #f8f9fa;
-}
-/* el表单日期选择重写（宽度修改） */
-.data-dialog /deep/ .el-date-editor.el-input,
-.data-dialog /deep/ .el-date-editor.el-input__inner {
-  width: 75%;
-}
-/* el表单单选重写 */
-.data-dialog /deep/ .el-radio {
-  color: #f8f9fa;
-}
-/* el表单自定义标签 */
-.data-dialog .el-tag + .el-tag {
-  margin-left: 0.5rem;
-}
-.data-dialog .input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
-}
-.data-dialog .button-new-tag {
-  margin-left: 10px;
-  height: 32px;
-  line-height: 30px;
-  padding-top: 0;
-  padding-bottom: 0;
-}
 /* el表单上传重写 */
 .data-dialog /deep/ .el-upload--picture-card {
   width: 132px;

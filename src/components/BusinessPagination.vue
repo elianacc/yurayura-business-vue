@@ -67,7 +67,7 @@ export default {
   li:not(.disabled).active {
   background-color: #007bff;
 }
-.custom-pagination /deep/ .el-pagination__jump {
+/* .custom-pagination /deep/ .el-pagination__jump {
   color: #f8f9fa;
-}
+} */
 </style>
