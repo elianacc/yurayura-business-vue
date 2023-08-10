@@ -433,7 +433,6 @@ nav .ms-uncollapse-span {
 }
 .r1 .c2 /deep/ .el-tabs__item:hover {
   color: #0d6efd;
-  cursor: pointer;
 }
 .r1 .c2 /deep/ .el-tabs__item.is-active {
   color: #0d6efd;
