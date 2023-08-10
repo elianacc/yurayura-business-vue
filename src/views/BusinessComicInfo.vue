@@ -12,7 +12,6 @@
         </button>
         <button type="button"
                 class="btn btn-danger font-size-14"
-                style="position: relative; top: 0.03125rem;"
                 @click="deleteBatch"
                 v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_deleteBatch`)">
           <i class="fa fa-trash me-2"></i>删除
@@ -132,7 +131,7 @@
                            width="180">
             <template slot-scope="scope">
               <button type="button"
-                      class="btn btn-info btn-twitter font-size-14 text-white shadow"
+                      class="btn btn-warning btn-twitter font-size-14 text-white shadow"
                       v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_update`)"
                       @click="updateDialogOpen(scope.row.id)">
                 <i class="fa fa-pencil-square-o me-2"></i>修改

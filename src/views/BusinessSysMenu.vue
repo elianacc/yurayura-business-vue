@@ -64,13 +64,13 @@
             <template slot-scope="scope">
               <div class="btn-group shadow">
                 <button type="button"
-                        class="btn btn-success btn-twitter font-size-14"
+                        class="btn btn-info btn-twitter font-size-14 text-white"
                         v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_insert`) && scope.row.menuType === 1"
                         @click="insertSubMenuDialogOpen(scope.row.id)">
                   <i class="fa fa-plus me-2"></i>添加子菜单
                 </button>
                 <button type="button"
-                        class="btn btn-info btn-twitter font-size-14 text-white"
+                        class="btn btn-warning btn-twitter font-size-14 text-white"
                         v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_update`)"
                         @click="updateDialogOpen(scope.row.menuType, scope.row.menuName, scope.row.menuPid)">
                   <i class="fa fa-pencil-square-o me-2"></i>修改
@@ -123,7 +123,7 @@
                         label-width="10rem">
             <el-input v-model="dataDialogForm.menuIconClass"
                       class="w-75"
-                      maxlength="30"
+                      maxlength="40"
                       show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="序号"

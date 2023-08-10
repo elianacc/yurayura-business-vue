@@ -65,7 +65,7 @@ export default {
   .el-pagination.is-background
   .el-pager
   li:not(.disabled).active {
-  background-color: #007bff;
+  background-color: #0d6efd;
 }
 /* .custom-pagination /deep/ .el-pagination__jump {
   color: #f8f9fa;
