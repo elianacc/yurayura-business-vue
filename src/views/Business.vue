@@ -406,16 +406,9 @@ nav .ms-uncollapse-span {
 .r1 .c1 /deep/ .el-menu {
   border-right: 0rem;
 }
-/* el侧边导航宽、背景 */
+/* el侧边导航宽 */
 .r1 .c1 .el-menu-vertical:not(.el-menu--collapse) {
   width: 210px;
-}
-.r1 .c1 .el-menu-vertical:not(.el-menu--collapse) .menu-container {
-  background-image: url("~@assets/miku-sidemenu.png");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: 0px 630px;
-  background-size: 210px 300px;
 }
 
 /* el侧边导航折叠时隐藏文字 */

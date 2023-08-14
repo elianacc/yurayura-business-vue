@@ -241,9 +241,8 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let successCallback = success => {
-          this.$message.success(success.msg)
-          this.getTreeList()
+        let successCallback = () => {
+          location.reload()
         }
         let warnCallback = warn => { this.$message.error(warn.msg) }
         if (menuType === 1) {

@@ -237,7 +237,7 @@ export default {
     dataDialogOpenAndSetVal (id) {
       let currentManager = this.pageInfo.list.find(manager => manager.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-      this.dataDialogForm.roleIdArr = currentManager.roleIdsStr.split(',').map(Number)
+      this.dataDialogForm.roleIdArr = currentManager.roleIdsStr ? currentManager.roleIdsStr.split(',').map(Number) : []
       this.dataDialogVisible = true
     },
     submitContent () {
