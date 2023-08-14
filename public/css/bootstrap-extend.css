@@ -26,14 +26,14 @@ button:focus,
 
 /* 推特色导航背景 */
 .bg-twitter-nav {
-  background-color: #192734;
+  background-color: #15202b;
 }
 
 /* 推特色按钮 */
 .btn-twitter {
   color: #fff;
-  background-color: #192734;
-  border-color: #192734;
+  background-color: #15202b;
+  border-color: #15202b;
 }
 
 /* vue v-cloak */

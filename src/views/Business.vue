@@ -35,7 +35,7 @@
            class="c1">
         <el-menu :default-active="sideMenuDftActive"
                  :default-openeds="sideMenu.map(menu => menu.menuName)"
-                 background-color="#192734"
+                 background-color="#15202b"
                  text-color="#ffffff"
                  active-text-color="#ffffff"
                  class="el-menu-vertical"
@@ -440,7 +440,7 @@ nav .ms-uncollapse-span {
 .r1 .c2 .back-top {
   height: 100%;
   width: 100%;
-  background-color: #192734;
+  background-color: #15202b;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.12);
   text-align: center;
   line-height: 40px;

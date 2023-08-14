@@ -295,6 +295,13 @@ export default {
 .r2 .c1 /deep/ .el-table th {
   text-align: center;
 }
+.r2 .c1 /deep/ .el-table {
+  border-radius: 1rem;
+  padding-bottom: 1px;
+}
+.r2 .c1 /deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #ffffff;
+}
 
 /* el对话框重写 */
 .data-dialog /deep/ .el-dialog,

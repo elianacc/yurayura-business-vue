@@ -17,7 +17,7 @@ html {
 /* 全局背景及禁用y轴滚动设置 */
 body {
   cursor: default;
-  /* background: #15202b !important; */
+  background: #f7f9f9 !important;
   overflow-y: hidden;
 }
 /* 默认浏览器滚动条修改（Chrome内核有效） */

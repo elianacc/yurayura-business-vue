@@ -549,6 +549,13 @@ export default {
 .r2 .c1 /deep/ .el-table th {
   text-align: center;
 }
+.r2 .c1 /deep/ .el-table {
+  border-radius: 1rem;
+  padding-bottom: 1px;
+}
+.r2 .c1 /deep/ .el-table--enable-row-hover .el-table__body tr:hover > td {
+  background-color: #ffffff;
+}
 
 /* 番剧图片遮罩 */
 .r2 .c1 .cmImg-mask {

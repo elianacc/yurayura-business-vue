@@ -105,7 +105,7 @@ export default {
             lock: true,
             text: '登入中...',
             spinner: 'el-icon-loading',
-            background: '#ffffff'
+            background: '#f7f9f9'
           })
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
           delete this.loginForm.verifyImage

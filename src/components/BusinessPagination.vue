@@ -37,14 +37,14 @@ export default {
 <style scoped>
 /* bs5徽章重写 */
 .custom-pagination /deep/ .badge-dark {
-  background-color: #192734;
+  background-color: #15202b;
 }
 
 /* el分页重写 */
 .custom-pagination /deep/ .el-pagination.is-background .btn-next,
 .custom-pagination /deep/ .el-pagination.is-background .btn-prev,
 .custom-pagination /deep/ .el-pagination.is-background .el-pager li {
-  background-color: #192734;
+  background-color: #15202b;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 .custom-pagination /deep/ .el-pagination.is-background .btn-next.disabled,
