@@ -19,6 +19,7 @@ body {
   cursor: default;
   background: #f7f9f9 !important;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 /* 默认浏览器滚动条修改（Chrome内核有效） */
 ::-webkit-scrollbar {

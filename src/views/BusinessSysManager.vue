@@ -2,7 +2,7 @@
   <div>
 
     <!-- 操作按钮及数据筛选表单row -->
-    <div class="row mt-4 r1">
+    <div class="row mt-2 r1">
 
       <div class="col-2">
         <button type="button"
@@ -53,7 +53,7 @@
     </div>
 
     <!-- 数据表格row -->
-    <div class="row r2 ps-5">
+    <div class="row r2">
       <div class="col-12 c1">
         <el-table :data="pageInfo.list">
           <el-table-column label="管理员名"
@@ -296,6 +296,7 @@ export default {
   text-align: center;
 }
 .r2 .c1 /deep/ .el-table {
+  width: 99.3%;
   border-radius: 1rem;
   padding-bottom: 1px;
 }
