@@ -1,5 +1,5 @@
 <template>
-  <div class="container ps-0">
+  <div class="container-fluid ps-0">
 
     <!-- 置顶导航 -->
     <nav class="navbar navbar-dark fixed-top bg-twitter-nav py-0 px-3">
@@ -234,159 +234,81 @@ export default {
 
 <style scoped>
 @media (min-width: 1px) {
-  .container {
-    width: 1366px;
-  }
   .r1 .col-sidemenu-collapse {
-    flex: 0 0 8.333333%;
+    flex: 0 0 auto;
     max-width: 8.333333%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
-    flex: 0 0 16.77%;
+    flex: 0 0 auto;
     max-width: 16.77%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
-    flex: 0 0 91.666667%;
+    flex: 0 0 auto;
     max-width: 91.666667%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
   .r1 .col-tabandmain-uncollapse {
-    flex: 0 0 83.23%;
+    flex: 0 0 auto;
     max-width: 83.23%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
 }
 @media (min-width: 1367px) {
-  .container {
-    width: 1440px;
-  }
   .r1 .col-sidemenu-collapse {
-    flex: 0 0 8.333333%;
+    flex: 0 0 auto;
     max-width: 8.333333%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
-    flex: 0 0 15.95%;
+    flex: 0 0 auto;
     max-width: 15.95%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
-    flex: 0 0 91.666667%;
+    flex: 0 0 auto;
     max-width: 91.666667%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
   .r1 .col-tabandmain-uncollapse {
-    flex: 0 0 84.05%;
+    flex: 0 0 auto;
     max-width: 84.05%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-}
-@media (min-width: 1441px) {
-  .container {
-    width: 1680px;
-  }
-  .r1 .col-sidemenu-collapse {
-    flex: 0 0 8.333333%;
-    max-width: 8.333333%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    right: 0.5rem;
-  }
-  .r1 .col-sidemenu-uncollapse {
-    flex: 0 0 13.7%;
-    max-width: 13.7%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    right: 0.5rem;
-  }
-  .r1 .col-tabandmain-collapse {
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-  .r1 .col-tabandmain-uncollapse {
-    flex: 0 0 86.3%;
-    max-width: 86.3%;
-    position: relative;
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
 }
 @media (min-width: 1681px) {
-  .container {
-    width: 1920px;
-  }
   .r1 .col-sidemenu-collapse {
-    flex: 0 0 8.333333%;
+    flex: 0 0 auto;
     max-width: 8.333333%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-sidemenu-uncollapse {
-    flex: 0 0 12%;
-    max-width: 12%;
-    position: relative;
+    flex: 0 0 auto;
+    max-width: 14%;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    position: relative;
     right: 0.5rem;
   }
   .r1 .col-tabandmain-collapse {
-    flex: 0 0 91.666667%;
+    flex: 0 0 auto;
     max-width: 91.666667%;
-    position: relative;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
   .r1 .col-tabandmain-uncollapse {
-    flex: 0 0 88%;
-    max-width: 88%;
-    position: relative;
+    flex: 0 0 auto;
+    max-width: 86%;
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
   }
 }
 
