@@ -118,7 +118,8 @@ export default {
       sideMenuDftActive: this.$store.getters['menutab/sideMenuDftActive'],
       sideMenu: [],
       editableTabsValue: this.$store.getters['menutab/editableTabsValue'],
-      editableTabs: this.$store.getters['menutab/editableTabs']
+      editableTabs: this.$store.getters['menutab/editableTabs'],
+      screenWidth: 0
     }
   },
   methods: {
@@ -224,10 +225,19 @@ export default {
     },
     sideMenuDftActive (val) {
       this.$store.commit('menutab/SET_SIDE_MENU_DFT_ACTIVE', val)
+    },
+    screenWidth (val) {
+      this.sideMenuIsCollapse = val <= 1267
     }
   },
   mounted () {
     this.getSideMenu()
+    this.screenWidth = document.body.clientWidth
+    window.onresize = () => {
+      return (() => {
+        this.screenWidth = document.body.clientWidth
+      })()
+    }
   }
 }
 </script>
