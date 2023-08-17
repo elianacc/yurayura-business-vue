@@ -1,13 +1,13 @@
 <template>
-  <div class="container">
+  <div class="container-fluid">
 
     <div class="row mt-5">
       <div class="col-10 offset-1">
-        <h1 class="text-center">抱歉，您访问的页面不存在╮(′～‵〞)╭</h1>
         <img src="~@assets/404.png"
-             class="mx-auto d-block mt-5"
-             width="710"
-             height="390" />
+             class="mx-auto d-block"
+             width="200"
+             height="200" />
+        <h1 class="text-center mt-5">抱歉，您访问的页面不存在╮(′～‵〞)╭</h1>
       </div>
     </div>
 
@@ -21,7 +21,4 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  width: 992px;
-}
 </style>
