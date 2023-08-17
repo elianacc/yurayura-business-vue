@@ -246,7 +246,7 @@ export default {
 @media (min-width: 1px) {
   .r1 .col-sidemenu-collapse {
     flex: 0 0 auto;
-    max-width: 8.333333%;
+    max-width: 15%;
     width: 100%;
     position: relative;
     right: 0.5rem;
@@ -260,7 +260,7 @@ export default {
   }
   .r1 .col-tabandmain-collapse {
     flex: 0 0 auto;
-    max-width: 91.666667%;
+    max-width: 85%;
     width: 100%;
   }
   .r1 .col-tabandmain-uncollapse {
