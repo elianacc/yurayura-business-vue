@@ -1,11 +1,4 @@
 import Vue from 'vue'
-import App from './App.vue'
-import store from './store'
-import router from './router'
-import filter from './filter'
-import './directive'
-import SysDictSelect from '@components/SysDictSelect.vue'
-import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, Checkbox, CheckboxGroup, CheckboxButton, Upload,
@@ -15,9 +8,15 @@ import {
   Loading, Message, MessageBox, Notification
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '@css/font-awesome.min.css'
-import '@css/custom-extend.css'
+import '@assets/bootstrap.min.css'
+import '@assets/font-awesome.min.css'
+import App from './App.vue'
+import store from './store'
+import SysDictSelect from '@components/SysDictSelect.vue'
+import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
+import router from './router'
+import filter from './filter'
+import './directive'
 
 Vue.config.productionTip = false
 
