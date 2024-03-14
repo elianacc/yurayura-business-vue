@@ -600,6 +600,23 @@ export default {
   border-radius: 0.5rem;
 }
 
+/* el表单自定义标签重写 */
+.data-dialog .el-tag + .el-tag {
+  margin-left: 0.5rem;
+}
+.data-dialog .input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+.data-dialog .button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 /* data-dialog表单 */
 /* el表单上传重写 */
 .data-dialog /deep/ .el-upload--picture-card {
