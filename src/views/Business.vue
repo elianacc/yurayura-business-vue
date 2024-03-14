@@ -14,8 +14,10 @@
               class="collapse-span"
               @click="sideMenuIsCollapse = !sideMenuIsCollapse">
           <i class="el-icon-s-fold font-size-28"
+             v-if="sideMenuCollIconShow"
              v-show="!sideMenuIsCollapse"></i>
           <i class="el-icon-s-unfold font-size-28"
+             v-if="sideMenuCollIconShow"
              v-show="sideMenuIsCollapse"></i>
         </span>
       </span>
@@ -119,7 +121,8 @@ export default {
       sideMenu: [],
       editableTabsValue: this.$store.getters['menutab/editableTabsValue'],
       editableTabs: this.$store.getters['menutab/editableTabs'],
-      screenWidth: 0
+      screenWidth: 0,
+      sideMenuCollIconShow: true
     }
   },
   methods: {
@@ -228,6 +231,7 @@ export default {
     },
     screenWidth (val) {
       this.sideMenuIsCollapse = val <= 1267
+      this.sideMenuCollIconShow = val >= 1267
     }
   },
   mounted () {
