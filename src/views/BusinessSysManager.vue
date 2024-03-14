@@ -239,6 +239,7 @@ export default {
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
       this.dataDialogForm.roleIdArr = currentManager.roleIdsStr ? currentManager.roleIdsStr.split(',').map(Number) : []
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {

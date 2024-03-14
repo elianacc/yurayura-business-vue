@@ -421,6 +421,7 @@ export default {
       this.dataDialogForm.comicUdTime = currentComic.comicStatus !== 0 && currentComic.comicStatus !== 8 ? currentComic.comicStatus.toString() : ''
       this.diaLogComicLabel = currentComic.comicLabel
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     customTagClose (tag) {
       this.dataDialogForm.customTag.splice(this.dataDialogForm.customTag.indexOf(tag), 1)

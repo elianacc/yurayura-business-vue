@@ -247,6 +247,7 @@ export default {
       let currentDict = this.pageInfo.list.find(dict => dict.id === id)
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentDict[key])
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {

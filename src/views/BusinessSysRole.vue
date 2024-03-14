@@ -236,6 +236,7 @@ export default {
         }
       })
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {

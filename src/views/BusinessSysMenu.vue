@@ -234,6 +234,7 @@ export default {
       }
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentMenu[key])
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     deleteById (menuType, id) {
       this.$confirm('删除菜单会删除对应的权限及管理员权限，确定要删除选中项吗？', '提示', {

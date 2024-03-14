@@ -305,6 +305,7 @@ export default {
         this.dataDialogForm.permissionBtnVal = permCode.substring(permCode.lastIndexOf('_') + 1, permCode.length)
       }
       this.dataDialogVisible = true
+      this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
       this.$refs.dataDialogForm.validate(valid => {
