@@ -96,9 +96,7 @@ const router = new Router({
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
-    judgeManagerAuthen(() => {
-      next()
-    }, () => { next('/manager_login') })
+    next()
   } else {
     if (to.name !== 'Notfound') {
       judgeManagerAuthen(() => {

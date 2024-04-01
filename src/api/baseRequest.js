@@ -1,14 +1,16 @@
 import axios from 'axios'
 import qs from 'qs'
 import router from '../router'
+import store from '../store'
 import { MessageBox, Notification } from 'element-ui'
 
 // 解决和后端session不同步的问题，让axios请求带上cookie
-axios.defaults.withCredentials = true
+//axios.defaults.withCredentials = true
 // axios默认添加ajax请求头标识
-axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json;charset=utf-8' }
+//axios.defaults.headers = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json;charset=utf-8', 'Token': store.getters['token/token'] }
 
 function apiAxios (method, url, params, success, warn, header) {
+  let dfHeader = { 'X-Requested-With': 'XMLHttpRequest', 'Content-Type': 'application/json;charset=utf-8', 'Token': store.getters['token/token'] }
   axios({
     method: method,
     url: url,
@@ -20,7 +22,7 @@ function apiAxios (method, url, params, success, warn, header) {
         return qs.stringify(params, { arrayFormat: 'repeat' })
       }
     },
-    headers: header
+    headers: { ...dfHeader, ...header }
   }).then(res => {
     if (res.data.code === 200) {
       success(res.data)

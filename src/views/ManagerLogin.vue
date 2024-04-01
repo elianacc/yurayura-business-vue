@@ -111,8 +111,9 @@ export default {
           })
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
           delete this.loginForm.verifyImage
-          sysManagerLogin(this.loginForm, () => {
+          sysManagerLogin(this.loginForm, success => {
             this.$store.dispatch('menutab/resetMenuAndTab')
+            this.$store.commit('token/SET_TOKEN', success.data)
             setTimeout(() => {
               loading.close()
               this.$router.replace('/business/index')

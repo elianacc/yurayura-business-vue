@@ -138,6 +138,7 @@ export default {
         type: 'warning'
       }).then(() => {
         sysManagerLogout(() => {
+          this.$store.commit('token/CLEAR_TOKEN')
           this.$store.commit('manager/CLEAR_MANAGER_MSG')
           this.$router.push('/manager_login')
         })

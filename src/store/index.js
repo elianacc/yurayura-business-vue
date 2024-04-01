@@ -5,6 +5,7 @@ import createVuexAlong from 'vuex-along'
 import manager from './manager'
 import menutab from './menutab'
 import dict from './dict'
+import token from './token'
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
   modules: {
     manager,
     menutab,
-    dict
+    dict,
+    token
   },
   plugins: [createVuexAlong({
     name: 'yurayura-business-vuex-along',
