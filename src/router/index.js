@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { judgeManagerAuthen } from '@api/sysManager'
+import store from '../store'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
 import BusinessIndex from '@views/BusinessIndex.vue'
@@ -96,12 +96,18 @@ const router = new Router({
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
+    // 非登入、404页
+    if(store.getters['token/token'] === '') {
+      next('/manager_login')
+    }
     next()
   } else {
     if (to.name !== 'Notfound') {
-      judgeManagerAuthen(() => {
+      // 登入页
+      if(store.getters['token/token'] !== '') {
         next('/business/index')
-      }, () => { next() })
+      }
+      next()
     }
     next()
   }
