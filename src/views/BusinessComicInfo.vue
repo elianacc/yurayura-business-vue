@@ -306,17 +306,13 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
-import SysDictCheckboxBtnGroup from '@components/SysDictCheckboxBtnGroup.vue'
 import { getComicPage, insertComic, updateComic, deleteComicBatchByIds } from '@api/comic'
 import { uploadImgIsCorrect } from '@utils/common'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessComicInfo',
-  components: {
-    BusinessPagination,
-    SysDictCheckboxBtnGroup
-  },
+  mixins: [BusinessPage],
   data () {
     return {
       selectForm: {
@@ -325,12 +321,6 @@ export default {
         comicShelfStatus: '',
         comicTag: []
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
-      multipleSelection: [],
-      dataDialogTitle: '',
-      dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
         comicName: '',
@@ -358,70 +348,29 @@ export default {
     }
   },
   methods: {
-    tbSelectionChange (val) {
-      this.multipleSelection = val
-    },
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getComicPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
     },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
+    deleteBatchImpl () {
+      deleteComicBatchByIds(this.multipleSelection.map(selt => selt.id), success => {
+        this.$message.success(success.msg)
+        this.multipleSelection = []
+        this.getPage()
+      }, warn => {
+        this.$message.error(warn.msg)
+      })
     },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
-    },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
-    },
-    deleteBatch () {
-      if (this.multipleSelection.length === 0) {
-        this.$message.warning('请至少选择一项删除')
-      } else {
-        this.$confirm('确定要删除选中项吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteComicBatchByIds(this.multipleSelection.map(selt => selt.id), success => {
-            this.$message.success(success.msg)
-            this.multipleSelection = []
-            this.getPage()
-          }, warn => {
-            this.$message.error(warn.msg)
-          })
-        })
-      }
-    },
-    insertDialogOpen () {
-      this.dataDialogTitle = '『添加窗口』'
-      this.dataDialogVisible = true
-    },
-    updateDialogOpen (id) {
-      this.dataDialogTitle = '『修改窗口』'
-      this.dataDialogOpenAndSetVal(id)
-    },
-    dataDialogOpenAndSetVal (id) {
-      let currentComic = this.pageInfo.list.find(comic => comic.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentComic[key])
-      this.dataDialogForm.cmImgUplUrl = currentComic.comicImageUrl
-      this.dataDialogForm.cmImgUplUrlTmp = currentComic.comicImageUrl
-      this.dataDialogForm.comicStatus = currentComic.comicStatus !== 0 ? 8 : 0
-      this.dataDialogForm.cmUdTimeShow = currentComic.comicStatus !== 0
-      this.dataDialogForm.comicUdTime = currentComic.comicStatus !== 0 && currentComic.comicStatus !== 8 ? currentComic.comicStatus.toString() : ''
-      this.diaLogComicLabel = currentComic.comicLabel
-      this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
+    dataDialogSetRowDataCustom (current) {
+      this.dataDialogForm.cmImgUplUrl = current.comicImageUrl
+      this.dataDialogForm.cmImgUplUrlTmp = current.comicImageUrl
+      this.dataDialogForm.comicStatus = current.comicStatus !== 0 ? 8 : 0
+      this.dataDialogForm.cmUdTimeShow = current.comicStatus !== 0
+      this.dataDialogForm.comicUdTime = current.comicStatus !== 0 && current.comicStatus !== 8 ? current.comicStatus.toString() : ''
+      this.diaLogComicLabel = current.comicLabel
     },
     customTagClose (tag) {
       this.dataDialogForm.customTag.splice(this.dataDialogForm.customTag.indexOf(tag), 1)
@@ -461,59 +410,23 @@ export default {
       this.dataDialogForm.cmImgUplUrl = this.dataDialogForm.cmImgUplUrlTmp
       this.dataDialogForm.comicImgFile = null
     },
-    submitContent () {
-      this.$refs.dataDialogForm.validate(valid => {
-        if (valid) {
-          let sendData = { ...this.dataDialogForm }
-          let comicLabelArr = [...this.diaLogComicLabel]
-          for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
-            comicLabelArr.push('')
-          }
-          sendData.comicLabel = comicLabelArr
-          if (!this.dataDialogForm.comicImgFile) {
-            delete sendData.comicImgFile
-          }
-          let successCallback = success => {
-            this.$message.success(success.msg)
-            if (this.dataDialogForm.id === 0) {
-              this.$refs.selectForm.resetFields()
-              this.searchContent = { ...this.selectForm }
-              this.currentPageNum = 1
-            }
-            this.dataDialogVisible = false
-          }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
-          if (this.dataDialogForm.id === 0) {
-            insertComic(sendData, successCallback, warnCallback)
-          } else {
-            updateComic(sendData, successCallback, warnCallback)
-          }
-        }
-      })
-    },
-    dataDialogClose () {
-      this.getPage()
-      this.dataDialogForm = {
-        id: 0,
-        comicName: '',
-        comicScore: 1.0,
-        comicTime: '',
-        comicContent: '',
-        comicStatus: 0,
-        comicUdTime: '',
-        cmUdTimeShow: false,
-        comicCurrentEpisodes: 1,
-        cmTag: [],
-        customTag: [],
-        customTagInputVisible: false,
-        customTagInput: '',
-        cmImgUplUrl: '',
-        cmImgUplUrlTmp: '',
-        comicImgFile: null,
-        comicLink: '',
-        comicShelfStatus: 1
+    setSubmitDataCustom (sendData) {
+      let comicLabelArr = [...this.diaLogComicLabel]
+      for (let index = 0; index < 4 - this.dataDialogForm.customTag.length; index++) {
+        comicLabelArr.push('')
       }
-      this.$refs.dataDialogForm.clearValidate()
+      sendData.comicLabel = comicLabelArr
+      if (!this.dataDialogForm.comicImgFile) {
+        delete sendData.comicImgFile
+      }
+    },
+    insertContent (sendData, successCallback, warnCallback) {
+      insertComic(sendData, successCallback, warnCallback)
+    },
+    updateContent (sendData, successCallback, warnCallback) {
+      updateComic(sendData, successCallback, warnCallback)
+    },
+    dataDialogCloseExtend () {
       this.$refs.dialogComicImgUpl.clearFiles()
     }
   },
@@ -537,9 +450,6 @@ export default {
         this.dataDialogForm.customTag = customTagArr.filter(tag => tag !== '')
       }
     }
-  },
-  mounted () {
-    this.getPage()
   }
 }
 </script>

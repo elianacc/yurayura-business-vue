@@ -161,16 +161,14 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
 import { Base64 } from 'js-base64'
 import { getSysManagerPage, insertSysManager, updateSysManager } from '@api/sysManager'
 import { getRoleAll } from '@api/sysRole'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessSysManager',
-  components: {
-    BusinessPagination
-  },
+  mixins: [BusinessPage],
   data () {
     let checkPassword = (rule, value, callback) => {
       if (this.dataDialogForm.id === 0 && !value) {
@@ -183,11 +181,6 @@ export default {
         managerName: '',
         managerStatus: ''
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
-      dataDialogTitle: '',
-      dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
         managerName: '',
@@ -203,79 +196,26 @@ export default {
     }
   },
   methods: {
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getSysManagerPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
     },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
+    dataDialogSetRowDataCustom (current) {
+      this.dataDialogForm.roleIdArr = current.roleIdsStr ? current.roleIdsStr.split(',').map(Number) : []
     },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
-    },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
-    },
-    insertDialogOpen () {
-      this.dataDialogTitle = '『添加窗口』'
-      this.dataDialogVisible = true
-    },
-    updateDialogOpen (id) {
-      this.dataDialogTitle = '『修改窗口』'
-      this.dataDialogOpenAndSetVal(id)
-    },
-    dataDialogOpenAndSetVal (id) {
-      let currentManager = this.pageInfo.list.find(manager => manager.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentManager[key])
-      this.dataDialogForm.roleIdArr = currentManager.roleIdsStr ? currentManager.roleIdsStr.split(',').map(Number) : []
-      this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
-    },
-    submitContent () {
-      this.$refs.dataDialogForm.validate(valid => {
-        if (valid) {
-          let sendData = { ...this.dataDialogForm }
-          if (sendData.managerPassword) {
-            sendData.managerPassword = Base64.encode(sendData.managerPassword)
-          }
-          let successCallback = success => {
-            this.$message.success(success.msg)
-            if (this.dataDialogForm.id === 0) {
-              this.$refs.selectForm.resetFields()
-              this.searchContent = { ...this.selectForm }
-              this.currentPageNum = 1
-            }
-            this.dataDialogVisible = false
-          }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
-          if (this.dataDialogForm.id === 0) {
-            insertSysManager(sendData, successCallback, warnCallback)
-          } else {
-            updateSysManager(sendData, successCallback, warnCallback)
-          }
-        }
-      })
-    },
-    dataDialogClose () {
-      this.getPage()
-      this.dataDialogForm = {
-        id: 0,
-        managerName: '',
-        managerPassword: '',
-        roleIdArr: [],
-        managerStatus: 1
+    setSubmitDataCustom (sendData) {
+      if (sendData.managerPassword) {
+        sendData.managerPassword = Base64.encode(sendData.managerPassword)
       }
-      this.$refs.dataDialogForm.clearValidate()
+    },
+    insertContent (sendData, successCallback, warnCallback) {
+      insertSysManager(sendData, successCallback, warnCallback)
+    },
+    updateContent (sendData, successCallback, warnCallback) {
+      updateSysManager(sendData, successCallback, warnCallback)
     },
     getAllRole () {
       getRoleAll(success => {
@@ -284,7 +224,6 @@ export default {
     }
   },
   mounted () {
-    this.getPage()
     this.getAllRole()
   }
 }

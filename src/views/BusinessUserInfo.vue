@@ -164,7 +164,7 @@
                      @click="updateStatusDialogVisible = false">取 消</el-button>
           <el-button type="primary"
                      icon="el-icon-check"
-                     @click="submitContent">确 定</el-button>
+                     @click="updateStatus">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -173,14 +173,12 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
 import { getUserPage, updateUserStatus, updateUserAvatarDefault } from '@api/user'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessUserInfo',
-  components: {
-    BusinessPagination
-  },
+  mixins: [BusinessPage],
   data () {
     return {
       selectForm: {
@@ -189,9 +187,6 @@ export default {
         userPhoneNumber: '',
         userStatus: ''
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
       updateStatusDialogTitle: '',
       updateStatusDialogVisible: false,
       updateStatusDialogForm: {
@@ -201,40 +196,24 @@ export default {
     }
   },
   methods: {
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getUserPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
     },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
-    },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
-    },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
-    },
     updateStatusDialogOpen (id) {
       this.updateStatusDialogTitle = '『调整状态窗口』'
-      this.updateStatusDialogOpenAndSetVal(id)
+      this.updateStatusDataDialogSetRowData(id)
+      this.updateStatusDialogVisible = true
     },
-    updateStatusDialogOpenAndSetVal (id) {
+    updateStatusDataDialogSetRowData (id) {
       let currentUser = this.pageInfo.list.find(user => user.id === id)
       this.updateStatusDialogForm.id = currentUser.id
       this.updateStatusDialogForm.userStatus = currentUser.userStatus.toString()
-      this.updateStatusDialogVisible = true
     },
-    submitContent () {
+    updateStatus () {
       updateUserStatus(this.updateStatusDialogForm, success => {
         this.$message.success(success.msg)
         this.updateStatusDialogVisible = false
@@ -263,9 +242,6 @@ export default {
         userStatus: '0'
       }
     }
-  },
-  mounted () {
-    this.getPage()
   }
 }
 </script>

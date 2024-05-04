@@ -158,26 +158,19 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
 import { getSysRolePage, insertSysRole, updateSysRole } from '@api/sysRole'
 import { getSysPermissionAuthorTree } from '@api/sysPermission'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessSysRole',
-  components: {
-    BusinessPagination
-  },
+  mixins: [BusinessPage],
   data () {
     return {
       selectForm: {
         roleName: '',
         roleStatus: ''
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
-      dataDialogTitle: '',
-      dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
         roleName: '',
@@ -194,28 +187,12 @@ export default {
     }
   },
   methods: {
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getSysRolePage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
-    },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
-    },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
-    },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
     },
     insertDialogOpen () {
       this.getPermissionAuthorTree()
@@ -225,51 +202,27 @@ export default {
     updateDialogOpen (id) {
       this.getPermissionAuthorTree()
       this.dataDialogTitle = '『修改窗口』'
-      this.dataDialogOpenAndSetVal(id)
-    },
-    dataDialogOpenAndSetVal (id) {
-      let currentRole = this.pageInfo.list.find(role => role.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentRole[key])
-      this.$nextTick(() => {
-        if (currentRole.permissionIdsStr) {
-          this.$refs.permissionAuthorTree.setCheckedKeys(currentRole.permissionIdsStr.split(','))
-        }
-      })
+      this.dataDialogSetRowData(id)
       this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
     },
-    submitContent () {
-      this.$refs.dataDialogForm.validate(valid => {
-        if (valid) {
-          let sendData = { ...this.dataDialogForm }
-          let checkPermIdArr = this.$refs.permissionAuthorTree.getCheckedKeys().filter(permId => permId % 1 === 0)
-          sendData.permissionIdArr = checkPermIdArr
-          let successCallback = success => {
-            this.$message.success(success.msg)
-            if (this.dataDialogForm.id === 0) {
-              this.$refs.selectForm.resetFields()
-              this.searchContent = { ...this.selectForm }
-              this.currentPageNum = 1
-            }
-            this.dataDialogVisible = false
-          }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
-          if (this.dataDialogForm.id === 0) {
-            insertSysRole(sendData, successCallback, warnCallback)
-          } else {
-            updateSysRole(sendData, successCallback, warnCallback)
-          }
+    dataDialogSetRowDataCustom (current) {
+      this.$nextTick(() => {
+        if (current.permissionIdsStr) {
+          this.$refs.permissionAuthorTree.setCheckedKeys(current.permissionIdsStr.split(','))
         }
       })
     },
-    dataDialogClose () {
-      this.getPage()
-      this.dataDialogForm = {
-        id: 0,
-        roleName: '',
-        roleStatus: 1
-      }
-      this.$refs.dataDialogForm.clearValidate()
+    setSubmitDataCustom (sendData) {
+      let checkPermIdArr = this.$refs.permissionAuthorTree.getCheckedKeys().filter(permId => permId % 1 === 0)
+      sendData.permissionIdArr = checkPermIdArr
+    },
+    insertContent (sendData, successCallback, warnCallback) {
+      insertSysRole(sendData, successCallback, warnCallback)
+    },
+    updateContent (sendData, successCallback, warnCallback) {
+      updateSysRole(sendData, successCallback, warnCallback)
+    },
+    dataDialogCloseExtend () {
       this.$refs.permissionAuthorTree.setCheckedKeys([])
     },
     getPermissionAuthorTree () {
@@ -277,9 +230,6 @@ export default {
         this.permissionAuthorTreeList = success.data
       })
     }
-  },
-  mounted () {
-    this.getPage()
   }
 }
 </script>

@@ -218,15 +218,13 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
 import { getMenuSubAll } from '@api/sysMenu'
 import { getSysPermissionPage, insertSysPermission, updateSysPermission } from '@api/sysPermission'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessSysPermission',
-  components: {
-    BusinessPagination
-  },
+  mixins: [BusinessPage],
   data () {
     let checkPermissionBtnVal = (rule, value, callback) => {
       if (this.dataDialogForm.permissionType === 2 && !value) {
@@ -241,11 +239,6 @@ export default {
         permissionStatus: '',
         permissionBelongSubmenuName: ''
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
-      dataDialogTitle: '',
-      dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
         permissionName: '',
@@ -265,82 +258,29 @@ export default {
     }
   },
   methods: {
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getSysPermissionPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
     },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
-    },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
-    },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
-    },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加按钮权限窗口』'
       this.dataDialogVisible = true
       this.dataDialogForm.permissionType = 2
     },
-    updateDialogOpen (id) {
-      this.dataDialogTitle = '『修改窗口』'
-      this.dataDialogOpenAndSetVal(id)
-    },
-    dataDialogOpenAndSetVal (id) {
-      let currentPerm = this.pageInfo.list.find(perm => perm.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentPerm[key])
-      if (currentPerm.permissionType === 2) {
-        let permCode = currentPerm.permissionCode
+    dataDialogSetRowDataCustom (current) {
+      if (current.permissionType === 2) {
+        let permCode = current.permissionCode
         this.dataDialogForm.permissionBtnVal = permCode.substring(permCode.lastIndexOf('_') + 1, permCode.length)
       }
-      this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
     },
-    submitContent () {
-      this.$refs.dataDialogForm.validate(valid => {
-        if (valid) {
-          let successCallback = success => {
-            this.$message.success(success.msg)
-            if (this.dataDialogForm.id === 0) {
-              this.$refs.selectForm.resetFields()
-              this.searchContent = { ...this.selectForm }
-              this.currentPageNum = 1
-            }
-            this.dataDialogVisible = false
-          }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
-          if (this.dataDialogForm.id === 0) {
-            insertSysPermission(this.dataDialogForm, successCallback, warnCallback)
-          } else {
-            updateSysPermission(this.dataDialogForm, successCallback, warnCallback)
-          }
-        }
-      })
+    insertContent (sendData, successCallback, warnCallback) {
+      insertSysPermission(sendData, successCallback, warnCallback)
     },
-    dataDialogClose () {
-      this.getPage()
-      this.dataDialogForm = {
-        id: 0,
-        permissionName: '',
-        permissionBelongSubmenuName: '',
-        permissionType: 1,
-        permissionBtnVal: '',
-        permissionStatus: 1,
-        permissionSeq: 1,
-        permBtnGrpShow: false
-      }
-      this.$refs.dataDialogForm.clearValidate()
+    updateContent (sendData, successCallback, warnCallback) {
+      updateSysPermission(sendData, successCallback, warnCallback)
     },
     getAllMenuSub () {
       getMenuSubAll(success => {
@@ -354,7 +294,6 @@ export default {
     }
   },
   mounted () {
-    this.getPage()
     this.getAllMenuSub()
   }
 }

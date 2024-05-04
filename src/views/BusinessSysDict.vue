@@ -168,14 +168,12 @@
 </template>
 
 <script>
-import BusinessPagination from '@components/BusinessPagination.vue'
 import { getSysDictPage, insertSysDict, updateSysDict } from '@api/sysDict'
+import BusinessPage from '@mixins/BusinessPage'
 
 export default {
   name: 'BusinessSysDict',
-  components: {
-    BusinessPagination
-  },
+  mixins: [BusinessPage],
   data () {
     let checkDictCode = (rule, value, callback) => {
       if (!value) {
@@ -191,11 +189,6 @@ export default {
         dictCode: '',
         dictStatus: ''
       },
-      searchContent: {},
-      pageInfo: {},
-      currentPageNum: 1,
-      dataDialogTitle: '',
-      dataDialogVisible: false,
       dataDialogForm: {
         id: 0,
         dictCode: '',
@@ -212,79 +205,19 @@ export default {
     }
   },
   methods: {
-    getPage () {
-      let sendData = { ...this.searchContent }
-      sendData.pageNum = this.currentPageNum
-      sendData.pageSize = 10
+    getPageImpl (sendData) {
       getSysDictPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
       })
     },
-    selectContent () {
-      this.searchContent = { ...this.selectForm }
-      this.currentPageNum = 1
-      this.getPage()
+    insertContent (sendData, successCallback, warnCallback) {
+      insertSysDict(sendData, successCallback, warnCallback)
     },
-    clearSelectContent () {
-      this.$refs.selectForm.resetFields()
-      this.selectContent()
+    updateContent (sendData, successCallback, warnCallback) {
+      updateSysDict(sendData, successCallback, warnCallback)
     },
-    currentPageChangeImpl (val) {
-      this.currentPageNum = val
-      this.getPage()
-    },
-    insertDialogOpen () {
-      this.dataDialogTitle = '『添加窗口』'
-      this.dataDialogVisible = true
-    },
-    updateDialogOpen (id) {
-      this.dataDialogTitle = '『修改窗口』'
-      this.dataDialogOpenAndSetVal(id)
-    },
-    dataDialogOpenAndSetVal (id) {
-      let currentDict = this.pageInfo.list.find(dict => dict.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentDict[key])
-      this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
-    },
-    submitContent () {
-      this.$refs.dataDialogForm.validate(valid => {
-        if (valid) {
-          let successCallback = success => {
-            this.$message.success(success.msg)
-            if (this.dataDialogForm.id === 0) {
-              this.$refs.selectForm.resetFields()
-              this.searchContent = { ...this.selectForm }
-              this.currentPageNum = 1
-            }
-            this.dataDialogVisible = false
-          }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
-          if (this.dataDialogForm.id === 0) {
-            insertSysDict(this.dataDialogForm, successCallback, warnCallback)
-          } else {
-            updateSysDict(this.dataDialogForm, successCallback, warnCallback)
-          }
-        }
-      })
-    },
-    dataDialogClose () {
-      this.getPage()
-      this.dataDialogForm = {
-        id: 0,
-        dictCode: '',
-        dictName: '',
-        dictVal: '',
-        dictStatus: 1,
-        dictSeq: 1
-      }
-      this.$refs.dataDialogForm.clearValidate()
-    }
-  },
-  mounted () {
-    this.getPage()
   }
 }
 </script>

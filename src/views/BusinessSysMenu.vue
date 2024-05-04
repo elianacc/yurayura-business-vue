@@ -196,6 +196,7 @@ export default {
         menuPid: 0,
         menuStatus: 1
       },
+      dataDialogFormInit: null,
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         menuName: [{ validator: checkMenuName, trigger: 'blur' }],
@@ -223,9 +224,10 @@ export default {
     updateDialogOpen (menuType, menuName, menuPid) {
       this.dataDialogTitle = menuType === 1 ? '『修改主菜单窗口』' : '『修改子菜单窗口』'
       this.isMainMenuDialog = menuType === 1
-      this.dataDialogOpenAndSetVal(menuType, menuName, menuPid)
+      this.dataDialogSetRowData(menuType, menuName, menuPid)
+      this.dataDialogVisible = true
     },
-    dataDialogOpenAndSetVal (menuType, menuName, menuPid) {
+    dataDialogSetRowData (menuType, menuName, menuPid) {
       let currentMenu
       if (menuType === 1) {
         currentMenu = this.dataList.find(menu => menu.menuName === menuName)
@@ -233,8 +235,6 @@ export default {
         currentMenu = this.dataList.find(menu => menu.id === menuPid).menuSubList.find(subMenu => subMenu.menuName === menuName)
       }
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentMenu[key])
-      this.dataDialogVisible = true
-      this.$refs.dataDialogForm.clearValidate()
     },
     deleteById (menuType, id) {
       this.$confirm('删除菜单会删除对应的权限及管理员权限，确定要删除选中项吗？', '提示', {
@@ -255,16 +255,7 @@ export default {
     },
     dataDialogClose () {
       this.getTreeList()
-      this.dataDialogForm = {
-        id: 0,
-        menuTitle: '',
-        menuName: '',
-        menuIconClass: '',
-        menuSeq: 1,
-        menuIndex: '/business',
-        menuPid: 0,
-        menuStatus: 1
-      }
+      this.dataDialogForm = { ...this.dataDialogFormInit }
       this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
@@ -298,6 +289,7 @@ export default {
     }
   },
   mounted () {
+    this.dataDialogFormInit = { ...this.dataDialogForm }
     this.getTreeList()
   }
 }

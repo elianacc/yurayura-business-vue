@@ -14,6 +14,7 @@ import App from './App.vue'
 import store from './store'
 import SysDictSelect from '@components/SysDictSelect.vue'
 import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
+import SysDictCheckboxBtnGroup from '@components/SysDictCheckboxBtnGroup.vue'
 import router from './router'
 import filter from './filter'
 import './directive'
@@ -22,6 +23,7 @@ Vue.config.productionTip = false
 
 Vue.component('sys-dict-select', SysDictSelect)
 Vue.component('sys-dict-radio-group', SysDictRadioGroup)
+Vue.component('sys-dict-checkbox-btn-group', SysDictCheckboxBtnGroup)
 
 // Basic
 Vue.use(Col)
