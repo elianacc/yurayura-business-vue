@@ -1,4 +1,7 @@
 import BusinessPagination from '@components/BusinessPagination.vue'
+import { getMenuSubAll } from '@api/sysMenu'
+import { getRoleByOrg } from '@api/sysRole'
+import { getSysOrgAll } from '@api/sysOrg'
 
 export default {
   components: {
@@ -12,7 +15,10 @@ export default {
       currentPageNum: 1,
       dataDialogTitle: '',
       dataDialogVisible: false,
-      dataDialogFormInit: null,
+      dataDialogFormInit: {},
+      allMenuSub: [],
+      allRole: [],
+      allOrg: []
     }
   },
   methods: {
@@ -108,7 +114,22 @@ export default {
       this.$refs.dataDialogForm.clearValidate()
       this.dataDialogCloseExtend()
     },
-    dataDialogCloseExtend () { }
+    dataDialogCloseExtend () { },
+    getAllMenuSub () {
+      getMenuSubAll(success => {
+        this.allMenuSub = success.data
+      })
+    },
+    getRoleByOrgId (orgId) {
+      getRoleByOrg(orgId, success => {
+        this.allRole = success.data
+      })
+    },
+    getAllOrg () {
+      getSysOrgAll(success => {
+        this.allOrg = success.data
+      })
+    }
   },
   mounted () {
     this.dataDialogFormInit = { ...this.dataDialogForm }

@@ -84,7 +84,7 @@ export default {
         managerName: '',
         managerPassword: '',
         verifyCode: '',
-        verifyImage: null
+        verifyImage: ''
       },
       loginRules: {
         managerName: [

@@ -218,7 +218,6 @@
 </template>
 
 <script>
-import { getMenuSubAll } from '@api/sysMenu'
 import { getSysPermissionPage, insertSysPermission, updateSysPermission } from '@api/sysPermission'
 import BusinessPage from '@mixins/BusinessPage'
 
@@ -253,8 +252,7 @@ export default {
         permissionName: [{ required: true, message: '权限名称不能为空', trigger: 'blur' }],
         permissionBelongSubmenuName: [{ required: true, message: '所属子菜单不能为空', trigger: 'blur' }],
         permissionBtnVal: [{ validator: checkPermissionBtnVal, trigger: 'blur' }]
-      },
-      allMenuSub: []
+      }
     }
   },
   methods: {
@@ -281,11 +279,6 @@ export default {
     },
     updateContent (sendData, successCallback, warnCallback) {
       updateSysPermission(sendData, successCallback, warnCallback)
-    },
-    getAllMenuSub () {
-      getMenuSubAll(success => {
-        this.allMenuSub = success.data
-      })
     }
   },
   watch: {

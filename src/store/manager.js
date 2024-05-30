@@ -8,12 +8,14 @@ export default {
     CLEAR_MANAGER_MSG (state) {
       state.managerMsg.managerName = ''
       state.managerMsg.managerPermission = ''
+      state.managerMsg.managerOrg = -1
     }
   },
   state: {
     managerMsg: {
       managerName: '',
-      managerPermission: ''
+      managerPermission: '',
+      managerOrg: -1
     }
   },
   getters: {
@@ -22,6 +24,9 @@ export default {
     },
     managerPermission (state) {
       return state.managerMsg.managerPermission
+    },
+    managerOrg (state) {
+      return state.managerMsg.managerOrg
     }
   }
 }

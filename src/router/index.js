@@ -7,6 +7,7 @@ import BusinessIndex from '@views/BusinessIndex.vue'
 import BusinessSysMenu from '@views/BusinessSysMenu.vue'
 import BusinessSysDict from '@views/BusinessSysDict.vue'
 import BusinessSysManager from '@views/BusinessSysManager.vue'
+import BusinessSysOrg from '@views/BusinessSysOrg.vue'
 import BusinessSysRole from '@views/BusinessSysRole.vue'
 import BusinessSysPermission from '@views/BusinessSysPermission.vue'
 import BusinessComicInfo from '@views/BusinessComicInfo.vue'
@@ -57,6 +58,11 @@ const router = new Router({
           component: BusinessSysManager
         },
         {
+          path: 'sys_org',
+          name: 'BusinessSysOrg',
+          component: BusinessSysOrg
+        },
+        {
           path: 'sys_role',
           name: 'BusinessSysRole',
           component: BusinessSysRole
@@ -97,14 +103,14 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.name !== 'ManagerLogin' && to.name !== 'HomePage' && to.name !== 'Notfound') {
     // 非登入、404页
-    if(store.getters['token/token'] === '') {
+    if (store.getters['token/token'] === '') {
       next('/manager_login')
     }
     next()
   } else {
     if (to.name !== 'Notfound') {
       // 登入页
-      if(store.getters['token/token'] !== '') {
+      if (store.getters['token/token'] !== '') {
         next('/business/index')
       }
       next()

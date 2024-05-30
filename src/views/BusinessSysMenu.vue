@@ -196,7 +196,7 @@ export default {
         menuPid: 0,
         menuStatus: 1
       },
-      dataDialogFormInit: null,
+      dataDialogFormInit: {},
       dataDialogFormRule: {
         menuTitle: [{ required: true, message: '标题不能为空', trigger: 'blur' }],
         menuName: [{ validator: checkMenuName, trigger: 'blur' }],

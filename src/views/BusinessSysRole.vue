@@ -34,6 +34,19 @@
                              dictCode="enableStatus">
             </sys-dict-select>
           </el-form-item>
+          <el-form-item label="角色组织"
+                        prop="roleOrg"
+                        label-width="4.5rem">
+            <el-select v-model="selectForm.roleOrg"
+                       clearable
+                       placeholder="----请选择角色组织----">
+              <el-option v-for="item in allOrg"
+                         :key="item.id"
+                         :value="item.id"
+                         :label="item.orgName">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
@@ -59,6 +72,10 @@
           <el-table-column label="角色名"
                            width="200"
                            prop="roleName">
+          </el-table-column>
+          <el-table-column label="角色组织"
+                           width="200"
+                           prop="roleOrgName">
           </el-table-column>
           <el-table-column label="权限"
                            width="400"
@@ -118,6 +135,19 @@
                       maxlength="20"
                       show-word-limit></el-input>
           </el-form-item>
+          <el-form-item label="角色组织"
+                        label-width="10rem"
+                        prop="roleOrg">
+            <el-select v-model="dataDialogForm.roleOrg"
+                       clearable
+                       :disabled="dataDialogForm.id !== 0">
+              <el-option v-for="item in allOrg"
+                         :key="item.id"
+                         :value="item.id"
+                         :label="item.orgName">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="权限"
                         label-width="10rem">
             <el-tree :data="permissionAuthorTreeList"
@@ -169,11 +199,13 @@ export default {
     return {
       selectForm: {
         roleName: '',
-        roleStatus: ''
+        roleStatus: '',
+        roleOrg: ''
       },
       dataDialogForm: {
         id: 0,
         roleName: '',
+        roleOrg: 1,
         roleStatus: 1
       },
       dataDialogFormRule: {
@@ -230,6 +262,9 @@ export default {
         this.permissionAuthorTreeList = success.data
       })
     }
+  },
+  mounted () {
+    this.getAllOrg()
   }
 }
 </script>

@@ -15,14 +15,14 @@ function updateSysRole (params, success, warn) {
   request.put('/api/sys/role/update', JSON.stringify(params), success, warn)
 }
 
-// 查询所有系统角色
-function getRoleAll (success) {
-  request.get('/api/sys/role/getAll', null, success)
+// 查询系统角色（根据组织）
+function getRoleByOrg (params, success) {
+  request.get(`/api/sys/role/getByOrg/${params}`, null, success)
 }
 
 export {
   getSysRolePage,
   insertSysRole,
   updateSysRole,
-  getRoleAll
+  getRoleByOrg
 }

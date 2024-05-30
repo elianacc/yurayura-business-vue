@@ -34,6 +34,20 @@
                              dictCode="enableStatus">
             </sys-dict-select>
           </el-form-item>
+          <el-form-item label="管理员组织"
+                        prop="managerOrg"
+                        label-width="5.5rem"
+                        v-if="$store.getters['manager/managerOrg'] === 0">
+            <el-select v-model="selectForm.managerOrg"
+                       clearable
+                       placeholder="----请选择管理员组织----">
+              <el-option v-for="item in allOrg"
+                         :key="item.id"
+                         :value="item.id"
+                         :label="item.orgName">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <div class="btn-group">
               <button class="btn btn-primary font-size-14"
@@ -59,6 +73,10 @@
           <el-table-column label="管理员名"
                            width="200"
                            prop="managerName">
+          </el-table-column>
+          <el-table-column label="管理员组织"
+                           width="200"
+                           prop="managerOrgName">
           </el-table-column>
           <el-table-column label="角色"
                            width="400"
@@ -128,6 +146,19 @@
                       :placeholder="dataDialogForm.id !== 0? '修改密码为空则使用此管理员旧密码': ''">
             </el-input>
           </el-form-item>
+          <el-form-item label="管理员组织"
+                        label-width="10rem"
+                        prop="managerOrg">
+            <el-select v-model="dataDialogForm.managerOrg"
+                       clearable
+                       :disabled="$store.getters['manager/managerOrg'] !== 0">
+              <el-option v-for="item in allOrg"
+                         :key="item.id"
+                         :value="item.id"
+                         :label="item.orgName">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="角色"
                         label-width="10rem"
                         prop="roleIdArr">
@@ -163,7 +194,6 @@
 <script>
 import { Base64 } from 'js-base64'
 import { getSysManagerPage, insertSysManager, updateSysManager } from '@api/sysManager'
-import { getRoleAll } from '@api/sysRole'
 import BusinessPage from '@mixins/BusinessPage'
 
 export default {
@@ -179,24 +209,28 @@ export default {
     return {
       selectForm: {
         managerName: '',
-        managerStatus: ''
+        managerStatus: '',
+        managerOrg: ''
       },
       dataDialogForm: {
         id: 0,
         managerName: '',
         managerPassword: '',
+        managerOrg: 1,
         roleIdArr: [],
         managerStatus: 1
       },
       dataDialogFormRule: {
         managerName: [{ required: true, message: '管理员名不能为空', trigger: 'blur' }],
         managerPassword: [{ validator: checkPassword, trigger: 'blur' }]
-      },
-      allRole: []
+      }
     }
   },
   methods: {
     getPageImpl (sendData) {
+      if (this.$store.getters['manager/managerOrg'] !== 0) {
+        sendData.managerOrg = this.$store.getters['manager/managerOrg']
+      }
       getSysManagerPage(sendData, success => {
         this.pageInfo = success.data
       }, () => {
@@ -204,7 +238,9 @@ export default {
       })
     },
     dataDialogSetRowDataCustom (current) {
-      this.dataDialogForm.roleIdArr = current.roleIdsStr ? current.roleIdsStr.split(',').map(Number) : []
+      this.$nextTick(() => {
+        this.dataDialogForm.roleIdArr = current.roleIdsStr ? current.roleIdsStr.split(',').map(Number) : []
+      })
     },
     setSubmitDataCustom (sendData) {
       if (sendData.managerPassword) {
@@ -216,15 +252,26 @@ export default {
     },
     updateContent (sendData, successCallback, warnCallback) {
       updateSysManager(sendData, successCallback, warnCallback)
-    },
-    getAllRole () {
-      getRoleAll(success => {
-        this.allRole = success.data
-      })
+    }
+  },
+  watch: {
+    'dataDialogForm.managerOrg': {
+      handler (val) {
+        if (this.$store.getters['manager/managerOrg'] === 0) {
+          this.dataDialogForm.roleIdArr = []
+          this.getRoleByOrgId(val)
+        }
+      },
+      immediate: true
     }
   },
   mounted () {
-    this.getAllRole()
+    this.getAllOrg()
+    if (this.$store.getters['manager/managerOrg'] !== 0) {
+      this.getRoleByOrgId(this.$store.getters['manager/managerOrg'])
+      this.dataDialogForm.managerOrg = this.$store.getters['manager/managerOrg']
+      this.dataDialogFormInit = { ...this.dataDialogForm }
+    }
   }
 }
 </script>
