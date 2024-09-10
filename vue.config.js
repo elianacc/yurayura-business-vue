@@ -44,60 +44,28 @@ module.exports = {
     open: true, // 配置自动启动浏览器
     hotOnly: true, // 热更新
     proxy: { // 配置多个代理
-      '/images/comic': {
-        target: 'http://127.0.0.1:2333/images/comic',
+      '/images': {
+        target: 'http://127.0.0.1:7777/images',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/images/comic': ''
+          '^/images': ''
         }
       },
-      '/images/user': {
-        target: 'http://127.0.0.1:2335/images/user',
+      '/upload': {
+        target: 'http://127.0.0.1:7777/upload',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/images/user': ''
+          '^/upload': ''
         }
       },
-      '/upload/comicImg': {
-        target: 'http://127.0.0.1:2333/upload/comicImg',
+      '/api': {
+        target: 'http://127.0.0.1:7777/api',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/upload/comicImg': ''
-        }
-      },
-      '/upload/userAvatar': {
-        target: 'http://127.0.0.1:2335/upload/userAvatar',
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/upload/userAvatar': ''
-        }
-      },
-      '/api/comic': {
-        target: 'http://127.0.0.1:2333/api/comic',
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/api/comic': ''
-        }
-      },
-      '/api/sys': {
-        target: 'http://127.0.0.1:3333/api/sys',
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/api/sys': ''
-        }
-      },
-      '/api/user': {
-        target: 'http://127.0.0.1:2335/api/user',
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/api/user': ''
+          '^/api': ''
         }
       }
     }
