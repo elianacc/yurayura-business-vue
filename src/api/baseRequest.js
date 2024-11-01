@@ -33,6 +33,7 @@ function apiAxios (method, url, params, success, warn, header) {
         confirmButtonText: '确定'
       }).then(() => {
         if (res.data.code === 401) {
+          store.commit('token/CLEAR_TOKEN')
           router.push('/manager_login')
         } else if (res.data.code === 405 && method === 'GET') {
           router.go(-1)
