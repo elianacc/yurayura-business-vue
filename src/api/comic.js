@@ -28,4 +28,9 @@ function deleteComicBatchByIds (params, success, warn) {
   request.put('/api/comic/deleteBatchByIds', JSON.stringify({ ids: params }), success, warn)
 }
 
-export { getComicPage, insertComic, updateComic, deleteComicBatchByIds }
+// 导出番剧
+function exportComic (params, success) {
+  request.blob('/api/comic/export', params, success)
+}
+
+export { getComicPage, insertComic, updateComic, deleteComicBatchByIds, exportComic }

@@ -45,6 +45,11 @@ export default {
       this.currentPageNum = val
       this.getPage()
     },
+    exportContent () {
+      let sendData = { ...this.searchContent }
+      this.exportContentImpl(sendData)
+    },
+    exportContentImpl () { },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
       this.dataDialogVisible = true
