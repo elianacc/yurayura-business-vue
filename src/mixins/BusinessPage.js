@@ -31,7 +31,7 @@ export default {
       sendData.pageSize = 10
       this.getPageImpl(sendData)
     },
-    getPageImpl () { },
+    getPageImpl (sendData) { typeof sendData },
     selectContent () {
       this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
@@ -49,7 +49,7 @@ export default {
       let sendData = { ...this.searchContent }
       this.exportContentImpl(sendData)
     },
-    exportContentImpl () { },
+    exportContentImpl (sendData) { typeof sendData },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
       this.dataDialogVisible = true

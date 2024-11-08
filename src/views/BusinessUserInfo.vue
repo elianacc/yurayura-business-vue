@@ -4,6 +4,12 @@
     <div class="row mt-2 r1">
 
       <div class="col-2">
+        <button type="button"
+                class="btn btn-warning font-size-14 text-white"
+                @click="exportContent"
+                v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_export`)">
+          <i class="fa fa-upload me-2"></i>导出
+        </button>
       </div>
 
       <div class="col-10 c2">
@@ -173,7 +179,7 @@
 </template>
 
 <script>
-import { getUserPage, updateUserStatus, updateUserAvatarDefault } from '@api/user'
+import { getUserPage, updateUserStatus, updateUserAvatarDefault, exportUser } from '@api/user'
 import BusinessPage from '@mixins/BusinessPage'
 
 export default {
@@ -201,6 +207,30 @@ export default {
         this.pageInfo = success.data
       }, () => {
         this.pageInfo = {}
+      })
+    },
+    exportContentImpl (sendData) {
+      exportUser(sendData, success => {
+        // 创建一个新的 Blob 对象，包含下载的文件数据
+        const blob = new Blob([success], { type: 'application/vnd.ms-excel' })
+        // 创建一个 URL 对象，指向 Blob 数据
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = url
+        // 设置下载的文件名
+        link.download = '用户信息.xlsx'
+        // 模拟点击下载链接
+        // link.click()
+        // 模拟点击(兼容火狐)
+        link.dispatchEvent(
+          new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+          })
+        )
+        // 释放 URL 对象
+        window.URL.revokeObjectURL(blob)
       })
     },
     updateStatusDialogOpen (id) {

@@ -15,4 +15,8 @@ function updateUserAvatarDefault (params, success, warn) {
   request.put('/api/user/updateAvatarDefault', JSON.stringify({ id: params }), success, warn)
 }
 
-export { getUserPage, updateUserStatus, updateUserAvatarDefault }
+function exportUser (params, success) {
+  request.blob('/api/user/export', params, success)
+}
+
+export { getUserPage, updateUserStatus, updateUserAvatarDefault, exportUser }
