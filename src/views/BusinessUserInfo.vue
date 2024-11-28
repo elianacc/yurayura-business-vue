@@ -180,6 +180,7 @@
 
 <script>
 import { getUserPage, updateUserStatus, updateUserAvatarDefault, exportUser } from '@api/user'
+import { downloadStream } from '@utils/common'
 import BusinessPage from '@mixins/BusinessPage'
 
 export default {
@@ -211,26 +212,7 @@ export default {
     },
     exportContentImpl (sendData) {
       exportUser(sendData, success => {
-        // 创建一个新的 Blob 对象，包含下载的文件数据
-        const blob = new Blob([success], { type: 'application/vnd.ms-excel' })
-        // 创建一个 URL 对象，指向 Blob 数据
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = url
-        // 设置下载的文件名
-        link.download = '用户信息.xlsx'
-        // 模拟点击下载链接
-        // link.click()
-        // 模拟点击(兼容火狐)
-        link.dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        )
-        // 释放 URL 对象
-        window.URL.revokeObjectURL(blob)
+        downloadStream(success, 'application/vnd.ms-excel', '用户信息.xlsx')
       })
     },
     updateStatusDialogOpen (id) {

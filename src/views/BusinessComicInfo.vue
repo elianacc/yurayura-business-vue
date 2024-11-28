@@ -3,28 +3,42 @@
     <!-- 操作按钮及数据筛选表单row -->
     <div class="row mt-2 r1">
 
-      <div class="col-3">
-        <button type="button"
-                class="btn btn-primary font-size-14 me-2"
-                v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_insert`)"
-                @click="insertDialogOpen">
-          <i class="fa fa-plus-circle me-2"></i>添加
-        </button>
-        <button type="button"
-                class="btn btn-danger font-size-14 me-2"
-                @click="deleteBatch"
-                v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_deleteBatch`)">
-          <i class="fa fa-trash me-2"></i>删除
-        </button>
-        <button type="button"
-                class="btn btn-warning font-size-14 text-white"
-                @click="exportContent"
-                v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_export`)">
-          <i class="fa fa-upload me-2"></i>导出
-        </button>
+      <div class="col-4">
+        <div class="d-flex align-content-between flex-wrap gap-3">
+          <button type="button"
+                  class="btn btn-primary font-size-14"
+                  v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_insert`)"
+                  @click="insertDialogOpen">
+            <i class="fa fa-plus-circle me-2"></i>添加
+          </button>
+          <button type="button"
+                  class="btn btn-danger font-size-14"
+                  @click="deleteBatch"
+                  v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_deleteBatch`)">
+            <i class="fa fa-trash me-2"></i>删除
+          </button>
+          <button type="button"
+                  class="btn btn-warning font-size-14 text-white"
+                  @click="exportContent"
+                  v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_export`)">
+            <i class="fa fa-upload me-2"></i>导出
+          </button>
+          <button type="button"
+                  class="btn btn-info font-size-14 text-white"
+                  @click="importDialogOpen"
+                  v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_import`)">
+            <i class="fa fa-download me-2"></i>导入
+          </button>
+          <button type="button"
+                  class="btn btn-secondary font-size-14"
+                  @click="downloadImportTplt"
+                  v-if="$store.getters['manager/managerPermission'].includes(`${$store.getters['menutab/editableTabsValue']}_import`)">
+            <i class="fa fa-file-excel-o me-2"></i>下载导入模板
+          </button>
+        </div>
       </div>
 
-      <div class="col-9 c2">
+      <div class="col-8 c2">
         <el-form inline
                  :model="selectForm"
                  ref="selectForm"
@@ -290,7 +304,8 @@
           </el-form-item>
           <el-form-item label="上架状态"
                         prop="comicShelfStatus"
-                        label-width="10rem">
+                        label-width="10rem"
+                        v-if="dataDialogForm.id !== 0">
             <sys-dict-radio-group v-model="dataDialogForm.comicShelfStatus"
                                   dictCode="comicShelfStatus">
             </sys-dict-radio-group>
@@ -308,12 +323,18 @@
       </el-dialog>
     </div>
 
+    <!-- 导入对话框 -->
+    <business-import-dialog :visible="importDialogVisible"
+                            @getPage="getPage"
+                            @update:visible="updateImportDialogVisible"
+                            @importContent="importContent"></business-import-dialog>
+
   </div>
 </template>
 
 <script>
-import { getComicPage, insertComic, updateComic, deleteComicBatchByIds, exportComic } from '@api/comic'
-import { uploadImgIsCorrect } from '@utils/common'
+import { getComicPage, insertComic, updateComic, deleteComicBatchByIds, exportComic, importComic, downloadComicImportTplt } from '@api/comic'
+import { uploadImgIsCorrect, downloadStream } from '@utils/common'
 import BusinessPage from '@mixins/BusinessPage'
 
 export default {
@@ -363,26 +384,20 @@ export default {
     },
     exportContentImpl (sendData) {
       exportComic(sendData, success => {
-        // 创建一个新的 Blob 对象，包含下载的文件数据
-        const blob = new Blob([success], { type: 'application/vnd.ms-excel' })
-        // 创建一个 URL 对象，指向 Blob 数据
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = url
-        // 设置下载的文件名
-        link.download = '番剧信息.xlsx'
-        // 模拟点击下载链接
-        // link.click()
-        // 模拟点击(兼容火狐)
-        link.dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        )
-        // 释放 URL 对象
-        window.URL.revokeObjectURL(blob)
+        downloadStream(success, 'application/vnd.ms-excel', '番剧信息.xlsx')
+      })
+    },
+    importContentImpl (file) {
+      let successCallback = success => {
+        this.$message.success(success.msg)
+        this.importDialogVisible = false
+      }
+      let warnCallback = warn => { this.$message.error(warn.msg) }
+      importComic(file, successCallback, warnCallback)
+    },
+    downloadImportTpltImpl () {
+      downloadComicImportTplt(success => {
+        downloadStream(success, 'application/vnd.ms-excel', '番剧导入模板.xlsx')
       })
     },
     deleteBatchImpl () {

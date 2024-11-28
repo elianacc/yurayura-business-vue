@@ -1,11 +1,13 @@
 import BusinessPagination from '@components/BusinessPagination.vue'
+import BusinessImportDialog from '@components/BusinessImportDialog.vue'
 import { getMenuSubAll } from '@api/sysMenu'
 import { getRoleByOrg } from '@api/sysRole'
 import { getSysOrgAll } from '@api/sysOrg'
 
 export default {
   components: {
-    BusinessPagination
+    BusinessPagination,
+    BusinessImportDialog
   },
   data () {
     return {
@@ -16,6 +18,7 @@ export default {
       dataDialogTitle: '',
       dataDialogVisible: false,
       dataDialogFormInit: {},
+      importDialogVisible: false,
       allMenuSub: [],
       allRole: [],
       allOrg: []
@@ -120,6 +123,22 @@ export default {
       this.dataDialogCloseExtend()
     },
     dataDialogCloseExtend () { },
+    updateImportDialogVisible (val) {
+      this.importDialogVisible = val
+    },
+    importDialogOpen () {
+      this.importDialogVisible = true
+    },
+    importContent (file) {
+      this.importContentImpl(file)
+    },
+    importContentImpl (file) {
+      typeof file
+    },
+    downloadImportTplt () {
+      this.downloadImportTpltImpl()
+    },
+    downloadImportTpltImpl () { },
     getAllMenuSub () {
       getMenuSubAll(success => {
         this.allMenuSub = success.data

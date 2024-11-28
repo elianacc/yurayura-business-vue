@@ -33,4 +33,16 @@ function exportComic (params, success) {
   request.blob('/api/comic/export', params, success)
 }
 
-export { getComicPage, insertComic, updateComic, deleteComicBatchByIds, exportComic }
+// 导入番剧
+function importComic (params, success, warn) {
+  let sendData = new FormData()
+  sendData.append('file', params)
+  request.post('/api/comic/import', sendData, success, warn)
+}
+
+// 下载番剧导入模板
+function downloadComicImportTplt (success) {
+  request.blob('/api/comic/downloadImportTplt', null, success)
+}
+
+export { getComicPage, insertComic, updateComic, deleteComicBatchByIds, exportComic, importComic, downloadComicImportTplt }
