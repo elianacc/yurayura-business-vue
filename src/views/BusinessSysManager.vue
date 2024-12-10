@@ -38,15 +38,8 @@
                         prop="managerOrg"
                         label-width="5.5rem"
                         v-if="$store.getters['manager/managerOrg'] === 0">
-            <el-select v-model="selectForm.managerOrg"
-                       clearable
-                       placeholder="----请选择管理员组织----">
-              <el-option v-for="item in allOrg"
-                         :key="item.id"
-                         :value="item.id"
-                         :label="item.orgName">
-              </el-option>
-            </el-select>
+            <sys-all-org-select v-model="selectForm.managerOrg"
+                                placeholder="----请选择管理员组织----"></sys-all-org-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -149,15 +142,8 @@
           <el-form-item label="管理员组织"
                         label-width="10rem"
                         prop="managerOrg">
-            <el-select v-model="dataDialogForm.managerOrg"
-                       clearable
-                       :disabled="$store.getters['manager/managerOrg'] !== 0">
-              <el-option v-for="item in allOrg"
-                         :key="item.id"
-                         :value="item.id"
-                         :label="item.orgName">
-              </el-option>
-            </el-select>
+            <sys-all-org-select v-model="dataDialogForm.managerOrg"
+                                :disabled="$store.getters['manager/managerOrg'] !== 0"></sys-all-org-select>
           </el-form-item>
           <el-form-item label="角色"
                         label-width="10rem"
@@ -266,7 +252,6 @@ export default {
     }
   },
   mounted () {
-    this.getAllOrg()
     if (this.$store.getters['manager/managerOrg'] !== 0) {
       this.getRoleByOrgId(this.$store.getters['manager/managerOrg'])
       this.dataDialogForm.managerOrg = this.$store.getters['manager/managerOrg']

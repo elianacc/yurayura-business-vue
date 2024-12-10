@@ -2,9 +2,9 @@ import Vue from 'vue'
 import {
   Col, Button,
   Form, FormItem, Input, InputNumber, Select, Option, DatePicker, RadioGroup, Radio, Checkbox, CheckboxGroup, CheckboxButton, Upload,
-  Table, TableColumn, Pagination, Tag, Tree,
+  Table, TableColumn, Pagination, Badge, Tag, Tree,
   Menu, MenuItem, Submenu, Tabs, TabPane,
-  Dialog, Scrollbar, Backtop,
+  Dialog, Popover, Divider, Scrollbar, Backtop,
   Loading, Message, MessageBox, Notification
 } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -15,6 +15,7 @@ import store from './store'
 import SysDictSelect from '@components/SysDictSelect.vue'
 import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
 import SysDictCheckboxBtnGroup from '@components/SysDictCheckboxBtnGroup.vue'
+import SysAllOrgSelect from '@components/SysAllOrgSelect.vue'
 import router from './router'
 import filter from './filter'
 import './directive'
@@ -24,6 +25,7 @@ Vue.config.productionTip = false
 Vue.component('sys-dict-select', SysDictSelect)
 Vue.component('sys-dict-radio-group', SysDictRadioGroup)
 Vue.component('sys-dict-checkbox-btn-group', SysDictCheckboxBtnGroup)
+Vue.component('sys-all-org-select', SysAllOrgSelect)
 
 // Basic
 Vue.use(Col)
@@ -46,6 +48,7 @@ Vue.use(Upload)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Pagination)
+Vue.use(Badge)
 Vue.use(Tag)
 Vue.use(Tree)
 // Navigation
@@ -56,6 +59,8 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 // Others
 Vue.use(Dialog)
+Vue.use(Popover)
+Vue.use(Divider)
 Vue.use(Scrollbar)
 Vue.use(Backtop)
 

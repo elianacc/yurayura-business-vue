@@ -21,7 +21,31 @@
              v-show="sideMenuIsCollapse"></i>
         </span>
       </span>
-      <form class="d-flex">
+      <form>
+        <el-badge :value="10">
+          <el-popover placement="bottom"
+                      width="330"
+                      trigger="click">
+            <el-button icon="el-icon-message-solid"
+                       type="primary"
+                       slot="reference"
+                       class="font-size-20"></el-button>
+
+            <div class="notice-box">
+              <div class="notice-item">
+                <img src="~@assets/notice.png"
+                     class="notice-image" />
+                <div class="notice-text">
+                  <p class="notice-detail"
+                     title="您收到一条通知">您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知</p>
+                  <p class="font-size-12 text-black-50">2024-12-10 15:09:20</p>
+                  <el-divider></el-divider>
+                </div>
+              </div>
+            </div>
+
+          </el-popover>
+        </el-badge>
         <button class="btn btn-danger ms-2"
                 type="button"
                 @click="logoutManager">
@@ -333,6 +357,46 @@ nav .collapse-span {
 }
 nav .ms-uncollapse-span {
   margin-left: 5.5rem;
+}
+
+/* 置顶导航-通知标记重写 */
+nav /deep/ .el-badge__content.is-fixed {
+  top: 8px;
+  right: 20px;
+}
+
+/* 置顶导航-通知栏 */
+.notice-box {
+  overflow: auto;
+  height: 400px;
+  margin-bottom: 37px;
+}
+.notice-image {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 16%;
+  left: 10px;
+  margin-top: -20px;
+}
+.notice-item {
+  width: 100%;
+  height: 150px;
+  position: relative;
+}
+.notice-text {
+  display: inline-block;
+  position: absolute;
+  top: 5px;
+  left: 65px;
+}
+.notice-detail {
+  overflow: hidden;
+  display: -webkit-box; /* 使用弹性盒布局 */
+  -webkit-box-orient: vertical; /* 垂直排列 */
+  -webkit-line-clamp: 4; /* 显示三行 */
+  overflow: hidden; /* 超出盒子部分隐藏 */
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
 }
 
 .r1 {

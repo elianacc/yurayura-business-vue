@@ -37,15 +37,8 @@
           <el-form-item label="角色组织"
                         prop="roleOrg"
                         label-width="4.5rem">
-            <el-select v-model="selectForm.roleOrg"
-                       clearable
-                       placeholder="----请选择角色组织----">
-              <el-option v-for="item in allOrg"
-                         :key="item.id"
-                         :value="item.id"
-                         :label="item.orgName">
-              </el-option>
-            </el-select>
+            <sys-all-org-select v-model="selectForm.roleOrg"
+                                placeholder="----请选择角色组织----"></sys-all-org-select>
           </el-form-item>
           <el-form-item>
             <div class="btn-group">
@@ -138,15 +131,8 @@
           <el-form-item label="角色组织"
                         label-width="10rem"
                         prop="roleOrg">
-            <el-select v-model="dataDialogForm.roleOrg"
-                       clearable
-                       :disabled="dataDialogForm.id !== 0">
-              <el-option v-for="item in allOrg"
-                         :key="item.id"
-                         :value="item.id"
-                         :label="item.orgName">
-              </el-option>
-            </el-select>
+            <sys-all-org-select v-model="dataDialogForm.roleOrg"
+                                :disabled="dataDialogForm.id !== 0"></sys-all-org-select>
           </el-form-item>
           <el-form-item label="权限"
                         label-width="10rem">
@@ -262,9 +248,6 @@ export default {
         this.permissionAuthorTreeList = success.data
       })
     }
-  },
-  mounted () {
-    this.getAllOrg()
   }
 }
 </script>

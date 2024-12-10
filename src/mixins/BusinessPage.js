@@ -2,7 +2,6 @@ import BusinessPagination from '@components/BusinessPagination.vue'
 import BusinessImportDialog from '@components/BusinessImportDialog.vue'
 import { getMenuSubAll } from '@api/sysMenu'
 import { getRoleByOrg } from '@api/sysRole'
-import { getSysOrgAll } from '@api/sysOrg'
 
 export default {
   components: {
@@ -147,11 +146,6 @@ export default {
     getRoleByOrgId (orgId) {
       getRoleByOrg(orgId, success => {
         this.allRole = success.data
-      })
-    },
-    getAllOrg () {
-      getSysOrgAll(success => {
-        this.allOrg = success.data
       })
     }
   },
