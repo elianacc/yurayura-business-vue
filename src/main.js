@@ -19,6 +19,7 @@ import SysAllOrgSelect from '@components/SysAllOrgSelect.vue'
 import router from './router'
 import filter from './filter'
 import './directive'
+import mqtt from 'mqtt'
 
 Vue.config.productionTip = false
 
@@ -71,6 +72,21 @@ Vue.prototype.$message = Message
 Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification
+
+
+function getMqttProp (clientSuffix) {
+  let options = {
+    username: 'yura',
+    password: '123456',
+    clientId: `mqtt-yura-business-vue${clientSuffix}`,
+    clean: true,
+    keepalive: 100,
+    connectTimeout: 100
+  }
+  return options
+}
+
+Vue.prototype.$mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('-consumers'))
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {

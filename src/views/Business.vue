@@ -22,10 +22,14 @@
         </span>
       </span>
       <form>
-        <el-badge :value="10">
+        <el-badge :value="newNoticeNum"
+                  :max="99"
+                  :hidden="noticeNumHide">
           <el-popover placement="bottom"
                       width="330"
-                      trigger="click">
+                      trigger="hover"
+                      @hide="noticePopHide"
+                      @after-leave="noticePopAfLeave">
             <el-button icon="el-icon-message-solid"
                        type="primary"
                        slot="reference"
@@ -146,7 +150,9 @@ export default {
       editableTabsValue: this.$store.getters['menutab/editableTabsValue'],
       editableTabs: this.$store.getters['menutab/editableTabs'],
       screenWidth: 0,
-      sideMenuCollIconShow: true
+      sideMenuCollIconShow: true,
+      newNoticeNum: this.$store.getters['notice/newNoticeNum'],
+      noticeNumHide: this.$store.getters['notice/noticeNumHide']
     }
   },
   methods: {
@@ -214,6 +220,12 @@ export default {
           confirmButtonText: '确定'
         })
       })
+    },
+    noticePopHide () {
+      this.noticeNumHide = true
+    },
+    noticePopAfLeave () {
+      this.newNoticeNum = 0
     }
   },
   watch: {
@@ -254,12 +266,33 @@ export default {
     sideMenuDftActive (val) {
       this.$store.commit('menutab/SET_SIDE_MENU_DFT_ACTIVE', val)
     },
+    newNoticeNum (val) {
+      this.$store.commit('notice/SET_NOTICE_NUM', val)
+    },
+    noticeNumHide (val) {
+      this.$store.commit('notice/SET_NOTICE_NUM_HIDE', val)
+    },
     screenWidth (val) {
       this.sideMenuIsCollapse = val <= 1267
       this.sideMenuCollIconShow = val >= 1267
     }
   },
   mounted () {
+    // 监听mqtt接收消息
+    this.$mqttSubClient.on('message', (topic, message) => {
+      console.log('主题', topic)
+      if (message) {
+        if (topic === 'yura-business-vue/notice-plus') {
+          let res = JSON.parse(message.toString())
+          console.log('接收到通知', res)
+          if (this.$store.getters['manager/managerOrg'] === 0
+            || parseInt(res.noticeOrg) === this.$store.getters['manager/managerOrg']) {
+            this.newNoticeNum = this.newNoticeNum + 1
+            this.noticeNumHide = false
+          }
+        }
+      }
+    })
     this.getSideMenu()
     this.screenWidth = document.body.clientWidth
     window.onresize = () => {

@@ -33,6 +33,7 @@ npm run build
 - ​    组件共享数据持久化： vuex-along
 - ​    第三方UI框架： Element-UI 2.x  +  Bootstrap5.x
 - ​    接口请求： axios
+- ​    消息通知： mqtt
 - ​    icon库： font-awesome
 
 ## 开发工具

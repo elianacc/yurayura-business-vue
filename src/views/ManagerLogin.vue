@@ -113,6 +113,7 @@ export default {
           delete this.loginForm.verifyImage
           sysManagerLogin(this.loginForm, success => {
             this.$store.dispatch('menutab/resetMenuAndTab')
+            this.$store.dispatch('notice/resetNoticeNum')
             this.$store.commit('token/SET_TOKEN', success.data)
             setTimeout(() => {
               loading.close()

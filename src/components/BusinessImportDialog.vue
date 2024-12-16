@@ -53,7 +53,7 @@ export default {
       this.importDialogVisible = newVal
     },
     importDialogVisible (newVal) {
-      this.$emit("update:visible", newVal)
+      this.$emit('update:visible', newVal)
     }
   },
   methods: {
@@ -73,7 +73,7 @@ export default {
     },
     importContent () {
       if (this.importFileList.length === 0) {
-        this.$message.warning("请上传excel文件")
+        this.$message.warning('请上传excel文件')
       } else {
         this.$emit('importContent', this.importFileList[0])
       }
