@@ -78,7 +78,7 @@ function getMqttProp (clientSuffix) {
   let options = {
     username: 'yura',
     password: '123456',
-    clientId: `mqtt-yura-business-vue${clientSuffix}`,
+    clientId: `mqtt-yura-business-vue-${clientSuffix}-${Math.random().toString(16)}`,
     clean: true,
     keepalive: 100,
     connectTimeout: 100
@@ -86,7 +86,7 @@ function getMqttProp (clientSuffix) {
   return options
 }
 
-Vue.prototype.$mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('-consumers'))
+Vue.prototype.$mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('consumers'))
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {
