@@ -21,13 +21,14 @@
              v-show="sideMenuIsCollapse"></i>
         </span>
       </span>
-      <form>
+      <form class="d-flex">
         <el-badge :value="newNoticeNum"
                   :max="99"
                   :hidden="noticeNumHide">
           <el-popover placement="bottom"
                       width="330"
                       trigger="hover"
+                      @show="noticePopShow"
                       @hide="noticePopHide"
                       @after-leave="noticePopAfLeave">
             <el-button icon="el-icon-message-solid"
@@ -36,13 +37,15 @@
                        class="font-size-20"></el-button>
 
             <div class="notice-box">
-              <div class="notice-item">
+              <div class="notice-item"
+                   v-for="item in noticeList"
+                   :key="item.id">
                 <img src="~@assets/notice.png"
                      class="notice-image" />
                 <div class="notice-text">
                   <p class="notice-detail"
-                     title="您收到一条通知">您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知您收到一条通知</p>
-                  <p class="font-size-12 text-black-50">2024-12-10 15:09:20</p>
+                     :title="item.noticeContent">{{item.noticeContent}}</p>
+                  <p class="font-size-12 text-black-50">{{item.noticeCreateTime}}</p>
                   <el-divider></el-divider>
                 </div>
               </div>
@@ -139,6 +142,7 @@
 import { getSysSideMenu, getSysMenuSubByIndex } from '@api/sysMenu'
 import { sysManagerLogout, getCurrentSysManagerMsg } from '@api/sysManager'
 import { getSysDictAll } from '@api/sysDict'
+import { getSysNoticeRecentMonth } from '@api/sysNotice'
 
 export default {
   name: 'Business',
@@ -152,7 +156,8 @@ export default {
       screenWidth: 0,
       sideMenuCollIconShow: true,
       newNoticeNum: this.$store.getters['notice/newNoticeNum'],
-      noticeNumHide: this.$store.getters['notice/noticeNumHide']
+      noticeNumHide: this.$store.getters['notice/noticeNumHide'],
+      noticeList: []
     }
   },
   methods: {
@@ -219,6 +224,11 @@ export default {
         this.$alert(warn.msg, '提示', {
           confirmButtonText: '确定'
         })
+      })
+    },
+    noticePopShow () {
+      getSysNoticeRecentMonth(success => {
+        this.noticeList = success.data
       })
     },
     noticePopHide () {
@@ -408,13 +418,13 @@ nav /deep/ .el-badge__content.is-fixed {
   width: 40px;
   height: 40px;
   position: absolute;
-  top: 16%;
+  top: 20%;
   left: 10px;
   margin-top: -20px;
 }
 .notice-item {
   width: 100%;
-  height: 150px;
+  height: 105px;
   position: relative;
 }
 .notice-text {
@@ -424,12 +434,10 @@ nav /deep/ .el-badge__content.is-fixed {
   left: 65px;
 }
 .notice-detail {
+  white-space: nowrap;
   overflow: hidden;
-  display: -webkit-box; /* 使用弹性盒布局 */
-  -webkit-box-orient: vertical; /* 垂直排列 */
-  -webkit-line-clamp: 4; /* 显示三行 */
-  overflow: hidden; /* 超出盒子部分隐藏 */
-  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  text-overflow: ellipsis;
+  width: 239px;
 }
 
 .r1 {
