@@ -110,7 +110,6 @@ export default {
             background: '#f7f9f9'
           })
           this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
-          delete this.loginForm.verifyImage
           sysManagerLogin(this.loginForm, success => {
             this.$store.dispatch('menutab/resetMenuAndTab')
             this.$store.dispatch('notice/resetNoticeNum')
