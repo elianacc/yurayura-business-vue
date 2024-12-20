@@ -472,6 +472,7 @@ export default {
       updateComic(sendData, successCallback, warnCallback)
     },
     dataDialogCloseExtend () {
+      this.$set(this.dataDialogForm.customTag, 'length', 0)
       this.$refs.dialogComicImgUpl.clearFiles()
     }
   },
