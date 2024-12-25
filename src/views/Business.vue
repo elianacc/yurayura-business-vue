@@ -166,18 +166,19 @@ export default {
         this.sideMenu = success.data
       })
     },
-    logoutManager () {
-      this.$confirm('确定要注销吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        sysManagerLogout(() => {
+    async logoutManager () {
+      try {
+        await this.$confirm('确定要注销吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        await sysManagerLogout(() => {
           this.$store.commit('token/CLEAR_TOKEN')
           this.$store.commit('manager/CLEAR_MANAGER_MSG')
           this.$router.push('/manager_login')
         })
-      })
+      } catch { }
     },
     removeTab (targetName) {
       let tabs = [...this.editableTabs]

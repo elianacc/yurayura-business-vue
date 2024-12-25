@@ -34,13 +34,14 @@ function apiAxios (method, url, params, success, warn, header, resType) {
         warn(res.data)
       } else if (res.data.code === 401 || res.data.code === 405) {
         MessageBox.alert(res.data.msg, '提示', {
-          confirmButtonText: '确定'
-        }).then(() => {
-          if (res.data.code === 401) {
-            store.commit('token/CLEAR_TOKEN')
-            router.push('/manager_login')
-          } else if (res.data.code === 405 && method === 'GET') {
-            router.go(-1)
+          confirmButtonText: '确定',
+          callback: () => {
+            if (res.data.code === 401) {
+              store.commit('token/CLEAR_TOKEN')
+              router.push('/manager_login')
+            } else if (res.data.code === 405 && method === 'GET') {
+              router.go(-1)
+            }
           }
         })
       } else if (res.data.code === 500) {

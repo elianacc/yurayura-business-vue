@@ -236,22 +236,23 @@ export default {
       }
       Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentMenu[key])
     },
-    deleteById (menuType, id) {
-      this.$confirm('删除菜单会删除对应的权限及管理员权限，确定要删除选中项吗？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
+    async deleteById (menuType, id) {
+      try {
+        await this.$confirm('删除菜单会删除对应的权限及管理员权限，确定要删除选中项吗？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
         let successCallback = () => {
           location.reload()
         }
         let warnCallback = warn => { this.$message.error(warn.msg) }
         if (menuType === 1) {
-          deleteSysMenuById(id, successCallback, warnCallback)
+          await deleteSysMenuById(id, successCallback, warnCallback)
         } else {
-          deleteSysMenuSubById(id, successCallback, warnCallback)
+          await deleteSysMenuSubById(id, successCallback, warnCallback)
         }
-      })
+      } catch { }
     },
     dataDialogClose () {
       this.getTreeList()

@@ -67,17 +67,18 @@ export default {
       this.dataDialogSetRowDataCustom(current)
     },
     dataDialogSetRowDataCustom (current) { typeof current },
-    deleteBatch () {
+    async deleteBatch () {
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请至少选择一项删除')
       } else {
-        this.$confirm('确定要删除选中项吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.deleteBatchImpl()
-        })
+        try {
+          await this.$confirm('确定要删除选中项吗？', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          await this.deleteBatchImpl()
+        } catch { }
       }
     },
     deleteBatchImpl () { },
