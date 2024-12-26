@@ -6,24 +6,7 @@
 
 <script>
 export default {
-  name: 'App',
-  mounted () {
-    this.$mqttSubClient.on('connect', e => {
-      console.log('成功连接mqtt服务:', e)
-      this.$mqttSubClient.subscribe('yura-business-vue/#', { qos: 0 }, err => {
-        if (!err) {
-          console.log('订阅主题成功')
-        } else {
-          console.log('订阅主题失败！')
-        }
-      })
-      // 监听服务器是否连接失败
-      this.$mqttSubClient.on('error', error => {
-        console.log('连接mqtt失败：', error)
-        this.$mqttSubClient.end()
-      })
-    })
-  }
+  name: 'App'
 }
 </script>
 

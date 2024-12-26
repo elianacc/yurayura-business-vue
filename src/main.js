@@ -86,11 +86,35 @@ function getMqttProp (clientSuffix) {
   return options
 }
 
-Vue.prototype.$mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('consumers'))
+const mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('consumers'))
+Vue.prototype.$mqttSubClient = mqttSubClient
 
 // 全局设置过滤器
 Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
+})
+
+// mqtt订阅
+mqttSubClient.on('connect', e => {
+  console.log('成功连接mqtt服务:', e)
+  mqttSubClient.subscribe('yura-business-vue/#', { qos: 0 }, err => {
+    if (!err) {
+      console.log('订阅主题成功')
+    } else {
+      console.log('订阅主题失败！')
+    }
+  })
+})
+
+// 监听mqtt服务器重连
+mqttSubClient.on('reconnect', error => {
+  console.log('mqtt正在重连...', error)
+})
+
+// 监听mqtt服务器是否连接失败
+mqttSubClient.on('error', error => {
+  console.log('连接mqtt失败：', error)
+  mqttSubClient.end()
 })
 
 async function initializeApp () {

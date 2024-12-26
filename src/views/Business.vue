@@ -408,14 +408,6 @@ nav /deep/ .el-badge__content.is-fixed {
   top: 8px;
   right: 20px;
 }
-nav /deep/ .el-button {
-  font-size: 17px;
-}
-nav /deep/ .el-button--primary {
-  color: #fff;
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-}
 
 /* 置顶导航-通知栏 */
 .notice-box {
