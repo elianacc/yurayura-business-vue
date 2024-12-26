@@ -438,7 +438,7 @@ nav /deep/ .el-badge__content.is-fixed {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 239px;
+  width: 230px;
 }
 
 .r1 {
