@@ -31,10 +31,10 @@
                       @show="noticePopShow"
                       @hide="noticePopHide"
                       @after-leave="noticePopAfLeave">
-            <el-button icon="el-icon-message-solid"
-                       type="primary"
-                       slot="reference"
-                       class="font-size-20"></el-button>
+            <button class="btn btn-primary"
+                    type="button"
+                    slot="reference">
+              <i class="fa fa-bell-o me-2 ms-2 font-size-16"></i></button>
 
             <div class="notice-box">
               <div class="notice-item"
@@ -56,7 +56,7 @@
         <button class="btn btn-danger ms-2"
                 type="button"
                 @click="logoutManager">
-          <i class="fa fa-sign-out me-2"></i>注销
+          <i class="fa fa-sign-out me-2 ms-2 mt-1 font-size-18"></i>
         </button>
       </form>
     </nav>
@@ -407,6 +407,14 @@ nav .ms-uncollapse-span {
 nav /deep/ .el-badge__content.is-fixed {
   top: 8px;
   right: 20px;
+}
+nav /deep/ .el-button {
+  font-size: 17px;
+}
+nav /deep/ .el-button--primary {
+  color: #fff;
+  background-color: #0d6efd;
+  border-color: #0d6efd;
 }
 
 /* 置顶导航-通知栏 */

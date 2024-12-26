@@ -16,7 +16,7 @@ import SysDictSelect from '@components/SysDictSelect.vue'
 import SysDictRadioGroup from '@components/SysDictRadioGroup.vue'
 import SysDictCheckboxBtnGroup from '@components/SysDictCheckboxBtnGroup.vue'
 import SysAllOrgSelect from '@components/SysAllOrgSelect.vue'
-import router from './router'
+import router, { loadBusinessRoutes } from './router'
 import filter from './filter'
 import './directive'
 import mqtt from 'mqtt'
@@ -93,8 +93,15 @@ Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
 })
 
-new Vue({
-  store,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+async function initializeApp () {
+  // 在 Vue 实例挂载前加载业务页面路由
+  await loadBusinessRoutes()
+  new Vue({
+    store,
+    router,
+    render: h => h(App)
+  }).$mount('#app')
+}
+
+// 启动 Vue 应用
+initializeApp()

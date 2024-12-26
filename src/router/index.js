@@ -3,16 +3,8 @@ import Router from 'vue-router'
 import store from '../store'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
-import BusinessIndex from '@views/BusinessIndex.vue'
-import BusinessSysMenu from '@views/BusinessSysMenu.vue'
-import BusinessSysDict from '@views/BusinessSysDict.vue'
-import BusinessSysManager from '@views/BusinessSysManager.vue'
-import BusinessSysOrg from '@views/BusinessSysOrg.vue'
-import BusinessSysRole from '@views/BusinessSysRole.vue'
-import BusinessSysPermission from '@views/BusinessSysPermission.vue'
-import BusinessComicInfo from '@views/BusinessComicInfo.vue'
-import BusinessUserInfo from '@views/BusinessUserInfo.vue'
 import Notfound from '@views/Notfound.vue'
+import axios from 'axios'
 
 Vue.use(Router)
 
@@ -30,59 +22,9 @@ const router = new Router({
     },
     {
       path: '/business',
+      name: 'business',
       component: Business,
-      children: [
-        {
-          path: '',
-          name: 'Business',
-          component: BusinessIndex
-        },
-        {
-          path: 'index',
-          name: 'BusinessIndex',
-          component: BusinessIndex
-        },
-        {
-          path: 'sys_menu',
-          name: 'BusinessSysMenu',
-          component: BusinessSysMenu
-        },
-        {
-          path: 'sys_dict',
-          name: 'BusinessSysDict',
-          component: BusinessSysDict
-        },
-        {
-          path: 'sys_manager',
-          name: 'BusinessSysManager',
-          component: BusinessSysManager
-        },
-        {
-          path: 'sys_org',
-          name: 'BusinessSysOrg',
-          component: BusinessSysOrg
-        },
-        {
-          path: 'sys_role',
-          name: 'BusinessSysRole',
-          component: BusinessSysRole
-        },
-        {
-          path: 'sys_permission',
-          name: 'BusinessSysPermission',
-          component: BusinessSysPermission
-        },
-        {
-          path: 'comic_info',
-          name: 'BusinessComicInfo',
-          component: BusinessComicInfo
-        },
-        {
-          path: 'user_info',
-          name: 'BusinessUserInfo',
-          component: BusinessUserInfo
-        }
-      ]
+      children: []
     },
     {
       path: '*',
@@ -98,6 +40,27 @@ const router = new Router({
     }
   }
 })
+
+// 动态加载 business 下的子路由
+export async function loadBusinessRoutes () {
+  try {
+
+    const response = await axios.get('/api/sys/menuSub/getVueRouter')
+    const businessRoutes = response.data.data
+
+    // 动态添加路由
+    businessRoutes.forEach(route => {
+      router.addRoute('business', {
+        path: route.path,
+        name: route.name,
+        component: () => import(`@views/${route.component}`) // 动态导入组件
+      })
+    })
+
+  } catch (error) {
+    console.error('加载业务路由失败:', error)
+  }
+}
 
 // 设置全局前置守卫
 router.beforeEach((to, from, next) => {
