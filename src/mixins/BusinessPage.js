@@ -19,8 +19,7 @@ export default {
       dataDialogFormInit: {},
       importDialogVisible: false,
       allMenuSub: [],
-      allRole: [],
-      allOrg: []
+      allRole: []
     }
   },
   methods: {
