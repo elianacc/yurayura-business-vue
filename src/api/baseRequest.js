@@ -25,7 +25,7 @@ function apiAxios (method, url, params, success, warn, header, resType) {
     headers: { ...dfHeader, ...header },
     responseType: resType
   }).then(res => {
-    if (res.data.type === 'application/vnd.ms-excel' || res.data.type === 'application/octet-stream') {
+    if (res.data.type === 'application/octet-stream') {
       success(res.data)
     } else {
       if (res.data.code === 200) {
