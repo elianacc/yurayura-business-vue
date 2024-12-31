@@ -256,7 +256,9 @@ export default {
             getSysMenuSubByIndex(index, success => {
               this.getAllDict()
               let nowItem = success.data
-              this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+              if (nowItem) {
+                this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
+              }
             }, warn => {
               this.$message.error(warn.msg)
             })
