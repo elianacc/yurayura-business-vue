@@ -206,7 +206,8 @@ export default {
     getPageImpl (sendData) {
       getUserPage(sendData, success => {
         this.pageInfo = success.data
-      }, () => {
+      }, warn => {
+        this.$message.error(warn.msg)
         this.pageInfo = {}
       })
     },

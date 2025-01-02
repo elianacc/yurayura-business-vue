@@ -254,9 +254,9 @@ export default {
           if (to.name !== 'BusinessIndex') {
             let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
             getSysMenuSubByIndex(index, success => {
-              this.getAllDict()
               let nowItem = success.data
               if (nowItem) {
+                this.getAllDict()
                 this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
               }
             }, warn => {

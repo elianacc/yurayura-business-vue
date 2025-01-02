@@ -259,7 +259,8 @@ export default {
     getPageImpl (sendData) {
       getSysPermissionPage(sendData, success => {
         this.pageInfo = success.data
-      }, () => {
+      }, warn => {
+        this.$message.error(warn.msg)
         this.pageInfo = {}
       })
     },

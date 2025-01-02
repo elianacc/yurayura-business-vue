@@ -219,7 +219,8 @@ export default {
       }
       getSysManagerPage(sendData, success => {
         this.pageInfo = success.data
-      }, () => {
+      }, warn => {
+        this.$message.error(warn.msg)
         this.pageInfo = {}
       })
     },
