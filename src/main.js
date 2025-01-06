@@ -65,6 +65,7 @@ Vue.use(Divider)
 Vue.use(Scrollbar)
 Vue.use(Backtop)
 
+Vue.use(Loading.directive)
 
 // 全局注册对象，使用this.$x调用
 Vue.prototype.$loading = Loading.service

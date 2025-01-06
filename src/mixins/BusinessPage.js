@@ -13,6 +13,7 @@ export default {
       searchContent: {},
       multipleSelection: [],
       pageInfo: {},
+      dataTableLoading: false,
       currentPageNum: 1,
       dataDialogTitle: '',
       dataDialogVisible: false,
@@ -27,6 +28,7 @@ export default {
       this.multipleSelection = val
     },
     getPage () {
+      this.dataTableLoading = true
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
@@ -94,6 +96,7 @@ export default {
               this.currentPageNum = 1
             }
             this.dataDialogVisible = false
+            this.getPage()
           }
           let warnCallback = warn => { this.$message.error(warn.msg) }
           if (this.dataDialogForm.id === 0) {
@@ -116,7 +119,6 @@ export default {
       typeof warnCallback
     },
     dataDialogClose () {
-      this.getPage()
       this.dataDialogForm = { ...this.dataDialogFormInit }
       this.$refs.dataDialogForm.clearValidate()
       this.dataDialogCloseExtend()

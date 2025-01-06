@@ -98,6 +98,7 @@
     <div class="row r2">
       <div class="col-12 c1">
         <el-table :data="pageInfo.list"
+                  v-loading="dataTableLoading"
                   @selection-change="tbSelectionChange">
           <el-table-column type="selection"
                            width="55">
@@ -378,9 +379,10 @@ export default {
     getPageImpl (sendData) {
       getComicPage(sendData, success => {
         this.pageInfo = success.data
+        this.dataTableLoading = false
       }, warn => {
         this.$message.error(warn.msg)
-        this.pageInfo = {}
+        this.dataTableLoading = false
       })
     },
     exportContentImpl (sendData) {

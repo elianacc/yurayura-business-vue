@@ -67,7 +67,8 @@
     <!-- 数据表格row -->
     <div class="row r2">
       <div class="col-12 c1">
-        <el-table :data="pageInfo.list">
+        <el-table :data="pageInfo.list"
+                  v-loading="dataTableLoading">
           <el-table-column label="头像"
                            width="100">
             <template slot-scope="scope">
@@ -206,9 +207,10 @@ export default {
     getPageImpl (sendData) {
       getUserPage(sendData, success => {
         this.pageInfo = success.data
+        this.dataTableLoading = false
       }, warn => {
         this.$message.error(warn.msg)
-        this.pageInfo = {}
+        this.dataTableLoading = false
       })
     },
     exportContentImpl (sendData) {

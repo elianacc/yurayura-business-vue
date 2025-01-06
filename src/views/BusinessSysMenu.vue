@@ -18,6 +18,7 @@
     <div class="row r2 mt-3">
       <div class="col-12 c1">
         <el-table :data="dataList"
+                  v-loading="dataTableLoading"
                   row-key="menuName"
                   default-expand-all
                   :tree-props="{children: 'menuSubList'}">
@@ -183,6 +184,7 @@ export default {
     }
     return {
       dataList: [],
+      dataTableLoading: false,
       dataDialogTitle: '',
       dataDialogVisible: false,
       isMainMenuDialog: true,
@@ -206,8 +208,10 @@ export default {
   },
   methods: {
     getTreeList () {
+      this.dataTableLoading = true
       getSysMenuTreeList(success => {
         this.dataList = success.data
+        this.dataTableLoading = false
       })
     },
     insertMainMenuDialogOpen () {
@@ -255,7 +259,6 @@ export default {
       } catch { }
     },
     dataDialogClose () {
-      this.getTreeList()
       this.dataDialogForm = { ...this.dataDialogFormInit }
       this.$refs.dataDialogForm.clearValidate()
     },
