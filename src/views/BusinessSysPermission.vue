@@ -257,14 +257,8 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getSysPermissionPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getSysPermissionPage(sendData, successCallback, warnCallback)
     },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加按钮权限窗口』'

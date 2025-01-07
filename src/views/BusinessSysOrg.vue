@@ -147,14 +147,8 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getSysOrgPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getSysOrgPage(sendData, successCallback, warnCallback)
     },
     insertContent (sendData, successCallback, warnCallback) {
       insertSysOrg(sendData, successCallback, warnCallback)

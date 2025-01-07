@@ -32,9 +32,21 @@ export default {
       let sendData = { ...this.searchContent }
       sendData.pageNum = this.currentPageNum
       sendData.pageSize = 10
-      this.getPageImpl(sendData)
+      let successCallback = success => {
+        this.pageInfo = success.data
+        this.dataTableLoading = false
+      }
+      let warnCallback = warn => {
+        this.$message.error(warn.msg)
+        this.dataTableLoading = false
+      }
+      this.getPageImpl(sendData, successCallback, warnCallback)
     },
-    getPageImpl (sendData) { typeof sendData },
+    getPageImpl (sendData, successCallback, warnCallback) {
+      typeof sendData
+      typeof successCallback
+      typeof warnCallback
+    },
     selectContent () {
       this.searchContent = { ...this.selectForm }
       this.currentPageNum = 1
@@ -69,6 +81,14 @@ export default {
     },
     dataDialogSetRowDataCustom (current) { typeof current },
     async deleteBatch () {
+      let successCallback = success => {
+        this.$message.success(success.msg)
+        this.multipleSelection = []
+        this.getPage()
+      }
+      let warnCallback = warn => {
+        this.$message.error(warn.msg)
+      }
       if (this.multipleSelection.length === 0) {
         this.$message.warning('请至少选择一项删除')
       } else {
@@ -78,12 +98,21 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           })
-          await this.deleteBatchImpl()
+          await this.deleteBatchImpl(this.multipleSelection.map(selt => selt.id), successCallback, warnCallback)
         } catch { }
       }
     },
-    deleteBatchImpl () { },
+    deleteBatchImpl (ids, successCallback, warnCallback) {
+      typeof ids
+      typeof successCallback
+      typeof warnCallback
+    },
     submitContent () {
+      const loading = this.$loading({
+        lock: true,
+        text: '提交中...',
+        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+      })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
           let sendData = { ...this.dataDialogForm }
@@ -95,10 +124,14 @@ export default {
               this.searchContent = { ...this.selectForm }
               this.currentPageNum = 1
             }
+            loading.close()
             this.dataDialogVisible = false
             this.getPage()
           }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
+          let warnCallback = warn => {
+            this.$message.error(warn.msg)
+            loading.close()
+          }
           if (this.dataDialogForm.id === 0) {
             this.insertContent(sendData, successCallback, warnCallback)
           } else {
@@ -131,10 +164,27 @@ export default {
       this.importDialogVisible = true
     },
     importContent (file) {
-      this.importContentImpl(file)
+      const loading = this.$loading({
+        lock: true,
+        text: '提交中...',
+        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+      })
+      let successCallback = success => {
+        this.$message.success(success.msg)
+        loading.close()
+        this.importDialogVisible = false
+        this.getPage()
+      }
+      let warnCallback = warn => {
+        this.$message.error(warn.msg)
+        loading.close()
+      }
+      this.importContentImpl(file, successCallback, warnCallback)
     },
-    importContentImpl (file) {
+    importContentImpl (file, successCallback, warnCallback) {
       typeof file
+      typeof successCallback
+      typeof warnCallback
     },
     downloadImportTplt () {
       this.downloadImportTpltImpl()

@@ -204,14 +204,8 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getUserPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getUserPage(sendData, successCallback, warnCallback)
     },
     exportContentImpl (sendData) {
       exportUser(sendData, success => {

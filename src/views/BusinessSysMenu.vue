@@ -263,12 +263,21 @@ export default {
       this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
+      const loading = this.$loading({
+        lock: true,
+        text: '提交中...',
+        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+      })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
           let successCallback = () => {
+            loading.close()
             location.reload()
           }
-          let warnCallback = warn => { this.$message.error(warn.msg) }
+          let warnCallback = warn => {
+            this.$message.error(warn.msg)
+            loading.close()
+          }
           if (this.dataDialogForm.id === 0) {
             if (this.isMainMenuDialog) {
               insertSysMenu(this.dataDialogForm, successCallback, warnCallback)

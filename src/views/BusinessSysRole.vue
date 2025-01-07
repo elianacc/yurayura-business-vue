@@ -206,14 +206,8 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getSysRolePage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getSysRolePage(sendData, successCallback, warnCallback)
     },
     insertDialogOpen () {
       this.getPermissionAuthorTree()

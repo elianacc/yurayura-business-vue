@@ -214,17 +214,11 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
+    getPageImpl (sendData, successCallback, warnCallback) {
       if (this.$store.getters['manager/managerOrg'] !== 0) {
         sendData.managerOrg = this.$store.getters['manager/managerOrg']
       }
-      getSysManagerPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+      getSysManagerPage(sendData, successCallback, warnCallback)
     },
     dataDialogSetRowDataCustom (current) {
       this.$nextTick(() => {

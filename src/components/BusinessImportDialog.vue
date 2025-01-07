@@ -67,7 +67,6 @@ export default {
       this.importFileList.splice(0, 1)
     },
     importDialogClose () {
-      this.$emit('getPage')
       this.importFileList.splice(0, 1)
       this.importDialogVisible = false
     },

@@ -206,14 +206,8 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getSysDictPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getSysDictPage(sendData, successCallback, warnCallback)
     },
     insertContent (sendData, successCallback, warnCallback) {
       insertSysDict(sendData, successCallback, warnCallback)

@@ -326,7 +326,6 @@
 
     <!-- 导入对话框 -->
     <business-import-dialog :visible="importDialogVisible"
-                            @getPage="getPage"
                             @update:visible="updateImportDialogVisible"
                             @importContent="importContent"></business-import-dialog>
 
@@ -376,26 +375,15 @@ export default {
     }
   },
   methods: {
-    getPageImpl (sendData) {
-      getComicPage(sendData, success => {
-        this.pageInfo = success.data
-        this.dataTableLoading = false
-      }, warn => {
-        this.$message.error(warn.msg)
-        this.dataTableLoading = false
-      })
+    getPageImpl (sendData, successCallback, warnCallback) {
+      getComicPage(sendData, successCallback, warnCallback)
     },
     exportContentImpl (sendData) {
       exportComic(sendData, success => {
         downloadStream(success, 'application/vnd.ms-excel', '番剧信息.xlsx')
       })
     },
-    importContentImpl (file) {
-      let successCallback = success => {
-        this.$message.success(success.msg)
-        this.importDialogVisible = false
-      }
-      let warnCallback = warn => { this.$message.error(warn.msg) }
+    importContentImpl (file, successCallback, warnCallback) {
       importComic(file, successCallback, warnCallback)
     },
     downloadImportTpltImpl () {
@@ -403,14 +391,8 @@ export default {
         downloadStream(success, 'application/vnd.ms-excel', '番剧导入模板.xlsx')
       })
     },
-    deleteBatchImpl () {
-      deleteComicBatchByIds(this.multipleSelection.map(selt => selt.id), success => {
-        this.$message.success(success.msg)
-        this.multipleSelection = []
-        this.getPage()
-      }, warn => {
-        this.$message.error(warn.msg)
-      })
+    deleteBatchImpl (ids, successCallback, warnCallback) {
+      deleteComicBatchByIds(ids, successCallback, warnCallback)
     },
     dataDialogSetRowDataCustom (current) {
       this.dataDialogForm.cmImgUplUrl = current.comicImageUrl
