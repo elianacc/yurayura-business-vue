@@ -266,7 +266,7 @@ export default {
       const loading = this.$loading({
         lock: true,
         text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
       })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {

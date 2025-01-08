@@ -207,9 +207,10 @@ export default {
     getPageImpl (sendData, successCallback, warnCallback) {
       getUserPage(sendData, successCallback, warnCallback)
     },
-    exportContentImpl (sendData) {
+    exportContentImpl (sendData, loading) {
       exportUser(sendData, success => {
-        downloadStream(success, 'application/vnd.ms-excel', '用户信息.xlsx')
+        downloadStream(success, 'application/octet-stream', '用户信息.xlsx')
+        loading.close()
       })
     },
     updateStatusDialogOpen (id) {
@@ -226,7 +227,7 @@ export default {
       const loading = this.$loading({
         lock: true,
         text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
       })
       updateUserStatus(this.updateStatusDialogForm, success => {
         this.$message.success(success.msg)

@@ -61,10 +61,18 @@ export default {
       this.getPage()
     },
     exportContent () {
+      const loading = this.$loading({
+        lock: true,
+        text: '导出中...',
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
+      })
       let sendData = { ...this.searchContent }
-      this.exportContentImpl(sendData)
+      this.exportContentImpl(sendData, loading)
     },
-    exportContentImpl (sendData) { typeof sendData },
+    exportContentImpl (sendData, loading) {
+      typeof sendData
+      typeof loading
+    },
     insertDialogOpen () {
       this.dataDialogTitle = '『添加窗口』'
       this.dataDialogVisible = true
@@ -111,7 +119,7 @@ export default {
       const loading = this.$loading({
         lock: true,
         text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
       })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
@@ -166,8 +174,8 @@ export default {
     importContent (file) {
       const loading = this.$loading({
         lock: true,
-        text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+        text: '导入中...',
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
       })
       let successCallback = success => {
         this.$message.success(success.msg)
@@ -187,9 +195,16 @@ export default {
       typeof warnCallback
     },
     downloadImportTplt () {
-      this.downloadImportTpltImpl()
+      const loading = this.$loading({
+        lock: true,
+        text: '下载中...',
+        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
+      })
+      this.downloadImportTpltImpl(loading)
     },
-    downloadImportTpltImpl () { },
+    downloadImportTpltImpl (loading) {
+      typeof loading
+    },
     getAllMenuSub () {
       getMenuSubAll(success => {
         this.allMenuSub = success.data

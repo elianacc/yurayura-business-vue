@@ -378,17 +378,19 @@ export default {
     getPageImpl (sendData, successCallback, warnCallback) {
       getComicPage(sendData, successCallback, warnCallback)
     },
-    exportContentImpl (sendData) {
+    exportContentImpl (sendData, loading) {
       exportComic(sendData, success => {
-        downloadStream(success, 'application/vnd.ms-excel', '番剧信息.xlsx')
+        downloadStream(success, 'application/octet-stream', '番剧信息.xlsx')
+        loading.close()
       })
     },
     importContentImpl (file, successCallback, warnCallback) {
       importComic(file, successCallback, warnCallback)
     },
-    downloadImportTpltImpl () {
+    downloadImportTpltImpl (loading) {
       downloadComicImportTplt(success => {
-        downloadStream(success, 'application/vnd.ms-excel', '番剧导入模板.xlsx')
+        downloadStream(success, 'application/octet-stream', '番剧导入模板.xlsx')
+        loading.close()
       })
     },
     deleteBatchImpl (ids, successCallback, warnCallback) {
