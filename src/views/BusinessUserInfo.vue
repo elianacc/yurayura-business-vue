@@ -223,11 +223,19 @@ export default {
       this.updateStatusDialogForm.userStatus = currentUser.userStatus.toString()
     },
     updateStatus () {
+      const loading = this.$loading({
+        lock: true,
+        text: '提交中...',
+        background: 'rgba(0, 0, 0, 0.6)',  // 背景色透明度调低
+      })
       updateUserStatus(this.updateStatusDialogForm, success => {
         this.$message.success(success.msg)
+        loading.close()
         this.updateStatusDialogVisible = false
+        this.getPage()
       }, warn => {
         this.$message.error(warn.msg)
+        loading.close()
       })
     },
     async resetAvatar (id) {
@@ -246,7 +254,6 @@ export default {
       } catch { }
     },
     updateStatusDialogClose () {
-      this.getPage()
       this.updateStatusDialogForm = {
         id: 0,
         userStatus: '0'
