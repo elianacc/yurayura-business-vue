@@ -19,7 +19,7 @@ import SysAllOrgSelect from '@components/SysAllOrgSelect.vue'
 import router, { loadBusinessRoutes } from './router'
 import filter from './filter'
 import './directive'
-import mqtt from 'mqtt'
+import { mqttSubClient, mqttPubClient } from '@utils/common'
 
 Vue.config.productionTip = false
 
@@ -74,20 +74,6 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$notify = Notification
 
-
-function getMqttProp (clientSuffix) {
-  let options = {
-    username: 'yura',
-    password: '123456',
-    clientId: `mqtt-yura-business-vue-${clientSuffix}-${Math.random().toString(16)}`,
-    clean: true,
-    keepalive: 100,
-    connectTimeout: 100
-  }
-  return options
-}
-
-const mqttSubClient = mqtt.connect('ws://127.0.0.1:8083/mqtt', getMqttProp('consumers'))
 Vue.prototype.$mqttSubClient = mqttSubClient
 
 // 全局设置过滤器
@@ -95,9 +81,9 @@ Object.keys(filter).forEach(key => {
   Vue.filter(key, filter[key])
 })
 
-// mqtt订阅
+// 订阅client连接mqtt服务器, 成功后进行mqtt订阅
 mqttSubClient.on('connect', e => {
-  console.log('成功连接mqtt服务:', e)
+  console.log('订阅client成功连接mqtt服务:', e)
   mqttSubClient.subscribe('yura-business-vue/#', { qos: 0 }, err => {
     if (!err) {
       console.log('订阅主题成功')
@@ -107,15 +93,21 @@ mqttSubClient.on('connect', e => {
   })
 })
 
-// 监听mqtt服务器重连
-mqttSubClient.on('reconnect', error => {
-  console.log('mqtt正在重连...', error)
+// 监听订阅client是否连接mqtt服务器失败
+mqttSubClient.on('error', error => {
+  console.log('订阅client连接mqtt失败：', error)
+  mqttSubClient.end()
 })
 
-// 监听mqtt服务器是否连接失败
-mqttSubClient.on('error', error => {
-  console.log('连接mqtt失败：', error)
-  mqttSubClient.end()
+// 发布client连接mqtt服务器
+mqttPubClient.on('connect', e => {
+  console.log('发布client成功连接mqtt服务:', e)
+})
+
+// 监听发布client是否连接mqtt服务器失败
+mqttPubClient.on('error', error => {
+  console.log('发布client连接mqtt失败：', error)
+  mqttPubClient.end()
 })
 
 async function initializeApp () {

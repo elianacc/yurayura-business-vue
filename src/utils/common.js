@@ -1,4 +1,9 @@
 import { Message } from 'element-ui'
+import mqtt from 'mqtt'
+
+var mqttServerIp = '127.0.0.1'
+var mqttSubClient = mqtt.connect(`ws://${mqttServerIp}:8083/mqtt`, getMqttProp('consumers'))
+var mqttPubClient = mqtt.connect(`ws://${mqttServerIp}:8083/mqtt`, getMqttProp('producers'))
 
 function uploadImgIsCorrect (imgFile, sizeLimit) {
   let isCorrect = true
@@ -35,4 +40,26 @@ function downloadStream (stream, streamType, downloadName) {
   window.URL.revokeObjectURL(blob)
 }
 
-export { uploadImgIsCorrect, downloadStream }
+function getMqttProp (clientSuffix) {
+  let options = {
+    username: 'yura',
+    password: '123456',
+    clientId: `mqtt-yura-business-vue-${clientSuffix}-${Math.random().toString(16)}`,
+    clean: true,
+    keepalive: 100,
+    connectTimeout: 100
+  }
+  return options
+}
+
+function sendMqttMsg (topic, message, success) {
+  mqttPubClient.publish(topic, message, { qos: 0 }, err => {
+    if (!err) {
+      console.log('主题为' + topic + '发布成功')
+      success()
+    }
+  })
+
+}
+
+export { mqttSubClient, mqttPubClient, uploadImgIsCorrect, downloadStream, sendMqttMsg }
