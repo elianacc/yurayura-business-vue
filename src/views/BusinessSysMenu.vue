@@ -238,7 +238,11 @@ export default {
       } else {
         currentMenu = this.dataList.find(menu => menu.id === menuPid).menuSubList.find(subMenu => subMenu.menuName === menuName)
       }
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = currentMenu[key])
+      Object.keys(this.dataDialogForm).forEach(key => {
+        if (currentMenu[key]) {
+          this.dataDialogForm[key] = currentMenu[key]
+        }
+      })
     },
     async deleteById (menuType, id) {
       try {
@@ -263,13 +267,13 @@ export default {
       this.$refs.dataDialogForm.clearValidate()
     },
     submitContent () {
-      const loading = this.$loading({
-        lock: true,
-        text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
-      })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: '提交中...',
+            background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
+          })
           let successCallback = () => {
             loading.close()
             location.reload()

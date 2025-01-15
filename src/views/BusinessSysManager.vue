@@ -179,9 +179,9 @@
 </template>
 
 <script>
-import { Base64 } from 'js-base64'
 import { getSysManagerPage, insertSysManager, updateSysManager } from '@api/sysManager'
 import BusinessPage from '@mixins/BusinessPage'
+import { sendMqttMsg, encryptAes, generate16UUID } from '@utils/common'
 
 export default {
   name: 'BusinessSysManager',
@@ -207,6 +207,18 @@ export default {
         roleIdArr: [],
         managerStatus: 1
       },
+      submitReady: false,
+      sendData: {
+        id: 0,
+        managerName: '',
+        managerPassword: '',
+        managerPassSalt: '',
+        managerOrg: 1,
+        roleIdArr: [],
+        managerStatus: 1
+      },
+      successCallback: () => { },
+      warnCallback: () => { },
       dataDialogFormRule: {
         managerName: [{ required: true, message: '管理员名不能为空', trigger: 'blur' }],
         managerPassword: [{ validator: checkPassword, trigger: 'blur' }]
@@ -225,16 +237,22 @@ export default {
         this.dataDialogForm.roleIdArr = current.roleIdsStr ? current.roleIdsStr.split(',').map(Number) : []
       })
     },
-    setSubmitDataCustom (sendData) {
-      if (sendData.managerPassword) {
-        sendData.managerPassword = Base64.encode(sendData.managerPassword)
-      }
-    },
     insertContent (sendData, successCallback, warnCallback) {
-      insertSysManager(sendData, successCallback, warnCallback)
+      this.sendData = { ...sendData }
+      this.sendData.managerPassSalt = generate16UUID()
+      this.successCallback = successCallback
+      this.warnCallback = warnCallback
+      sendMqttMsg('yura-cloud-sys/sendFrontPassKey', null, () => { })
     },
     updateContent (sendData, successCallback, warnCallback) {
-      updateSysManager(sendData, successCallback, warnCallback)
+      if (sendData.managerPassword) {
+        this.sendData = { ...sendData }
+        this.successCallback = successCallback
+        this.warnCallback = warnCallback
+        sendMqttMsg('yura-cloud-sys/sendFrontPassKeySalt', this.dataDialogForm.managerName, () => { })
+      } else {
+        updateSysManager(sendData, successCallback, warnCallback)
+      }
     }
   },
   watch: {
@@ -246,6 +264,17 @@ export default {
         }
       },
       immediate: true
+    },
+    submitReady (val) {
+      if (val) {
+        if (this.dataDialogForm.id === 0) {
+          insertSysManager(this.sendData, this.successCallback, this.warnCallback)
+          this.submitReady = false
+        } else {
+          updateSysManager(this.sendData, this.successCallback, this.warnCallback)
+          this.submitReady = false
+        }
+      }
     }
   },
   mounted () {
@@ -254,6 +283,31 @@ export default {
       this.dataDialogForm.managerOrg = this.$store.getters['manager/managerOrg']
       this.dataDialogFormInit = { ...this.dataDialogForm }
     }
+    // 监听mqtt接收消息
+    this.$mqttSubClient.on('message', (topic, message) => {
+      if (message) {
+
+        let res = JSON.parse(message.toString())
+
+        if (topic === 'yura-business-vue/getPassKey') {
+          let passSecretKey = res.passSecretKey
+          this.sendData.managerPassword = encryptAes(this.dataDialogForm.managerPassword, passSecretKey, this.sendData.managerPassSalt)
+          this.submitReady = true
+        }
+
+        if (topic === 'yura-business-vue/getPassKeySalt') {
+          if (!res.passSecretKey) {
+            this.$message.error(res.result)
+          } else {
+            let passSecretKey = res.passSecretKey
+            let passSalt = res.passSalt
+            this.sendData.managerPassword = encryptAes(this.dataDialogForm.managerPassword, passSecretKey, passSalt)
+            this.submitReady = true
+          }
+        }
+
+      }
+    })
   }
 }
 </script>

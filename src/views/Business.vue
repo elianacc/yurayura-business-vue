@@ -293,11 +293,9 @@ export default {
   mounted () {
     // 监听mqtt接收消息
     this.$mqttSubClient.on('message', (topic, message) => {
-      console.log('主题', topic)
       if (message) {
         if (topic === 'yura-business-vue/notice-plus') {
           let res = JSON.parse(message.toString())
-          console.log('接收到通知', res)
           if (this.$store.getters['manager/managerOrg'] === 0
             || parseInt(res.noticeOrg) === this.$store.getters['manager/managerOrg']) {
             this.newNoticeNum = this.newNoticeNum + 1

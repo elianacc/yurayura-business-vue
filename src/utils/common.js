@@ -1,10 +1,12 @@
 import { Message } from 'element-ui'
 import mqtt from 'mqtt'
+import crypto from 'crypto-js'
 
 var mqttServerIp = '127.0.0.1'
 var mqttSubClient = mqtt.connect(`ws://${mqttServerIp}:8083/mqtt`, getMqttProp('consumers'))
 var mqttPubClient = mqtt.connect(`ws://${mqttServerIp}:8083/mqtt`, getMqttProp('producers'))
 
+// 上传图片格式和大小校验
 function uploadImgIsCorrect (imgFile, sizeLimit) {
   let isCorrect = true
   if (!/.(gif|jpg|jpeg|png|GIF|JPG|JPEG|PNG)$/.test(imgFile.name)) {
@@ -17,6 +19,7 @@ function uploadImgIsCorrect (imgFile, sizeLimit) {
   return isCorrect
 }
 
+// 下载文件流
 function downloadStream (stream, streamType, downloadName) {
   // 创建一个新的 Blob 对象，包含下载的文件数据
   const blob = new Blob([stream], { type: streamType })
@@ -40,6 +43,7 @@ function downloadStream (stream, streamType, downloadName) {
   window.URL.revokeObjectURL(blob)
 }
 
+// 获取mqtt连接属性
 function getMqttProp (clientSuffix) {
   let options = {
     username: 'yura',
@@ -52,14 +56,41 @@ function getMqttProp (clientSuffix) {
   return options
 }
 
+// 发送mqtt消息
 function sendMqttMsg (topic, message, success) {
+  if (!message) {
+    message = 'default'
+  }
   mqttPubClient.publish(topic, message, { qos: 0 }, err => {
     if (!err) {
-      console.log('主题为' + topic + '发布成功')
       success()
     }
   })
 
 }
 
-export { mqttSubClient, mqttPubClient, uploadImgIsCorrect, downloadStream, sendMqttMsg }
+// 生成16位UUID
+function generate16UUID () {
+  return 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function () {
+    return (Math.random() * 16 | 0).toString(16);
+  });
+}
+
+// AES加密
+function encryptAes (content, key, salt) {
+
+  let keyUtf8 = crypto.enc.Utf8.parse(key)
+  let saltUtf8 = crypto.enc.Utf8.parse(salt)
+
+  let contentUtf8 = crypto.enc.Utf8.parse(content)
+  var encrypted = crypto.AES.encrypt(contentUtf8, keyUtf8, {
+    iv: saltUtf8,
+    mode: crypto.mode.CBC,
+    padding: crypto.pad.ZeroPadding
+  })
+
+  return crypto.enc.Base64.stringify(encrypted.ciphertext)
+
+}
+
+export { mqttSubClient, mqttPubClient, uploadImgIsCorrect, downloadStream, sendMqttMsg, generate16UUID, encryptAes }

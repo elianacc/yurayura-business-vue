@@ -73,8 +73,8 @@
 </template>
 
 <script>
-import { Base64 } from 'js-base64'
 import { sysManagerLogin } from '@api/sysManager'
+import { sendMqttMsg, encryptAes } from '@utils/common'
 
 export default {
   name: 'ManagerLogin',
@@ -86,6 +86,8 @@ export default {
         verifyCode: '',
         verifyImage: ''
       },
+      loginLoading: null,
+      loginReady: false,
       loginRules: {
         managerName: [
           { required: true, message: '用户名不能为空', trigger: 'change' }
@@ -103,27 +105,13 @@ export default {
     loginBusiness () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          const loading = this.$loading({
+          this.loginLoading = this.$loading({
             lock: true,
             text: '登入中...',
             spinner: 'el-icon-loading',
             background: '#f7f9f9'
           })
-          this.loginForm.managerPassword = Base64.encode(this.loginForm.managerPassword)
-          sysManagerLogin(this.loginForm, success => {
-            this.$store.dispatch('menutab/resetMenuAndTab')
-            this.$store.dispatch('notice/resetNoticeNum')
-            this.$store.commit('token/SET_TOKEN', success.data)
-            setTimeout(() => {
-              loading.close()
-              this.$router.replace('/business/index')
-            }, 1000)
-          }, warn => {
-            this.loadVerifyImage()
-            this.$refs.loginForm.resetFields()
-            loading.close()
-            this.$message.error(warn.msg)
-          })
+          sendMqttMsg('yura-cloud-sys/sendFrontPassKeySalt', this.loginForm.managerName, () => { })
         }
       })
     },
@@ -131,8 +119,48 @@ export default {
       this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
     }
   },
+  watch: {
+    loginReady (val) {
+      if (val) {
+        sysManagerLogin(this.loginForm, success => {
+          this.$store.dispatch('menutab/resetMenuAndTab')
+          this.$store.dispatch('notice/resetNoticeNum')
+          this.$store.commit('token/SET_TOKEN', success.data)
+          setTimeout(() => {
+            this.loginLoading.close()
+            this.$router.replace('/business/index')
+          }, 1000)
+        }, warn => {
+          this.$message.error(warn.msg)
+          this.loginReady = false
+          this.loadVerifyImage()
+          this.$refs.loginForm.resetFields()
+          this.loginLoading.close()
+        })
+      }
+    }
+  },
   mounted () {
     this.loginForm.verifyImage = `/api/sys/manager/getVerifyCode?randomId=${Math.random()}`
+    // 监听mqtt接收消息
+    this.$mqttSubClient.on('message', (topic, message) => {
+      if (message) {
+        if (topic === 'yura-business-vue/getPassKeySalt') {
+          let res = JSON.parse(message.toString())
+          if (!res.passSecretKey) {
+            this.$message.error(res.result)
+            this.loadVerifyImage()
+            this.$refs.loginForm.resetFields()
+            this.loginLoading.close()
+          } else {
+            let passSecretKey = res.passSecretKey
+            let passSalt = res.passSalt
+            this.loginForm.managerPassword = encryptAes(this.loginForm.managerPassword, passSecretKey, passSalt)
+            this.loginReady = true
+          }
+        }
+      }
+    })
   }
 }
 </script>

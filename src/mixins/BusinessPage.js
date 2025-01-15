@@ -84,7 +84,11 @@ export default {
     },
     dataDialogSetRowData (id) {
       let current = this.pageInfo.list.find(row => row.id === id)
-      Object.keys(this.dataDialogForm).forEach(key => this.dataDialogForm[key] = current[key])
+      Object.keys(this.dataDialogForm).forEach(key => {
+        if (current[key]) {
+          this.dataDialogForm[key] = current[key];
+        }
+      })
       this.dataDialogSetRowDataCustom(current)
     },
     dataDialogSetRowDataCustom (current) { typeof current },
@@ -116,13 +120,13 @@ export default {
       typeof warnCallback
     },
     submitContent () {
-      const loading = this.$loading({
-        lock: true,
-        text: '提交中...',
-        background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
-      })
       this.$refs.dataDialogForm.validate(valid => {
         if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: '提交中...',
+            background: 'rgba(0, 0, 0, 0.8)',  // 背景色透明度调低
+          })
           let sendData = { ...this.dataDialogForm }
           this.setSubmitDataCustom(sendData)
           let successCallback = success => {
