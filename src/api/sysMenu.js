@@ -5,11 +5,6 @@ function getSysSideMenu (success) {
   request.get('/api/sys/menu/getSysSideMenu', null, success)
 }
 
-// 查询系统子菜单（根据路径）
-function getSysMenuSubByIndex (params, success, warn) {
-  request.get('/api/sys/menuSub/getByIndex', { index: params }, success, warn)
-}
-
 // 查询系统菜单树形列表
 function getSysMenuTreeList (success) {
   request.get('/api/sys/menu/getTreeList', null, success)
@@ -52,7 +47,6 @@ function getMenuSubAll (success) {
 
 export {
   getSysSideMenu,
-  getSysMenuSubByIndex,
   getSysMenuTreeList,
   insertSysMenu,
   updateSysMenu,

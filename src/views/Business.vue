@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import { getSysSideMenu, getSysMenuSubByIndex } from '@api/sysMenu'
+import { getSysSideMenu } from '@api/sysMenu'
 import { sysManagerLogout, getCurrentSysManagerMsg } from '@api/sysManager'
 import { getSysDictAll } from '@api/sysDict'
 import { getSysNoticeRecentMonth } from '@api/sysNotice'
@@ -248,21 +248,8 @@ export default {
           this.sideMenuDftActive = ''
           this.editableTabsValue = ''
         } else {
-          if (to.name === 'BusinessIndex') {
-            this.addTab('首页', 'index', '/business/index')
-          }
-          if (to.name !== 'BusinessIndex') {
-            let index = to.path.charAt(to.path.length - 1) === '/' ? to.path.substring(0, to.path.length - 1) : to.path
-            getSysMenuSubByIndex(index, success => {
-              let nowItem = success.data
-              if (nowItem) {
-                this.getAllDict()
-                this.addTab(nowItem.menuTitle, nowItem.menuName, nowItem.menuIndex)
-              }
-            }, warn => {
-              this.$message.error(warn.msg)
-            })
-          }
+          this.getAllDict()
+          this.addTab(to.meta.title, to.name, to.path)
         }
       },
       immediate: true

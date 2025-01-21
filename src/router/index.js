@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import store from '../store'
 import ManagerLogin from '@views/ManagerLogin.vue'
 import Business from '@views/Business.vue'
+import BusinessIndex from '@views/BusinessIndex.vue'
 import Notfound from '@views/Notfound.vue'
 import axios from 'axios'
 
@@ -22,9 +23,18 @@ const router = new Router({
     },
     {
       path: '/business',
-      name: 'business',
+      name: 'Business',
       component: Business,
-      children: []
+      children: [
+        {
+          path: 'index',
+          name: 'index',
+          meta: {
+            title: '首页'
+          },
+          component: BusinessIndex
+        }
+      ]
     },
     {
       path: '*',
@@ -50,9 +60,12 @@ export async function loadBusinessRoutes () {
 
     // 动态添加路由
     businessRoutes.forEach(route => {
-      router.addRoute('business', {
+      router.addRoute('Business', {
         path: route.path,
         name: route.name,
+        meta: {
+          title: route.title
+        },
         component: () => import(`@views/${route.component}`) // 动态导入组件
       })
     })
