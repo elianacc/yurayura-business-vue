@@ -19,6 +19,7 @@
       <div class="col-12 c1">
         <el-table :data="dataList"
                   v-loading="dataTableLoading"
+                  size="medium"
                   row-key="menuName"
                   default-expand-all
                   :tree-props="{children: 'menuSubList'}">
@@ -60,7 +61,8 @@
               {{scope.row.menuStatus | sysDictFormatFilter('menuStatus')}}
             </template>
           </el-table-column>
-          <el-table-column label="操作"
+          <el-table-column fixed="right"
+                           label="操作"
                            width="300">
             <template slot-scope="scope">
               <div class="btn-group shadow">

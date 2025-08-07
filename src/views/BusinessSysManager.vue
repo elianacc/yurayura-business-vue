@@ -63,7 +63,8 @@
     <div class="row r2">
       <div class="col-12 c1">
         <el-table :data="pageInfo.list"
-                  v-loading="dataTableLoading">
+                  v-loading="dataTableLoading"
+                  size="medium">
           <el-table-column label="管理员名"
                            width="200"
                            prop="managerName">
@@ -73,7 +74,7 @@
                            prop="managerOrgName">
           </el-table-column>
           <el-table-column label="角色"
-                           width="400"
+                           width="200"
                            prop="roleNamesStr">
           </el-table-column>
           <el-table-column label="创建时间"
@@ -90,7 +91,8 @@
               {{scope.row.managerStatus | sysDictFormatFilter('enableStatus')}}
             </template>
           </el-table-column>
-          <el-table-column label="操作"
+          <el-table-column fixed="right"
+                           label="操作"
                            width="180">
             <template slot-scope="scope">
               <button type="button"

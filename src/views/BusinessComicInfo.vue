@@ -99,6 +99,7 @@
       <div class="col-12 c1">
         <el-table :data="pageInfo.list"
                   v-loading="dataTableLoading"
+                  size="medium"
                   @selection-change="tbSelectionChange">
           <el-table-column type="selection"
                            width="55">
@@ -148,7 +149,8 @@
                            width="200"
                            prop="comicTime">
           </el-table-column>
-          <el-table-column label="操作"
+          <el-table-column fixed="right"
+                           label="操作"
                            width="180">
             <template slot-scope="scope">
               <button type="button"

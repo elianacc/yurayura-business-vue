@@ -116,7 +116,9 @@
           <el-tab-pane v-for="item in editableTabs"
                        :key="item.name"
                        :name="item.name">
-            <span slot="label"><i class="fa fa-tag fa-lg me-2"></i>{{item.title}}</span>
+            <span slot="label"><i class="fa fa-home fa-lg me-2"
+                 v-if="item.name === 'index'"></i><i class="fa fa-table fa-lg me-2"
+                 v-else></i>{{item.title}}</span>
           </el-tab-pane>
         </el-tabs>
 

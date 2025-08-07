@@ -68,7 +68,8 @@
     <div class="row r2">
       <div class="col-12 c1">
         <el-table :data="pageInfo.list"
-                  v-loading="dataTableLoading">
+                  v-loading="dataTableLoading"
+                  size="medium">
           <el-table-column label="头像"
                            width="100">
             <template slot-scope="scope">
@@ -120,7 +121,8 @@
                            width="200"
                            prop="userRegTime">
           </el-table-column>
-          <el-table-column label="操作"
+          <el-table-column fixed="right"
+                           label="操作"
                            width="250">
             <template slot-scope="scope">
               <div class="btn-group shadow">
